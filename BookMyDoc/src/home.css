@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-dark: #659287;
+  --primary-medium: #88bda4;
+  --primary-light: #b1d3b9;
+  --background: #e6f2dd;
+  --text-dark: #243530;
+  --text-muted: #536b63;
+  --white: #ffffff;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-brand: "Outfit", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+.home-container {
+  background-color: var(--background);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation Bar */
+.home-container nav {
+  background-color: var(--primary-dark);
+  padding: 1.25rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
+}
+
+.home-container nav .logo {
+  font-family: var(--font-brand);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+.home-container nav ul {
+  list-style: none;
+  display: flex;
+}
+
+.home-container nav ul li a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+}
+
+.home-container nav ul li a:hover {
+  background-color: var(--primary-medium);
+  color: var(--white);
+}
+
+/* Main Content */
+.home-container main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 1.5rem;
+}
+
+.home-container .welcome {
+  font-family: var(--font-brand);
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--primary-dark);
+  letter-spacing: -0.8px;
+  margin-bottom: 1.25rem;
+}
+
+.home-container .about-text {
+  max-width: 680px;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 3.5rem;
+}
+
+/* Cards Section */
+.home-container .options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.home-container .option-card {
+  background-color: var(--white);
+  border: 2px solid var(--primary-light);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+
+.home-container .option-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(101, 146, 135, 0.16);
+}
+
+.home-container .option-card h2 {
+  font-family: var(--font-brand);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.3px;
+}
+
+.home-container .option-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.home-container .option-card button {
+  background-color: var(--primary-dark);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(101, 146, 135, 0.25);
+  transition: all 0.2s ease;
+}
+
+.home-container .option-card button:hover {
+  background-color: var(--primary-medium);
+  transform: scale(1.03);
+}
+
+/* Footer */
+.home-container footer {
+  background-color: var(--primary-light);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .home-container nav {
+    padding: 1rem 5%;
+  }
+
+  .home-container .welcome {
+    font-size: 2.2rem;
+  }
+
+  .home-container .about-text {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .home-container main {
+    padding: 3rem 1.25rem;
+  }
+}
