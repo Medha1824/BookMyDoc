@@ -13,7 +13,7 @@ const PatientHome = () => {
 
           <ul>
             <li>
-              <a href="/#doctors">View Doctor</a>
+              <Link to="/doctors">View Doctor</Link>
             </li>
 
             <li>
