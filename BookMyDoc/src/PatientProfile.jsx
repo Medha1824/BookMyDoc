@@ -1,36 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../PatientDoctorProfile.css";
-import profilePic from "../assets/PatientProfilePicture.jpg";
-import logo from "../assets/logo.png";
+import "./PatientDoctorProfile.css";
+import profilePic from "./assets/PatientProfilePicture.jpg";
+import logo from "./assets/logo.png";
 
-const PatientHome = () => {
+const PatientProfile = () => {
   return (
     <div className="patient-profile-container">
       <div className="navbar">
         <nav>
           <img src={logo} alt="BookMyDoc" className="logo-img" />
-
           <ul>
             <li>
               <a href="/#doctors">View Doctor</a>
             </li>
-
             <li>
               <a href="/#contact">Contact Us</a>
             </li>
-
             <li>
               <a href="/#about">About</a>
             </li>
-
             <li>
               <Link to="/patient-profile">Profile</Link>
             </li>
           </ul>
         </nav>
       </div>
-
       <div className="profile-card">
         <div className="profile-picture">
           <img src={profilePic} alt="Profile" />
@@ -72,4 +67,4 @@ const PatientHome = () => {
   );
 };
 
-export default PatientHome;
+export default PatientProfile;
