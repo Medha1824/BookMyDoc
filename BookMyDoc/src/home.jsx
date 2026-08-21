@@ -1,5 +1,6 @@
 import "./Home.css";
 import logo from "./assets/logo.png";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -30,7 +31,9 @@ function Home() {
               Join our platform to connect with patients and manage your
               appointments with ease.
             </p>
-            <button type="button">Get Started</button>
+            <Link to="/login">
+              <button type="button">Get Started</button>
+            </Link>
           </div>
 
           <div className="option-card">
@@ -39,7 +42,9 @@ function Home() {
               Find and book appointments with trusted doctors near you in just a
               few clicks.
             </p>
-            <button type="button">Get Started</button>
+            <Link to="/login">
+              <button type="button">Get Started</button>
+            </Link>
           </div>
         </div>
       </main>

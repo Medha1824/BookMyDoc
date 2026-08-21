@@ -52,9 +52,9 @@
   height: 128px;
   width: auto;
   object-fit: contain;
-  margin-block: -40px; /* pulls the image up/down so it overflows top & bottom of navbar */
+  margin-block: -40px;
   position: relative;
-  z-index: 2; /* keeps it above the navbar background */
+  z-index: 2;
 }
 
 .home-container nav ul {
