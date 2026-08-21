@@ -1,10 +1,11 @@
 import "./Home.css";
+import logo from "./assets/logo.png";
 
 function Home() {
   return (
     <div className="home-container">
       <nav>
-        <div className="logo">BookMyDoc</div>
+        <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
             <a href="#about">About Us</a>
