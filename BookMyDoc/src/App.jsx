@@ -4,7 +4,8 @@ import Login from "./Login";
 import Signup from "./Signup";
 import DoctorHome from "./doctor/DoctorHome";
 import PatientHome from "./patient/PatientHome";
-
+import DoctorList from "./patient/DoctorList";
+import DoctorAppointments from "./doctor/DoctorAppointments";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,9 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/doctor-home" element={<DoctorHome />} />
         <Route path="/patient-home" element={<PatientHome />} />
+        <Route path="/doctors" element={<DoctorList />} />
+        <Route path="/doctor-appointments" element={<DoctorAppointments />} />
+
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,6 @@
 import logo from "../assets/logo.png";
 import "../Home.css";
+import { Link } from "react-router-dom";
 
 function DoctorHome() {
   return (
@@ -8,7 +9,7 @@ function DoctorHome() {
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="/#appointments">View Appointment</a>
+            <Link to="/doctor-appointments">View Appointment</Link>
           </li>
           <li>
             <a href="/#contact">Contact Us</a>
