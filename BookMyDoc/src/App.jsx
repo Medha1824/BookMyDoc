@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
-import DoctorHome from "./DoctorHome";
-import PatientHome from "./PatientHome";
+import DoctorHome from "./doctor/DoctorHome";
+import PatientHome from "./patient/PatientHome";
 
 function App() {
   return (

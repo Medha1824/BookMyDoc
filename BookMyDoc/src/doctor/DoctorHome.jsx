@@ -1,14 +1,14 @@
-import logo from "./assets/logo.png";
-import "./Home.css";
+import logo from "../assets/logo.png";
+import "../Home.css";
 
-function PatientHome() {
+function DoctorHome() {
   return (
     <div className="home-container">
       <nav>
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="/#doctors">View Doctor</a>
+            <a href="/#appointments">View Appointment</a>
           </li>
           <li>
             <a href="/#contact">Contact Us</a>
@@ -26,4 +26,4 @@ function PatientHome() {
   );
 }
 
-export default PatientHome;
+export default DoctorHome;
