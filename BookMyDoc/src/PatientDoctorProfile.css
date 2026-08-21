@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-dark: #659287;
+  --primary-medium: #88bda4;
+  --primary-light: #b1d3b9;
+  --background: #e6f2dd;
+  --text-dark: #243530;
+  --text-muted: #536b63;
+  --white: #ffffff;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-brand: "Outfit", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+.patient-profile-container {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* =======================
+   NAVBAR
+======================= */
+
+.navbar nav {
+  background-color: var(--primary-dark);
+  padding: 1.25rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
+}
+
+.logo-img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+}
+
+.navbar ul li a:hover {
+  background-color: var(--primary-medium);
+}
+
+/* =======================
+   PROFILE CARD
+======================= */
+
+.profile-card {
+  max-width: 1100px;
+  width: 90%;
+  margin: 3rem auto;
+
+  /* background-color: var(--white);
+  border: 2px solid var(--primary-light);
+  border-radius: 20px;
+
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);*/
+
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+
+  padding: 2.5rem;
+}
+
+/* =======================
+   PROFILE IMAGE
+======================= */
+
+.profile-picture {
+  flex-shrink: 0;
+}
+
+.profile-picture img {
+  width: 250px;
+  height: 250px;
+
+  object-fit: cover;
+
+  border-radius: 16px;
+
+  border: 4px solid var(--primary-light);
+
+  box-shadow: 0 4px 12px rgba(101, 146, 135, 0.15);
+}
+
+/* =======================
+   PROFILE DETAILS
+======================= */
+
+.profile-details {
+  flex: 1;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+
+  padding: 0.85rem 0;
+
+  border-bottom: 1px solid rgba(177, 211, 185, 0.5);
+
+  font-size: 1.05rem;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 180px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.info-row span:last-child {
+  color: var(--text-dark);
+}
+
+/* =======================
+   BUTTON
+======================= */
+
+.Edit-profile-button {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.Edit-profile-button button {
+  background-color: var(--primary-dark);
+  color: var(--white);
+
+  border: none;
+  border-radius: 999px;
+
+  padding: 0.9rem 2.2rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(101, 146, 135, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.Edit-profile-button button:hover {
+  background-color: var(--primary-medium);
+  transform: scale(1.03);
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width: 768px) {
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-picture img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .label {
+    width: auto;
+  }
+}
