@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 import "../Home.css";
 import { useState } from "react";
 import "./DoctorList.css";
@@ -47,25 +48,31 @@ const categories = [
   "Dermatology",
 ];
 
-
 function DoctorList() {
-    const [selectedCategory, setSelectedCategory] = useState("All Doctors");
+  const [selectedCategory, setSelectedCategory] = useState("All Doctors");
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredDoctors = doctors.filter((doctor) => {
+    const matchesCategory =
+      selectedCategory === "All Doctors" ||
+      doctor.category === selectedCategory;
 
-  const filteredDoctors =
-    selectedCategory === "All Doctors"
-      ? doctors
-      : doctors.filter((doctor) => doctor.category === selectedCategory);
+    const matchesSearch = doctor.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
   return (
-     <div className="doctor-list-page">
+    <div className="doctor-list-page">
       <nav className="doctor-list-nav">
         <div className="doctor-list-brand">BookMyDoc</div>
 
         <ul>
           <li>
-            <a href="/patient-home">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/patient-home">Dashboard</a>
+            <Link to="/patient-home">Dashboard</Link>
           </li>
         </ul>
       </nav>
@@ -97,8 +104,15 @@ function DoctorList() {
             ))}
           </div>
         </aside>
-
         <section className="doctors-section">
+          <div className="doctor-search">
+            <input
+              type="text"
+              placeholder="Search doctor by name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <div className="doctors-section-header">
             <h2>{selectedCategory}</h2>
 
@@ -127,9 +141,7 @@ function DoctorList() {
                       {doctor.specialization}
                     </p>
 
-                    <p className="doctor-experience">
-                      {doctor.experience}
-                    </p>
+                    <p className="doctor-experience">{doctor.experience}</p>
 
                     <button className="view-profile-button" type="button">
                       View Profile
@@ -141,9 +153,7 @@ function DoctorList() {
           ) : (
             <div className="no-doctors">
               <h3>No doctors found</h3>
-              <p>
-                There are currently no doctors available in this category.
-              </p>
+              <p>There are currently no doctors available in this category.</p>
             </div>
           )}
         </section>
@@ -153,7 +163,7 @@ function DoctorList() {
         &copy; 2026 BookMyDoc. All rights reserved.
       </footer>
     </div>
-  )
+  );
 }
 
 export default DoctorList;
