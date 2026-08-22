@@ -125,7 +125,11 @@ function DoctorList() {
           {filteredDoctors.length > 0 ? (
             <div className="doctor-grid">
               {filteredDoctors.map((doctor) => (
-                <div className="doctor-card" key={doctor.id}>
+                <Link
+                  to={`/doctor-overview/${doctor.id}`}
+                  className="doctor-card"
+                  key={doctor.id}
+                >
                   <div className="doctor-image-container">
                     <img
                       src={doctor.image}
@@ -147,7 +151,7 @@ function DoctorList() {
                       View Profile
                     </button>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (

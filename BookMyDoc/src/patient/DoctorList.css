@@ -188,6 +188,11 @@
     box-shadow 0.25s ease;
 }
 
+.doctor-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .doctor-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 14px 30px rgba(101, 146, 135, 0.15);

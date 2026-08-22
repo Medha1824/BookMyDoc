@@ -7,8 +7,6 @@
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
-
-
 .doctor-appointments-nav {
   background-color: #659287;
   padding: 1.25rem 8%;
@@ -51,7 +49,6 @@
   background-color: #88bda4;
 }
 
-
 .doctor-appointments-header {
   text-align: center;
   padding: 3.5rem 1.5rem 2rem;
@@ -71,7 +68,6 @@
   line-height: 1.6;
 }
 
-
 .doctor-appointments-content {
   width: 90%;
   max-width: 1200px;
@@ -79,7 +75,6 @@
   padding: 1rem 0 4rem;
   flex: 1;
 }
-
 
 .appointment-section {
   margin-bottom: 3rem;
@@ -107,13 +102,11 @@
   font-weight: 700;
 }
 
-
 .appointment-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
-
 
 .appointment-card {
   background-color: #ffffff;
@@ -130,7 +123,6 @@
   transform: translateY(-4px);
   box-shadow: 0 14px 30px rgba(101, 146, 135, 0.15);
 }
-
 
 .appointment-card-header {
   display: flex;
@@ -160,7 +152,6 @@
   margin-bottom: 0.35rem;
 }
 
-
 .status {
   display: inline-block;
   padding: 0.3rem 0.7rem;
@@ -179,8 +170,6 @@
   color: #243530;
 }
 
-
-
 .appointment-details {
   border-top: 1px solid #e1eee3;
   padding-top: 1rem;
@@ -195,8 +184,6 @@
 .appointment-details strong {
   color: #243530;
 }
-
-
 
 .appointment-actions {
   display: flex;
@@ -236,7 +223,6 @@
   background-color: #b1d3b9;
 }
 
-
 .empty-appointments {
   background-color: #ffffff;
   border: 2px solid #b1d3b9;
@@ -256,7 +242,6 @@
   font-size: 0.9rem;
 }
 
-
 .doctor-appointments-footer {
   background-color: #b1d3b9;
   text-align: center;
@@ -265,7 +250,6 @@
   font-weight: 500;
   color: #243530;
 }
-
 
 @media (max-width: 800px) {
   .appointment-grid {

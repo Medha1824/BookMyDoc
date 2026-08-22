@@ -12,6 +12,7 @@ import PatientProfile from "./PatientProfile";
 
 import DoctorList from "./patient/DoctorList";
 import DoctorAppointments from "./doctor/DoctorAppointments";
+import DoctorOverview from "./patient/DoctorOverview";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
 
         <Route path="/doctors" element={<DoctorList />} />
         <Route path="/doctor-appointments" element={<DoctorAppointments />} />
+        <Route path="/doctor-overview/:id" element={<DoctorOverview />} />
       </Routes>
     </BrowserRouter>
   );
