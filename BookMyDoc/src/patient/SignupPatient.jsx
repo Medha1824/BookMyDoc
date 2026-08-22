@@ -21,7 +21,7 @@ function SignupPatient() {
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="/#about">About Us</a>
+            <a href="/about">About Us</a>
           </li>
         </ul>
       </nav>
