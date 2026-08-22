@@ -20,7 +20,7 @@ function LoginPatient() {
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="/about">About Us</a>
+            <Link to="/about">About Us</Link>
           </li>
         </ul>
       </nav>
