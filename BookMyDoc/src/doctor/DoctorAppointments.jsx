@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./DoctorAppointments.css";
 import { Link } from "react-router-dom";
-
+import logo from "../assets/logo.png";
 const initialAppointments = [
   {
     id: 1,
@@ -58,7 +58,9 @@ function DoctorAppointments() {
   return (
     <div className="doctor-appointments-page">
       <nav className="doctor-appointments-nav">
-        <div className="doctor-appointments-brand">BookMyDoc</div>
+        <div className="doctor-appointments-brand">
+          <img src={logo} alt="BookMyDoc" />
+        </div>
 
         <ul>
           <li>

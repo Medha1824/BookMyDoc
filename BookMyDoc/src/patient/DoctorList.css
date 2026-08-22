@@ -17,12 +17,18 @@
 }
 
 .doctor-list-brand {
-  color: #ffffff;
-  font-family: "Outfit", sans-serif;
-  font-size: 1.85rem;
-  font-weight: 800;
+  display: flex;
+  align-items: center;
 }
 
+.doctor-list-brand img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
+}
 .doctor-list-nav ul {
   list-style: none;
   display: flex;
@@ -295,6 +301,12 @@
 @media (max-width: 650px) {
   .doctor-list-nav {
     padding: 1rem 5%;
+  }
+  .doctor-list-brand img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin-block: -25px;
   }
 
   .doctor-list-nav ul {

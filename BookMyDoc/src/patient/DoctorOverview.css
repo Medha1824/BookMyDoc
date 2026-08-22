@@ -16,11 +16,17 @@
 }
 
 .overview-brand {
-  font-family: "Outfit", sans-serif;
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: white;
-  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.overview-brand img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
 }
 
 .doctor-overview-nav ul {
@@ -269,6 +275,28 @@
 }
 
 @media (max-width: 750px) {
+  .doctor-overview-nav {
+    padding: 1rem 5%;
+  }
+
+  .overview-brand img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin-block: -25px;
+  }
+
+  .doctor-overview-nav ul {
+    gap: 0;
+  }
+  .doctor-overview-nav ul li {
+    white-space: nowrap;
+  }
+  .doctor-overview-nav a {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
   .doctor-profile-card {
     grid-template-columns: 1fr;
   }

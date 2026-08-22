@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../Home.css";
 import { useState } from "react";
 import "./DoctorList.css";
+import logo from "../assets/logo.png";
 import doctor from "../assets/doctor.png";
 const doctors = [
   {
@@ -65,7 +66,9 @@ function DoctorList() {
   return (
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
-        <div className="doctor-list-brand">BookMyDoc</div>
+        <div className="doctor-list-brand">
+          <img src={logo} alt="BookMyDoc" />
+        </div>
 
         <ul>
           <li>
