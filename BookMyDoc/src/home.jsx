@@ -11,6 +11,9 @@ function Home() {
           <li>
             <a href="#about">About Us</a>
           </li>
+          <li>
+            <Link to="/contact">Contact Us</Link>
+          </li>
         </ul>
       </nav>
 
