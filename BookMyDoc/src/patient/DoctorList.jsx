@@ -90,7 +90,6 @@ function DoctorList() {
       <div className="doctor-list-content">
         <aside className="category-sidebar">
           <h2>Categories</h2>
-
           <div className="category-list">
             {categories.map((category) => (
               <button
@@ -111,14 +110,13 @@ function DoctorList() {
           <div className="doctor-search">
             <input
               type="text"
-              placeholder="Search doctor by name..."
+              placeholder="Search doctor by name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="doctors-section-header">
             <h2>{selectedCategory}</h2>
-
             <span>
               {filteredDoctors.length}{" "}
               {filteredDoctors.length === 1 ? "Doctor" : "Doctors"}

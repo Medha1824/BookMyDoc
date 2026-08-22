@@ -16,11 +16,6 @@
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
 
-.doctor-appointments-brand {
-  display: flex;
-  align-items: center;
-}
-
 .doctor-appointments-brand img {
   height: 128px;
   width: auto;
