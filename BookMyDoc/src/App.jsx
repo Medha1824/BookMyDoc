@@ -1,10 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./Home";
+import Home from "./home";
 import Login from "./Login";
 import Signup from "./Signup";
 import Contact from "./Contact";
 import About from "./About";
+
+import LoginDoctor from "./doctor/LogInDoctor";
+import LoginPatient from "./patient/LogInPatient";
+import SignupDoctor from "./doctor/SignupDoctor";
+import SignupPatient from "./patient/SignupPatient";
 
 import DoctorHome from "./doctor/DoctorHome";
 import PatientHome from "./patient/PatientHome";
@@ -24,6 +29,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path="/login-doctor" element={<LoginDoctor />} />
+        <Route path="/login-patient" element={<LoginPatient />} />
+        <Route path="/signup-doctor" element={<SignupDoctor />} />
+        <Route path="/signup-patient" element={<SignupPatient />} />
 
         <Route path="/doctor-home" element={<DoctorHome />} />
         <Route path="/patient-home" element={<PatientHome />} />

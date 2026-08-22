@@ -98,7 +98,7 @@ function Home() {
               Join our platform to connect with patients and manage your
               appointments with ease.
             </p>
-            <Link to="/login">
+            <Link to="/login-doctor">
               <button type="button">Get Started</button>
             </Link>
           </div>
@@ -109,7 +109,7 @@ function Home() {
               Find and book appointments with trusted doctors near you in just a
               few clicks.
             </p>
-            <Link to="/login">
+            <Link to="/login-patient">
               <button type="button">Get Started</button>
             </Link>
           </div>
