@@ -23,9 +23,6 @@ function Contact() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/contact">Contact Us</Link>
-          </li>
         </ul>
       </nav>
 
