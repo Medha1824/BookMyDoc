@@ -1,0 +1,131 @@
+@import "./Home.css";
+
+.about-page {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.about-section {
+  text-align: center;
+}
+
+/* Intro */
+.about-heading {
+  font-family: var(--font-brand);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.5px;
+  margin-bottom: 1rem;
+}
+
+.about-intro {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* Section title shared */
+.section-title {
+  font-family: var(--font-brand);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 1.25rem;
+}
+
+.section-text {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* What We Offer */
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.offer-card {
+  background-color: var(--white);
+  border: 2px solid var(--primary-light);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--primary-dark);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-shadow: 0 6px 18px rgba(101, 146, 135, 0.08);
+}
+
+.offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(101, 146, 135, 0.14);
+}
+
+.offer-icon-group {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--primary-dark);
+}
+
+.offer-card h3 {
+  font-family: var(--font-brand);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.offer-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Why BookMyDoc */
+.why-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.why-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--primary-dark);
+  max-width: 220px;
+}
+
+.why-item p {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+@media (max-width: 600px) {
+  .about-heading {
+    font-size: 1.9rem;
+  }
+
+  .about-page {
+    padding: 3rem 1.25rem;
+    gap: 2.5rem;
+  }
+}

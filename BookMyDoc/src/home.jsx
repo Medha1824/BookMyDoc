@@ -11,7 +11,7 @@ function Home() {
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="#about">About Us</a>
+            <a href="/about">About Us</a>
           </li>
           <li>
             <Link to="/contact">Contact Us</Link>
@@ -70,7 +70,7 @@ function Home() {
               <Video size={40} strokeWidth={1.5} />
             </div>
             <div className="service-text">
-              <h3>Doctor Video Call</h3>
+              <h3>Video Consultancy</h3>
               <p>
                 Consult with a doctor from anywhere through a live video call.
               </p>

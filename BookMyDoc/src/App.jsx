@@ -4,6 +4,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import Contact from "./Contact";
+import About from "./About";
 
 import DoctorHome from "./doctor/DoctorHome";
 import PatientHome from "./patient/PatientHome";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
 
         <Route path="/doctor-home" element={<DoctorHome />} />
         <Route path="/patient-home" element={<PatientHome />} />
