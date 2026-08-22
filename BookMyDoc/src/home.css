@@ -32,8 +32,10 @@
   background-color: var(--primary-dark);
   padding: 1.25rem 8%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
 
@@ -60,6 +62,7 @@
 .home-container nav ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .home-container nav ul li a {
@@ -99,8 +102,8 @@
 }
 
 .home-container .hero-icon {
-  width: 2 * 280px;
-  height: 2 * 280px;
+  width: 280px;
+  height: 280px;
   object-fit: contain;
   margin-bottom: 0.75rem;
 }
@@ -266,22 +269,66 @@
   color: var(--text-dark);
 }
 
-/* Responsive */
+/* Responsive: Tablet */
 @media (max-width: 900px) {
+  .home-container nav .logo-img {
+    height: 100px;
+    margin-block: -30px;
+  }
+
+  .home-container nav ul li a {
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+  }
+
   .home-container .hero-icon {
-    width: 170px;
-    height: 170px;
+    width: 200px;
+    height: 200px;
+  }
+
+  .home-container .welcome {
+    font-size: 2.5rem;
+  }
+
+  .home-container .services {
+    grid-template-columns: 1fr;
   }
 }
 
+/* Responsive: Mobile */
 @media (max-width: 600px) {
   .home-container nav {
     padding: 1rem 5%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .home-container nav .logo-img {
+    height: 80px;
+    margin-block: -15px;
+  }
+
+  .home-container nav ul {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home-container nav ul li a {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
   }
 
   .home-container .hero-icon {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .home-container .hero-title {
+    font-size: 1.3rem;
+  }
+
+  .home-container .hero-subtitle {
+    font-size: 0.9rem;
   }
 
   .home-container .welcome {
@@ -293,8 +340,10 @@
     margin-bottom: 2.5rem;
   }
 
-  .home-container .services {
-    grid-template-columns: 1fr;
+  .home-container .service-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
   }
 
   .home-container main {
