@@ -62,7 +62,7 @@ function DoctorAppointments() {
 
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/about">Overview</Link>
           </li>
           <li>
             <Link to="/doctor-home">Dashboard</Link>
@@ -76,7 +76,6 @@ function DoctorAppointments() {
       </header>
 
       <main className="doctor-appointments-content">
-
         <section className="appointment-section">
           <div className="appointment-section-header">
             <h2>Appointment Requests</h2>
@@ -142,7 +141,6 @@ function DoctorAppointments() {
             </div>
           )}
         </section>
-
 
         <section className="appointment-section confirmed-section">
           <div className="appointment-section-header">

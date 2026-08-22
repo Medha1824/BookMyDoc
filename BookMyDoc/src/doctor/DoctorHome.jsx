@@ -21,7 +21,7 @@ const DoctorHome = () => {
             </li>
 
             <li>
-              <a href="/#about">About</a>
+              <Link to="/about">About</Link>
             </li>
 
             <li>

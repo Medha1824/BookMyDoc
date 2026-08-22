@@ -11,7 +11,7 @@ function Home() {
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>
           <li>
-            <a href="/about">About Us</a>
+            <Link to="/about">About us</Link>
           </li>
           <li>
             <Link to="/contact">Contact Us</Link>

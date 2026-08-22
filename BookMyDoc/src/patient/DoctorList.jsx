@@ -69,7 +69,7 @@ function DoctorList() {
 
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/about">Overview</Link>
           </li>
           <li>
             <Link to="/patient-home">Dashboard</Link>

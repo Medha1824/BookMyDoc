@@ -29,7 +29,6 @@ function About() {
       </nav>
 
       <main className="about-page">
-        {/* Intro */}
         <section className="about-section intro-section">
           <h1 className="about-heading">About BookMyDoc</h1>
           <p className="about-intro">
@@ -41,7 +40,6 @@ function About() {
           </p>
         </section>
 
-        {/* Mission */}
         <section className="about-section mission-section">
           <h2 className="section-title">Our Mission</h2>
           <p className="section-text">
@@ -52,7 +50,6 @@ function About() {
           </p>
         </section>
 
-        {/* What We Offer */}
         <section className="about-section offer-section">
           <h2 className="section-title">What We Offer</h2>
           <div className="offer-grid">
@@ -88,7 +85,6 @@ function About() {
           </div>
         </section>
 
-        {/* Why BookMyDoc */}
         <section className="about-section why-section">
           <h2 className="section-title">Why BookMyDoc</h2>
           <div className="why-list">
