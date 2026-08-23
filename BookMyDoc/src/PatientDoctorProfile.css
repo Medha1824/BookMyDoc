@@ -8,6 +8,7 @@
   --text-dark: #243530;
   --text-muted: #536b63;
   --white: #ffffff;
+
   --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-brand: "Outfit", sans-serif;
 }
@@ -23,6 +24,7 @@
   min-height: 100vh;
   background-color: var(--background);
   color: var(--text-dark);
+
   display: flex;
   flex-direction: column;
 }
@@ -33,40 +35,237 @@
 
 .navbar nav {
   background-color: var(--primary-dark);
-  padding: 1.25rem 8%;
+
+  padding: 1.25rem 5%;
+
   display: flex;
+  flex-wrap: wrap;
+
   justify-content: space-between;
   align-items: center;
+
+  gap: 0.75rem;
+
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
+
+/* =======================
+   LOGO
+======================= */
 
 .logo-img {
   height: 128px;
   width: auto;
+
   object-fit: contain;
+
   margin-block: -40px;
+
   position: relative;
   z-index: 2;
 }
 
+/* =======================
+   NAVIGATION LINKS
+======================= */
+
 .navbar ul {
   list-style: none;
+
   display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+
   gap: 0.5rem;
+
+  margin-left: auto;
+}
+
+.navbar ul li {
+  display: flex;
+  align-items: center;
 }
 
 .navbar ul li a {
   text-decoration: none;
+
   color: var(--white);
+
   font-size: 1rem;
   font-weight: 600;
-  padding: 0.6rem 1.4rem;
+
+  padding: 0.6rem 1.2rem;
+
   border-radius: 999px;
+
   transition: all 0.25s ease;
 }
 
 .navbar ul li a:hover {
   background-color: var(--primary-medium);
+
+  color: var(--white);
+
+  transform: translateY(-1px);
+}
+
+/* =======================
+   PROFILE MENU
+======================= */
+
+.profile-menu-container {
+  position: relative;
+
+  /* Keeps profile button at the right end */
+  margin-left: 0.5rem;
+}
+
+/* =======================
+   PROFILE ROUND BUTTON
+======================= */
+
+.profile-menu-button {
+  width: 48px;
+  height: 48px;
+
+  padding: 0;
+
+  border: 3px solid var(--primary-light);
+
+  background-color: var(--white);
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(101, 146, 135, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.profile-menu-button:hover {
+  transform: scale(1.08);
+
+  border-color: var(--white);
+
+  box-shadow: 0 6px 18px rgba(101, 146, 135, 0.35);
+}
+
+/* User image inside circular button */
+
+.profile-menu-button img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/* =======================
+   PROFILE DRAWER
+======================= */
+
+.profile-drawer {
+  position: absolute;
+
+  top: calc(100% + 0.75rem);
+
+  right: 0;
+
+  width: 220px;
+
+  background-color: var(--white);
+
+  border: 2px solid var(--primary-light);
+
+  border-radius: 16px;
+
+  padding: 0.6rem;
+
+  /* ALWAYS VERTICAL */
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.4rem;
+
+  box-shadow: 0 10px 30px rgba(101, 146, 135, 0.2);
+
+  z-index: 1000;
+
+  animation: profileDrawerOpen 0.2s ease;
+}
+
+/* =======================
+   DRAWER BUTTONS
+======================= */
+
+.profile-drawer a {
+  width: 100%;
+
+  min-height: 55px;
+
+  padding: 0.75rem;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  color: var(--text-dark);
+
+  background-color: var(--background);
+
+  border-radius: 10px;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+
+  transition: all 0.2s ease;
+}
+
+.profile-drawer a:hover {
+  background-color: var(--primary-medium);
+
+  color: var(--white);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(101, 146, 135, 0.18);
+}
+
+/* =======================
+   DRAWER ANIMATION
+======================= */
+
+@keyframes profileDrawerOpen {
+  from {
+    opacity: 0;
+
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
 }
 
 /* =======================
@@ -75,17 +274,22 @@
 
 .profile-card {
   max-width: 1100px;
+
   width: 90%;
+
   margin: 3rem auto;
 
-  /* background-color: var(--white);
+  /*
+  background-color: var(--white);
   border: 2px solid var(--primary-light);
   border-radius: 20px;
-
-  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);*/
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);
+  */
 
   display: flex;
+
   align-items: center;
+
   gap: 3rem;
 
   padding: 2.5rem;
@@ -122,6 +326,7 @@
 
 .info-row {
   display: flex;
+
   align-items: center;
 
   padding: 0.85rem 0;
@@ -137,7 +342,9 @@
 
 .label {
   width: 180px;
+
   font-weight: 700;
+
   color: var(--primary-dark);
 }
 
@@ -151,19 +358,23 @@
 
 .Edit-profile-button {
   text-align: center;
+
   margin-top: 2rem;
 }
 
 .Edit-profile-button button {
   background-color: var(--primary-dark);
+
   color: var(--white);
 
   border: none;
+
   border-radius: 999px;
 
   padding: 0.9rem 2.2rem;
 
   font-size: 1rem;
+
   font-weight: 600;
 
   cursor: pointer;
@@ -175,17 +386,154 @@
 
 .Edit-profile-button button:hover {
   background-color: var(--primary-medium);
+
   transform: scale(1.03);
 }
 
 /* =======================
-   RESPONSIVE
+   RESPONSIVE: TABLET
 ======================= */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  /* Navbar */
+
+  .navbar nav {
+    padding: 1rem 5%;
+  }
+
+  .logo-img {
+    height: 100px;
+
+    margin-block: -30px;
+  }
+
+  .navbar ul li a {
+    font-size: 0.95rem;
+
+    padding: 0.5rem 1rem;
+  }
+
+  /* Profile button */
+
+  .profile-menu-button {
+    width: 46px;
+    height: 46px;
+
+    border-width: 3px;
+  }
+
+  /* Drawer */
+
+  .profile-drawer {
+    width: 210px;
+  }
+
+  /* Profile */
+
+  .profile-card {
+    gap: 2rem;
+
+    padding: 2rem;
+  }
+
+  .profile-picture img {
+    width: 210px;
+    height: 210px;
+  }
+
+  .label {
+    width: 150px;
+  }
+
+  .info-row {
+    font-size: 1rem;
+  }
+}
+
+/* =======================
+   RESPONSIVE: MOBILE
+======================= */
+
+@media (max-width: 600px) {
+  /* Navbar */
+
+  .navbar nav {
+    padding: 1rem 5%;
+
+    justify-content: space-between;
+
+    text-align: center;
+  }
+
+  .logo-img {
+    height: 80px;
+
+    margin-block: -15px;
+  }
+
+  .navbar ul {
+    width: auto;
+
+    margin-left: auto;
+
+    justify-content: flex-end;
+
+    gap: 0.1rem;
+  }
+
+  .navbar ul li a {
+    font-size: 0.85rem;
+
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Profile button stays ROUND */
+
+  .profile-menu-button {
+    width: 44px;
+    height: 44px;
+
+    border-width: 3px;
+  }
+
+  /* Keep profile menu attached to right side */
+
+  .profile-menu-container {
+    position: relative;
+
+    margin-left: 0.25rem;
+  }
+
+  /* Drawer stays vertical */
+
+  .profile-drawer {
+    width: 200px;
+
+    right: 0;
+
+    top: calc(100% + 0.6rem);
+
+    flex-direction: column;
+
+    gap: 0.4rem;
+  }
+
+  .profile-drawer a {
+    min-height: 50px;
+
+    font-size: 0.85rem;
+  }
+
+  /* Profile */
+
   .profile-card {
     flex-direction: column;
+
     text-align: center;
+
+    gap: 1.5rem;
+
+    padding: 2rem 1.5rem;
   }
 
   .profile-picture img {
@@ -193,12 +541,114 @@
     height: 200px;
   }
 
+  /* Information */
+
   .info-row {
     flex-direction: column;
+
     gap: 0.4rem;
+
+    text-align: center;
   }
 
   .label {
     width: auto;
+  }
+
+  .info-row span:last-child {
+    width: 100%;
+  }
+
+  /* Button */
+
+  .Edit-profile-button button {
+    width: 100%;
+
+    max-width: 250px;
+  }
+}
+
+/* =======================
+   RESPONSIVE: SMALL MOBILE
+======================= */
+
+@media (max-width: 400px) {
+  /* Navbar */
+
+  .navbar nav {
+    padding: 0.9rem 4%;
+  }
+
+  .logo-img {
+    height: 70px;
+
+    margin-block: -10px;
+  }
+
+  .navbar ul {
+    width: auto;
+
+    flex-direction: row;
+
+    margin-left: auto;
+
+    justify-content: flex-end;
+  }
+
+  /*
+    Keep navigation links available,
+    but make them smaller.
+  */
+
+  .navbar ul li a {
+    font-size: 0.75rem;
+
+    padding: 0.45rem 0.55rem;
+  }
+
+  /* Profile button */
+
+  .profile-menu-container {
+    width: auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-left: 0.2rem;
+  }
+
+  .profile-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Profile drawer */
+
+  .profile-drawer {
+    width: 200px;
+
+    right: 0;
+
+    transform: none;
+
+    flex-direction: column;
+  }
+
+  .profile-drawer a {
+    width: 100%;
+
+    min-height: 50px;
+  }
+
+  /* Profile */
+
+  .profile-picture img {
+    width: 170px;
+    height: 170px;
+  }
+
+  .profile-card {
+    padding: 1.5rem 1rem;
   }
 }
