@@ -259,17 +259,21 @@
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 600px) {
   .doctor-appointments-nav {
     padding: 1rem 5%;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
   }
-  .appointments-brand img {
+  .doctor-appointments-brand img {
     height: 90px;
     width: auto;
     margin-block: -25px;
   }
   .doctor-appointments-nav ul {
     gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
   .doctor-appointments-nav ul li {
     white-space: nowrap;
