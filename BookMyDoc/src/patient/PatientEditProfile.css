@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+.edit-profile-page {
+  min-height: 100vh;
+  background-color: #e6f2dd;
+  color: #243530;
+  display: flex;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.edit-profile-nav {
+  background-color: #659287;
+  padding: 1.25rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
+}
+
+.edit-profile-brand {
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+}
+
+.edit-profile-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.edit-profile-nav li {
+  list-style: none;
+}
+
+.edit-profile-nav a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  transition: background-color 0.25s ease;
+}
+
+.edit-profile-nav a:hover {
+  background-color: #88bda4;
+}
+
+.edit-profile-main {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3.5rem 0 4rem;
+  flex: 1;
+}
+
+.edit-profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.edit-profile-header h1 {
+  font-family: "Outfit", sans-serif;
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #659287;
+  margin: 0 0 0.8rem;
+}
+
+.edit-profile-header p {
+  color: #536b63;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.edit-profile-card {
+  background-color: #ffffff;
+  border: 2px solid #b1d3b9;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  color: #243530;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b1d3b9;
+  border-radius: 10px;
+  background-color: #f8fbf6;
+  color: #243530;
+  padding: 0.8rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #659287;
+  box-shadow: 0 0 0 3px rgba(101, 146, 135, 0.12);
+}
+
+.edit-profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.cancel-button,
+.save-button {
+  border: none;
+  padding: 0.75rem 1.3rem;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background-color: #e6f2dd;
+  color: #659287;
+  border: 1px solid #b1d3b9;
+}
+
+.cancel-button:hover {
+  background-color: #b1d3b9;
+}
+
+.save-button {
+  background-color: #659287;
+  color: #ffffff;
+}
+
+.save-button:hover {
+  background-color: #88bda4;
+  transform: scale(1.02);
+}
+
+.edit-profile-footer {
+  background-color: #b1d3b9;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #243530;
+}
+
+@media (max-width: 650px) {
+  .edit-profile-nav {
+    padding: 1rem 5%;
+  }
+
+  .edit-profile-brand {
+    font-size: 1.5rem;
+  }
+
+  .edit-profile-nav ul {
+    gap: 0;
+  }
+
+  .edit-profile-nav a {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .edit-profile-main {
+    width: 92%;
+    padding: 2.5rem 0 3rem;
+  }
+
+  .edit-profile-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .edit-profile-card {
+    padding: 1.25rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .edit-profile-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+}

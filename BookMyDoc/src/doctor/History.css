@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+.doctor-history-page {
+  min-height: 100vh;
+  background-color: #e6f2dd;
+  color: #243530;
+  display: flex;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.doctor-history-nav {
+  background-color: #659287;
+  padding: 1.25rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
+}
+
+.doctor-history-brand {
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+}
+
+.doctor-history-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.doctor-history-nav ul li {
+  list-style: none;
+}
+
+.doctor-history-nav ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  transition: background-color 0.25s ease;
+}
+
+.doctor-history-nav ul li a:hover {
+  background-color: #88bda4;
+}
+
+.doctor-history-header {
+  text-align: center;
+  padding: 3.5rem 1.5rem 2rem;
+}
+
+.doctor-history-header h1 {
+  font-family: "Outfit", sans-serif;
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #659287;
+  margin-bottom: 0.8rem;
+}
+
+.doctor-history-header p {
+  color: #536b63;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.doctor-history-content {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 0 4rem;
+  flex: 1;
+}
+
+.history-section {
+  margin-bottom: 3rem;
+}
+
+.history-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.history-section-header h2 {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.7rem;
+  color: #659287;
+}
+
+.history-count {
+  background-color: #b1d3b9;
+  color: #243530;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-card {
+  width: 100%;
+  background-color: #ffffff;
+  border: 2px solid #b1d3b9;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.history-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(101, 146, 135, 0.15);
+}
+
+.history-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.patient-avatar {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #659287;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.patient-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.history-card-header h3 {
+  font-family: "Outfit", sans-serif;
+  color: #243530;
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.history-status {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background-color: #b1d3b9;
+  color: #243530;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.history-details {
+  border-top: 1px solid #e1eee3;
+  padding-top: 1rem;
+}
+
+.history-details p {
+  color: #536b63;
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.history-details p:last-child {
+  margin-bottom: 0;
+}
+
+.history-details strong {
+  color: #243530;
+}
+
+.doctor-history-footer {
+  background-color: #b1d3b9;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #243530;
+}
+
+@media (max-width: 650px) {
+  .doctor-history-nav {
+    padding: 1rem 5%;
+  }
+
+  .doctor-history-brand {
+    font-size: 1.5rem;
+  }
+
+  .doctor-history-nav ul {
+    gap: 0;
+  }
+
+  .doctor-history-nav ul li a {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .doctor-history-header {
+    padding: 2.5rem 1.25rem 1.5rem;
+  }
+
+  .doctor-history-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .doctor-history-content {
+    width: 92%;
+    padding-bottom: 3rem;
+  }
+
+  .history-section-header {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .history-section-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .history-card {
+    padding: 1.25rem;
+  }
+
+  .patient-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
