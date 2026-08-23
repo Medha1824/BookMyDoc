@@ -16,19 +16,24 @@
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
 
-.doctor-list-brand {
-  color: #ffffff;
-  font-family: "Outfit", sans-serif;
-  font-size: 1.85rem;
-  font-weight: 800;
+.doctor-list-brand img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
 }
-
 .doctor-list-nav ul {
   list-style: none;
   display: flex;
   gap: 0.5rem;
+  margin: 0;
+  padding: 0;
 }
-
+.doctor-appointments-nav ul li {
+  list-style: none;
+}
 .doctor-list-nav ul li a {
   text-decoration: none;
   color: #ffffff;
@@ -282,7 +287,7 @@
   color: #243530;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .doctor-list-content {
     grid-template-columns: 190px 1fr;
   }
@@ -292,13 +297,23 @@
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .doctor-list-nav {
     padding: 1rem 5%;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+  .doctor-list-brand img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin-block: -25px;
   }
 
   .doctor-list-nav ul {
     gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .doctor-list-nav ul li a {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../Home.css";
 import { useState } from "react";
 import "./DoctorList.css";
+import logo from "../assets/logo.png";
 import doctor from "../assets/doctor.png";
 const doctors = [
   {
@@ -65,7 +66,9 @@ function DoctorList() {
   return (
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
-        <div className="doctor-list-brand">BookMyDoc</div>
+        <div className="doctor-list-brand">
+          <img src={logo} alt="BookMyDoc" />
+        </div>
 
         <ul>
           <li>
@@ -87,7 +90,6 @@ function DoctorList() {
       <div className="doctor-list-content">
         <aside className="category-sidebar">
           <h2>Categories</h2>
-
           <div className="category-list">
             {categories.map((category) => (
               <button
@@ -108,14 +110,13 @@ function DoctorList() {
           <div className="doctor-search">
             <input
               type="text"
-              placeholder="Search doctor by name..."
+              placeholder="Search doctor by name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="doctors-section-header">
             <h2>{selectedCategory}</h2>
-
             <span>
               {filteredDoctors.length}{" "}
               {filteredDoctors.length === 1 ? "Doctor" : "Doctors"}

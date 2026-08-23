@@ -16,7 +16,7 @@ function SignupPatient() {
   };
 
   return (
-    <div className="home-container">
+    <div className="auth-container">
       <nav>
         <img src={logo} alt="BookMyDoc" className="logo-img" />
         <ul>

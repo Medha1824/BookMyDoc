@@ -120,8 +120,6 @@
   text-decoration: none;
 }
 
-/* Footer - same as Home */
-
 .auth-container footer {
   background-color: #b1d3b9;
   text-align: center;
@@ -129,54 +127,4 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #243530;
-}
-
-.role-select {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  text-align: left;
-}
-
-.role-option {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.9rem;
-  border: 1.5px solid #b1d3b9;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  color: #536b63;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.role-option input {
-  display: none;
-}
-
-.role-option--active {
-  border-color: #659287;
-  background-color: #e6f2dd;
-  color: #243530;
-}
-
-.role-check {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #b1d3b9;
-  border-radius: 5px;
-  color: transparent;
-  transition: all 0.2s ease;
-}
-
-.role-option--active .role-check {
-  background-color: #659287;
-  border-color: #659287;
-  color: #fff;
 }

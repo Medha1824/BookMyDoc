@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./DoctorOverview.css";
-
+import logo from "../assets/logo.png";
 import doctor from "../assets/doctor.png";
 
 const doctors = [
@@ -82,7 +82,9 @@ function DoctorOverview() {
   return (
     <div className="doctor-overview-page">
       <nav className="doctor-overview-nav">
-        <div className="overview-brand">BookMyDoc</div>
+        <div className="overview-brand">
+          <img src={logo} alt="BookMyDoc" />
+        </div>
         <ul>
           <li>
             <Link to="/doctors">Back to Doctors</Link>

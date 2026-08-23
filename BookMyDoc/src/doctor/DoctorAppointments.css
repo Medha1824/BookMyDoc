@@ -16,11 +16,13 @@
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
 
-.doctor-appointments-brand {
-  color: #ffffff;
-  font-family: "Outfit", sans-serif;
-  font-size: 1.85rem;
-  font-weight: 800;
+.doctor-appointments-brand img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
 }
 
 .doctor-appointments-nav ul {
@@ -257,15 +259,25 @@
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .doctor-appointments-nav {
     padding: 1rem 5%;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
   }
-
+  .doctor-appointments-brand img {
+    height: 90px;
+    width: auto;
+    margin-block: -25px;
+  }
   .doctor-appointments-nav ul {
     gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
-
+  .doctor-appointments-nav ul li {
+    white-space: nowrap;
+  }
   .doctor-appointments-nav ul li a {
     padding: 0.5rem 0.7rem;
     font-size: 0.8rem;
