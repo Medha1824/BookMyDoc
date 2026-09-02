@@ -128,3 +128,36 @@
   font-weight: 500;
   color: #243530;
 }
+
+.password-field {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #b1d3b9;
+  border-radius: 10px;
+  padding: 0 0.75rem;
+}
+
+.password-field input {
+  border: none;
+  outline: none;
+  padding: 0.75rem 0;
+  flex: 1;
+}
+
+.password-field:focus-within {
+  border-color: #659287;
+}
+
+.auth-form .password-toggle {
+  background: none;
+  color: #b1d3b9;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+}
+
+.auth-form .password-toggle:hover {
+  background: none;
+  color: #659287;
+}
