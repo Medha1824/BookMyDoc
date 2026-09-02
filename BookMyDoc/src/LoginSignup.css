@@ -18,17 +18,20 @@
   background-color: #659287;
   padding: 1.25rem 8%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   box-shadow: 0 4px 15px rgba(101, 146, 135, 0.2);
 }
 
-.auth-container nav .logo {
-  font-family: "Outfit", sans-serif;
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.5px;
+.auth-container nav .logo-img {
+  height: 128px;
+  width: auto;
+  object-fit: contain;
+  margin-block: -40px;
+  position: relative;
+  z-index: 2;
 }
 
 .auth-container nav ul {
@@ -44,6 +47,7 @@
   padding: 0.6rem 1.4rem;
   border-radius: 999px;
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .auth-container nav ul li a:hover {
@@ -142,6 +146,7 @@
   outline: none;
   padding: 0.75rem 0;
   flex: 1;
+  min-width: 0;
 }
 
 .password-field:focus-within {
@@ -149,6 +154,7 @@
 }
 
 .auth-form .password-toggle {
+  flex-shrink: 0;
   background: none;
   color: #b1d3b9;
   padding: 0;
@@ -160,4 +166,34 @@
 .auth-form .password-toggle:hover {
   background: none;
   color: #659287;
+}
+
+@media (max-width: 900px) {
+  .auth-container nav .logo-img {
+    height: 100px;
+    margin-block: -30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-container nav {
+    padding: 1rem 5%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .auth-container nav ul {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .auth-container nav .logo-img {
+    height: 80px;
+    margin-block: -15px;
+  }
+
+  .auth-container nav ul li a {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
 }

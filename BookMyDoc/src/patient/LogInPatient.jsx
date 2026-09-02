@@ -19,7 +19,9 @@ function LoginPatient() {
   return (
     <div className="auth-container">
       <nav>
-        <img src={logo} alt="BookMyDoc" className="logo-img" />
+        <Link to="/">
+          <img src={logo} alt="BookMyDoc" className="logo-img" />
+        </Link>
         <ul>
           <li>
             <Link to="/about">About Us</Link>
