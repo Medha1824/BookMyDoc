@@ -87,6 +87,7 @@
 }
 
 .auth-form input {
+  width: 100%;
   border: 1.5px solid #b1d3b9;
   border-radius: 10px;
   padding: 0.75rem;
@@ -196,4 +197,19 @@
     font-size: 0.85rem;
     padding: 0.5rem 1rem;
   }
+}
+.field-error {
+  display: block;
+  color: #d1435b;
+  font-size: 0.8rem;
+  text-align: left;
+  margin-top: 0.35rem;
+}
+
+.auth-form input.input-error {
+  border-color: #d1435b;
+}
+
+.password-field.input-error {
+  border-color: #d1435b;
 }
