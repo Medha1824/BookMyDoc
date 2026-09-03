@@ -64,13 +64,6 @@ const DoctorHome = () => {
                   <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
                     History
                   </Link>
-                  {/* Edit Profile */}
-                  <Link
-                    to="/doctor-edit-profile"
-                    onClick={() => setProfileMenuOpen(false)}
-                  >
-                    Edit Profile
-                  </Link>
                   {/* Log Out */}
                   <Link to="/" onClick={() => setProfileMenuOpen(false)}>
                     Log Out
