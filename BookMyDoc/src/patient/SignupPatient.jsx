@@ -8,12 +8,38 @@ function SignupPatient() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Patient signup:", name, email, password);
+    if (!validate()) return;
+
+    console.log("Patient signup:", name.trim(), email.trim(), password);
     navigate("/login-patient");
   };
 
@@ -34,35 +60,66 @@ function SignupPatient() {
         <div className="auth-card">
           <h1 className="auth-title">Patient Sign Up</h1>
 
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <div className="password-field">
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
+            <div>
               <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="text"
+                placeholder="Name"
+                className={errors.name ? "input-error" : ""}
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (errors.name)
+                    setErrors((prev) => ({ ...prev, name: undefined }));
+                }}
               />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
+              {errors.name && (
+                <span className="field-error">{errors.name}</span>
+              )}
+            </div>
+
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                className={errors.email ? "input-error" : ""}
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email)
+                    setErrors((prev) => ({ ...prev, email: undefined }));
+                }}
+              />
+              {errors.email && (
+                <span className="field-error">{errors.email}</span>
+              )}
+            </div>
+
+            <div>
+              <div
+                className={`password-field ${errors.password ? "input-error" : ""}`}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errors.password)
+                      setErrors((prev) => ({ ...prev, password: undefined }));
+                  }}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              {errors.password && (
+                <span className="field-error">{errors.password}</span>
+              )}
             </div>
 
             <button type="submit" className="auth-submit">
