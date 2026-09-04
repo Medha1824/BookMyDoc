@@ -17,7 +17,9 @@ const DoctorHome = () => {
           {/* =======================
               LOGO
           ======================= */}
-          <img src={logo} alt="BookMyDoc" className="logo-img" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
 
           {/* =======================
               NAVIGATION LINKS

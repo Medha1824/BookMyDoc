@@ -83,7 +83,9 @@ function DoctorOverview() {
     <div className="doctor-overview-page">
       <nav className="doctor-overview-nav">
         <div className="overview-brand">
-          <img src={logo} alt="BookMyDoc" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
         </div>
         <ul>
           <li>

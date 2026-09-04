@@ -67,7 +67,9 @@ function DoctorList() {
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
         <div className="doctor-list-brand">
-          <img src={logo} alt="BookMyDoc" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
         </div>
 
         <ul>
