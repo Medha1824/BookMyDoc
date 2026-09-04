@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,7 @@ mongoose
   });
 
 const PORT = 4000;
-
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {

@@ -30,12 +30,28 @@ function LoginDoctor() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("Doctor login:", email.trim(), password);
-    navigate("/doctor-home");
+    try {
+      const response = await fetch("http://localhost:4000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({ form: data.error || "Login failed" });
+        return;
+      }
+
+      navigate("/doctor-home");
+    } catch (err) {
+      setErrors({ form: "Something went wrong. Please try again." });
+    }
   };
 
   return (
@@ -54,7 +70,7 @@ function LoginDoctor() {
       <main className="auth-main">
         <div className="auth-card">
           <h1 className="auth-title">Doctor Login</h1>
-
+          {errors.form && <p className="field-error">{errors.form}</p>}
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div>
               <input

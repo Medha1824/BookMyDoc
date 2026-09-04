@@ -35,12 +35,32 @@ function SignupDoctor() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("Doctor signup:", name.trim(), email.trim(), password);
-    navigate("/login-doctor");
+    try {
+      const response = await fetch("http://localhost:4000/users/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({ form: data.error || "Signup failed" });
+        return;
+      }
+
+      navigate("/login-doctor");
+    } catch (err) {
+      setErrors({ form: "Something went wrong. Please try again." });
+    }
   };
 
   return (
