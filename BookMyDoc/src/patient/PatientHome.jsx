@@ -15,7 +15,9 @@ const PatientHome = () => {
       <div className="navbar">
         <nav>
           {/* Logo */}
-          <img src={logo} alt="BookMyDoc" className="logo-img" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
 
           {/* Navigation Links */}
           <ul>
@@ -53,13 +55,6 @@ const PatientHome = () => {
                 <div className="profile-drawer">
                   <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
                     History
-                  </Link>
-
-                  <Link
-                    to="/edit-profile"
-                    onClick={() => setProfileMenuOpen(false)}
-                  >
-                    Edit Profile
                   </Link>
 
                   <Link to="/" onClick={() => setProfileMenuOpen(false)}>

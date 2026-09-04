@@ -59,7 +59,9 @@ function DoctorAppointments() {
     <div className="doctor-appointments-page">
       <nav className="doctor-appointments-nav">
         <div className="doctor-appointments-brand">
-          <img src={logo} alt="BookMyDoc" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
         </div>
 
         <ul>

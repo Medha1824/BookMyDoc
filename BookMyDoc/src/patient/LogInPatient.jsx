@@ -2,22 +2,48 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../LoginSignup.css";
 import logo from "../assets/logo.png";
+import { Eye, EyeOff } from "lucide-react";
 
 function LoginPatient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Patient login:", email, password);
+    if (!validate()) return;
+
+    console.log("Patient login:", email.trim(), password);
     navigate("/patient-home");
   };
 
   return (
     <div className="auth-container">
       <nav>
-        <img src={logo} alt="BookMyDoc" className="logo-img" />
+        <Link to="/">
+          <img src={logo} alt="BookMyDoc" className="logo-img" />
+        </Link>
         <ul>
           <li>
             <Link to="/about">About Us</Link>
@@ -29,20 +55,50 @@ function LoginPatient() {
         <div className="auth-card">
           <h1 className="auth-title">Patient Login</h1>
 
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                className={errors.email ? "input-error" : ""}
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email)
+                    setErrors((prev) => ({ ...prev, email: undefined }));
+                }}
+              />
+              {errors.email && (
+                <span className="field-error">{errors.email}</span>
+              )}
+            </div>
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div>
+              <div
+                className={`password-field ${errors.password ? "input-error" : ""}`}
+              >
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errors.password)
+                      setErrors((prev) => ({ ...prev, password: undefined }));
+                  }}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              {errors.password && (
+                <span className="field-error">{errors.password}</span>
+              )}
+            </div>
 
             <button type="submit" className="auth-submit">
               Log In

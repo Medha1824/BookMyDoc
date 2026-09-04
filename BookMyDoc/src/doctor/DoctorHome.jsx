@@ -17,7 +17,9 @@ const DoctorHome = () => {
           {/* =======================
               LOGO
           ======================= */}
-          <img src={logo} alt="BookMyDoc" className="logo-img" />
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
 
           {/* =======================
               NAVIGATION LINKS
@@ -63,13 +65,6 @@ const DoctorHome = () => {
                   {/* History */}
                   <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
                     History
-                  </Link>
-                  {/* Edit Profile */}
-                  <Link
-                    to="/doctor-edit-profile"
-                    onClick={() => setProfileMenuOpen(false)}
-                  >
-                    Edit Profile
                   </Link>
                   {/* Log Out */}
                   <Link to="/" onClick={() => setProfileMenuOpen(false)}>
