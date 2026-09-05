@@ -3,10 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "./PatientHome.css";
 import profilePic from "../assets/PatientProfilePicture.jpg";
 import logo from "../assets/logo.png";
+import { useEffect } from "react";
 
 const PatientHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login-patient");
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
