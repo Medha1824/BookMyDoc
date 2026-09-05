@@ -6,7 +6,9 @@ import {
   getAllUsers,
   updateUserByEmail,
   getProfile,
+  updateDoctorSpecialization,
 } from "../controllers/userController.js";
+
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -17,5 +19,6 @@ router.post("/login", loginUser);
 router.get("/profile", verifyToken, getProfile);
 router.put("/:email", updateUserByEmail);
 router.delete("/:email", deleteUserByEmail);
+router.put("/doctor-specialization/:email", updateDoctorSpecialization);
 
 export default router;

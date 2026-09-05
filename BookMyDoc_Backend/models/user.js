@@ -20,6 +20,10 @@ const userSchema = new Schema({
     enum: ["patient", "doctor"],
     required: true,
   },
+  specialization: {
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

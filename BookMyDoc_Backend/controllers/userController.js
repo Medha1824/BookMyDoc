@@ -26,7 +26,13 @@ export const createUser = async (req, res) => {
     return res.status(400).json({ error: "Email is already in use" });
   }
 
-  const newUser = await User.create({ name, email, password, role });
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    role,
+    specialization: [],
+  });
 
   return res.status(201).json({
     message: "New user created",
@@ -38,7 +44,35 @@ export const createUser = async (req, res) => {
     },
   });
 };
+export const updateDoctorSpecialization = async (req, res) => {
+  const { email } = req.params;
+  const { specialization } = req.body;
 
+  if (!Array.isArray(specialization) || specialization.length === 0) {
+    return res.status(400).json({
+      error: "Please select at least one specialization",
+    });
+  }
+
+  const doctor = await User.findOne({
+    email,
+    role: "doctor",
+  });
+
+  if (!doctor) {
+    return res.status(404).json({
+      error: "Doctor not found",
+    });
+  }
+
+  doctor.specialization = specialization;
+
+  await doctor.save();
+
+  return res.status(200).json({
+    message: "Specialization saved successfully",
+  });
+};
 export const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
 
