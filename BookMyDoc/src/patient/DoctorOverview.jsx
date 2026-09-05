@@ -1,48 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./DoctorOverview.css";
 import logo from "../assets/logo.png";
-import doctor from "../assets/doctor.png";
-
-const doctors = [
-  {
-    id: 1,
-    name: "Dr. Ahmed Rahman",
-    category: "Diabetes",
-    specialization: "Diabetologist",
-    experience: "10 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 2,
-    name: "Dr. Nusrat Jahan",
-    category: "Diabetes",
-    specialization: "Endocrinologist",
-    experience: "8 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 3,
-    name: "Dr. Farhan Karim",
-    category: "Pediatrics",
-    specialization: "Pediatrician",
-    experience: "12 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 4,
-    name: "Dr. Sadia Islam",
-    category: "Pediatrics",
-    specialization: "Child Specialist",
-    experience: "7 Years Experience",
-    image: doctor,
-  },
-];
+import doctorImage from "../assets/doctor.png";
 
 function DoctorOverview() {
   const { id } = useParams();
 
-  const selectedDoctor = doctors.find((doctor) => doctor.id === Number(id));
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/doctors/${id}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setSelectedDoctor(data);
+        } else {
+          setSelectedDoctor(null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch doctor:", error);
+        setSelectedDoctor(null);
+      }
+    };
+
+    fetchDoctor();
+  }, [id]);
 
   const [showBooking, setShowBooking] = useState(false);
   const [consultationType, setConsultationType] = useState("");
@@ -58,7 +43,6 @@ function DoctorOverview() {
     "3:00 PM",
     "4:00 PM",
   ];
-
   if (!selectedDoctor) {
     return (
       <div className="doctor-overview-page">
@@ -102,21 +86,23 @@ function DoctorOverview() {
         <section className="doctor-profile-card">
           <div className="overview-image-container">
             <img
-              src={selectedDoctor.image}
+              src={doctorImage}
               alt={selectedDoctor.name}
               className="overview-doctor-image"
             />
           </div>
 
           <div className="doctor-profile-info">
-            <span className="overview-category">{selectedDoctor.category}</span>
+            <span className="overview-category">
+              {selectedDoctor.specialization.join(", ")}
+            </span>
 
             <h1>{selectedDoctor.name}</h1>
 
-            <h2>{selectedDoctor.specialization}</h2>
+            <h2>{selectedDoctor.specialization.join(", ")}</h2>
 
             <p>
-              <strong>Experience:</strong> {selectedDoctor.experience}
+              <strong>Experience:</strong> {"10 Years"}
             </p>
 
             <p>
