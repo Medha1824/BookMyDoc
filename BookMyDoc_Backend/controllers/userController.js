@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   const allUsers = await User.find();
@@ -61,8 +62,15 @@ export const loginUser = async (req, res) => {
     });
   }
 
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" },
+  );
+
   return res.status(200).json({
     message: "Login successful",
+    token,
     user: {
       id: user._id,
       name: user.name,
@@ -70,6 +78,16 @@ export const loginUser = async (req, res) => {
       role: user.role,
     },
   });
+};
+
+export const getProfile = async (req, res) => {
+  const user = await User.findById(req.user.id).select("-password");
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  return res.status(200).json({ user });
 };
 
 export const updateUserByEmail = async (req, res) => {
