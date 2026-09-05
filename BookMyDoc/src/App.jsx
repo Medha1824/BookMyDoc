@@ -19,6 +19,7 @@ import PatientProfile from "./PatientProfile";
 import DoctorList from "./patient/DoctorList";
 import DoctorAppointments from "./doctor/DoctorAppointments";
 import DoctorOverview from "./patient/DoctorOverview";
+import DoctorSpecialization from "./doctor/DoctorSpecialization";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
         <Route path="/login-doctor" element={<LoginDoctor />} />
         <Route path="/login-patient" element={<LoginPatient />} />
         <Route path="/signup-doctor" element={<SignupDoctor />} />
+        <Route
+          path="/doctor-specialization"
+          element={<DoctorSpecialization />}
+        />
         <Route path="/signup-patient" element={<SignupPatient />} />
 
         <Route path="/doctor-home" element={<DoctorHome />} />

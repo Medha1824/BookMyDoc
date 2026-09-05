@@ -213,3 +213,75 @@
 .password-field.input-error {
   border-color: #d1435b;
 }
+
+.specialization-card {
+  max-width: 520px;
+  box-shadow: 0 8px 24px rgba(101, 146, 135, 0.12);
+}
+
+.specialization-description {
+  color: #536b63;
+  margin-bottom: 1.5rem;
+}
+
+.specialization-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.specialization-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem;
+  background: #fff;
+  border: 2px solid #b1d3b9;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.specialization-option:hover,
+.specialization-option.selected {
+  border-color: #659287;
+  background: #e6f2dd;
+  transform: translateY(-2px);
+}
+
+.specialization-option input {
+  accent-color: #659287;
+}
+.specialization-option input:not(:checked) {
+  filter: opacity(0.3);
+}
+.specialization-name {
+  color: #243530;
+  font-weight: 600;
+}
+
+.specialization-form .auth-submit {
+  margin-top: 1rem;
+  background-color: #659287;
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+  box-shadow: 0 6px 16px rgba(101, 146, 135, 0.18);
+}
+.specialization-form .auth-submit:hover {
+  background-color: #557d72;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(101, 146, 135, 0.22);
+}
+
+@media (max-width: 600px) {
+  .specialization-options {
+    grid-template-columns: 1fr;
+  }
+}
