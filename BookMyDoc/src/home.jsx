@@ -3,8 +3,24 @@ import logo from "./assets/logo.png";
 import { Link } from "react-router-dom";
 import { HousePlus, Building2, Video, HeartPulse } from "lucide-react";
 import mentalTherapyIcon from "./assets/mental-therapy.svg";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token && user) {
+      if (user.role === "patient") {
+        navigate("/patient-home");
+      } else if (user.role === "doctor") {
+        navigate("/doctor-home");
+      }
+    }
+  }, []);
   return (
     <div className="home-container">
       <nav>

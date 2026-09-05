@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./PatientHome.css";
 import profilePic from "../assets/PatientProfilePicture.jpg";
 import logo from "../assets/logo.png";
 
 const PatientHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login-patient");
+  };
 
   return (
     <div className="patient-profile-container">
@@ -57,9 +64,15 @@ const PatientHome = () => {
                     History
                   </Link>
 
-                  <Link to="/" onClick={() => setProfileMenuOpen(false)}>
+                  <button
+                    className="logout-link"
+                    onClick={() => {
+                      setProfileMenuOpen(false);
+                      handleLogout();
+                    }}
+                  >
                     Log Out
-                  </Link>
+                  </button>
                 </div>
               )}
             </li>

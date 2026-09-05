@@ -52,6 +52,10 @@ function LoginPatient() {
         return;
       }
 
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/patient-home");
+
       navigate("/patient-home");
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });

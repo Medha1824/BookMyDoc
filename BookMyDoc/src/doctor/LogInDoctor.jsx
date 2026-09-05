@@ -48,6 +48,10 @@ function LoginDoctor() {
         return;
       }
 
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/doctor-home");
+
       navigate("/doctor-home");
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
