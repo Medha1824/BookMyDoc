@@ -7,33 +7,25 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({
-      error: "Name, email, and password are required",
-    });
+  if (!name || !email || !password || !role) {
+    return res
+      .status(400)
+      .json({ error: "Name, email, password, and role are required" });
   }
 
-  if (password.length < 6) {
-    return res.status(400).json({
-      error: "Password must be at least 6 characters",
-    });
+  if (!["patient", "doctor"].includes(role)) {
+    return res.status(400).json({ error: "Invalid role" });
   }
 
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    return res.status(400).json({
-      error: "Email is already in use",
-    });
+    return res.status(400).json({ error: "Email is already in use" });
   }
 
-  const newUser = await User.create({
-    name,
-    email,
-    password,
-  });
+  const newUser = await User.create({ name, email, password, role });
 
   return res.status(201).json({
     message: "New user created",
@@ -41,16 +33,17 @@ export const createUser = async (req, res) => {
       id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      role: newUser.role,
     },
   });
 };
 
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
-  if (!email || !password) {
+  if (!email || !password || !role) {
     return res.status(400).json({
-      error: "Email and password are required",
+      error: "Email, password, and role are required",
     });
   }
 
@@ -62,7 +55,7 @@ export const loginUser = async (req, res) => {
     });
   }
 
-  if (user.password !== password) {
+  if (user.password !== password || user.role !== role) {
     return res.status(401).json({
       error: "Invalid email or password",
     });
@@ -74,11 +67,11 @@ export const loginUser = async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
     },
   });
 };
 
-// UPDATE USER
 export const updateUserByEmail = async (req, res) => {
   const { email } = req.params;
   const { name: newName, email: newEmail } = req.body;

@@ -47,6 +47,7 @@ function SignupPatient() {
           name: name.trim(),
           email: email.trim(),
           password,
+          role: "patient",
         }),
       });
 
