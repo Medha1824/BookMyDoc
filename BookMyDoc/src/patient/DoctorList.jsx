@@ -1,44 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Home.css";
-import { useState } from "react";
+import { useEffect , useState } from "react";
 import "./DoctorList.css";
 import logo from "../assets/logo.png";
-import doctor from "../assets/doctor.png";
-const doctors = [
-  {
-    id: 1,
-    name: "Dr. Ahmed Rahman",
-    category: "Diabetes",
-    specialization: "Diabetologist",
-    experience: "10 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 2,
-    name: "Dr. Nusrat Jahan",
-    category: "Diabetes",
-    specialization: "Endocrinologist",
-    experience: "8 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 3,
-    name: "Dr. Farhan Karim",
-    category: "Pediatrics",
-    specialization: "Pediatrician",
-    experience: "12 Years Experience",
-    image: doctor,
-  },
-  {
-    id: 4,
-    name: "Dr. Sadia Islam",
-    category: "Pediatrics",
-    specialization: "Child Specialist",
-    experience: "7 Years Experience",
-    image: doctor,
-  },
-];
+import doctorImage from "../assets/doctor.png";
 
 const categories = [
   "All Doctors",
@@ -52,17 +18,42 @@ const categories = [
 function DoctorList() {
   const [selectedCategory, setSelectedCategory] = useState("All Doctors");
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredDoctors = doctors.filter((doctor) => {
-    const matchesCategory =
-      selectedCategory === "All Doctors" ||
-      doctor.category === selectedCategory;
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const matchesSearch = doctor.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      setLoading(true);
 
-    return matchesCategory && matchesSearch;
-  });
+      try {
+        let url = "http://localhost:4000/doctors";
+
+        if (selectedCategory !== "All Doctors") {
+          url += `?specialization=${encodeURIComponent(selectedCategory)}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (response.ok) {
+          setDoctors(data);
+        } else {
+          setDoctors([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch doctors:", error);
+        setDoctors([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, [selectedCategory]);
+
+  const filteredDoctors = doctors.filter((doctor) =>
+    doctor.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
   return (
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
@@ -125,17 +116,21 @@ function DoctorList() {
             </span>
           </div>
 
-          {filteredDoctors.length > 0 ? (
+          {loading ? (
+            <div className="no-doctors">
+              <h3>Loading doctors...</h3>
+            </div>
+          ) : filteredDoctors.length > 0 ? (
             <div className="doctor-grid">
               {filteredDoctors.map((doctor) => (
                 <Link
-                  to={`/doctor-overview/${doctor.id}`}
+                  to={`/doctor-overview/${doctor._id}`}
                   className="doctor-card"
-                  key={doctor.id}
+                  key={doctor._id}
                 >
                   <div className="doctor-image-container">
                     <img
-                      src={doctor.image}
+                      src={doctorImage}
                       alt={doctor.name}
                       className="doctor-image"
                     />
@@ -145,14 +140,14 @@ function DoctorList() {
                     <h3>{doctor.name}</h3>
 
                     <p className="doctor-specialization">
-                      {doctor.specialization}
+                      {doctor.specialization.join(", ")}
                     </p>
 
-                    <p className="doctor-experience">{doctor.experience}</p>
+                    <p className="doctor-experience">Doctor</p>
 
-                    <button className="view-profile-button" type="button">
+                    <span className="view-profile-button" type="button">
                       View Profile
-                    </button>
+                    </span>
                   </div>
                 </Link>
               ))}

@@ -252,6 +252,8 @@
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: center;
+  display: block;
 }
 
 .view-profile-button:hover {
