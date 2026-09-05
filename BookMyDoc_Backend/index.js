@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes.js";
 import cors from "cors";
+import doctorRouter from "./routes/doctorRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRouter);
+app.use("/doctors", doctorRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
