@@ -35,11 +35,18 @@ function LoginDoctor() {
     if (!validate()) return;
 
     try {
-      const response = await fetch("http://localhost:4000/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password, role: "doctor" }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email.trim(),
+            password,
+            role: "doctor",
+          }),
+        },
+      );
 
       const data = await response.json();
 
@@ -50,8 +57,6 @@ function LoginDoctor() {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/doctor-home");
-
       navigate("/doctor-home");
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });

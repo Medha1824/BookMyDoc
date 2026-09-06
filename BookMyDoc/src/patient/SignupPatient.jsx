@@ -40,16 +40,19 @@ function SignupPatient() {
     if (!validate()) return;
 
     try {
-      const response = await fetch("http://localhost:4000/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          password,
-          role: "patient",
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim(),
+            password,
+            role: "patient",
+          }),
+        },
+      );
 
       const data = await response.json();
 
@@ -80,7 +83,7 @@ function SignupPatient() {
       <main className="auth-main">
         <div className="auth-card">
           <h1 className="auth-title">Patient Sign Up</h1>
-
+          {errors.form && <p className="field-error">{errors.form}</p>}
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div>
               <input
