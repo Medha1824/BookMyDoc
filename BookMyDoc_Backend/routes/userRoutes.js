@@ -7,6 +7,7 @@ import {
   updateUserByEmail,
   getProfile,
   updateDoctorSpecialization,
+  updateDoctorProfile,
 } from "../controllers/userController.js";
 
 import { verifyToken } from "../middleware/auth.js";
@@ -20,5 +21,6 @@ router.get("/profile", verifyToken, getProfile);
 router.put("/:email", updateUserByEmail);
 router.delete("/:email", deleteUserByEmail);
 router.put("/doctor-specialization/:email", updateDoctorSpecialization);
+router.put("/doctor-profile", verifyToken, updateDoctorProfile);
 
 export default router;

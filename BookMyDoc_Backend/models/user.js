@@ -28,6 +28,24 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+
+  gender:{
+     type: String, 
+     default: ""
+     },
+  contact: { 
+    type: String, 
+    default: ""
+   },
+  hospital: {
+    type: String, 
+    default: ""
+   },
+  createdAt: {
+    type: Date, 
+    default: Date.now 
+  },
+
 });
 
 const User = mongoose.model("User", userSchema);
