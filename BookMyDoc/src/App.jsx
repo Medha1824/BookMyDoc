@@ -17,10 +17,6 @@ import DoctorEditProfile from "./doctor/DoctorEditProfile";
 
 import PatientProfile from "./PatientProfile";
 
-import DoctorEditProfile from "./doctor/DoctorEditProfile"
-import DoctorEditProfile from "./patient/PatientEditProfile"
-
-
 import DoctorList from "./patient/DoctorList";
 import DoctorAppointments from "./doctor/DoctorAppointments";
 import DoctorOverview from "./patient/DoctorOverview";
