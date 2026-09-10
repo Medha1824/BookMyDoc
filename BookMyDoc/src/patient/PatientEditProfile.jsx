@@ -1,31 +1,116 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react"; 
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import "./PatientEditProfile.css";
 
-function EditProfile() {
+const PatientEditProfile = () => {
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState({
-    patientName: "Sameen Irtisam",
-    age: "30",
-    gender: "Male",
-    contact: "0123456789",
-    bloodGroup: "O+",
-    address: "123 Main Street, City, Country",
+    name: "",
+    email: "",
+    age: "",
+    gender: "",
+    contact: "",
+    bloodGroup: "",
+    address: "",
   });
+
+  const [errors, setErrors] = useState({});
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+
+    if (!userData) {
+      navigate("/login-patient");
+      return;
+    }
+
+    const loggedInUser = JSON.parse(userData);
+
+    setUser(loggedInUser);
+
+    setProfile({
+      name: loggedInUser.name || "",
+      email: loggedInUser.email || "",
+      age: loggedInUser.age || "",
+      gender: loggedInUser.gender || "",
+      contact: loggedInUser.contact || "",
+      bloodGroup: loggedInUser.bloodGroup || "",
+      address: loggedInUser.address || "",
+    });
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setProfile((currentProfile) => ({
-      ...currentProfile,
+    setProfile((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/patient-home");
+
+    if (!user?.id) {
+      setErrors({
+        form: "User information not found. Please login again.",
+      });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/id/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: profile.name.trim(),
+            email: profile.email.trim(),
+            age: profile.age,
+            gender: profile.gender,
+            contact: profile.contact.trim(),
+            bloodGroup: profile.bloodGroup,
+            address: profile.address.trim(),
+
+            /*...(password
+              ? {
+                  password: password,
+                }
+              : {}),*/
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({
+          form: data.error || "Failed to update profile",
+        });
+        return;
+      }
+
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      navigate("/patient-home");
+    } catch (error) {
+      console.error(error);
+
+      setErrors({
+        form: "Something went wrong. Please try again.",
+      });
+    }
   };
 
   return (
@@ -37,6 +122,7 @@ function EditProfile() {
           <li>
             <Link to="/patient-home">Dashboard</Link>
           </li>
+
           <li>
             <Link to="/history">History</Link>
           </li>
@@ -46,31 +132,62 @@ function EditProfile() {
       <main className="edit-profile-main">
         <div className="edit-profile-header">
           <h1>Edit Profile</h1>
-          <p>Update your personal information and keep your profile current.</p>
+
         </div>
 
-        <form className="edit-profile-card" onSubmit={handleSubmit}>
+        <form
+          className="edit-profile-card"
+          onSubmit={handleSubmit}
+        >
+          {errors.form && (
+            <p className="field-error">
+              {errors.form}
+            </p>
+          )}
+
+          {/* NAME */}
           <div className="form-group">
-            <label htmlFor="patientName">Patient Name</label>
+            <label htmlFor="name">
+              Patient Name
+            </label>
+
             <input
-              id="patientName"
-              name="patientName"
+              id="name"
+              name="name"
               type="text"
-              value={profile.patientName}
+              value={profile.name}
               onChange={handleChange}
               required
             />
           </div>
 
+          {/* EMAIL */}
+          <div className="form-group">
+            <label htmlFor="email">
+              Email
+            </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={profile.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* AGE + GENDER */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="age">Age</label>
+              <label htmlFor="age">
+                Age
+              </label>
+
               <input
                 id="age"
                 name="age"
-                type="number"
-                min="1"
-                max="120"
+                type="text"
                 value={profile.age}
                 onChange={handleChange}
                 required
@@ -78,7 +195,10 @@ function EditProfile() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">
+                Gender
+              </label>
+
               <select
                 id="gender"
                 name="gender"
@@ -86,16 +206,28 @@ function EditProfile() {
                 onChange={handleChange}
                 required
               >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="Male">
+                  Male
+                </option>
+
+                <option value="Female">
+                  Female
+                </option>
+
+                <option value="Other">
+                  Other
+                </option>
+
               </select>
             </div>
           </div>
 
+          {/* CONTACT */}
           <div className="form-group">
-            <label htmlFor="contact">Contact</label>
+            <label htmlFor="contact">
+              Contact
+            </label>
+
             <input
               id="contact"
               name="contact"
@@ -106,8 +238,12 @@ function EditProfile() {
             />
           </div>
 
+          {/* BLOOD GROUP */}
           <div className="form-group">
-            <label htmlFor="bloodGroup">Blood Group</label>
+            <label htmlFor="bloodGroup">
+              Blood Group
+            </label>
+
             <select
               id="bloodGroup"
               name="bloodGroup"
@@ -115,7 +251,6 @@ function EditProfile() {
               onChange={handleChange}
               required
             >
-              <option value="">Select Blood Group</option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
@@ -127,28 +262,22 @@ function EditProfile() {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <textarea
-              id="address"
-              name="address"
-              rows="4"
-              value={profile.address}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
+          {/* BUTTONS */}
           <div className="edit-profile-actions">
             <button
               type="button"
               className="cancel-button"
-              onClick={() => navigate("/patient-home")}
+              onClick={() =>
+                navigate("/patient-home")
+              }
             >
               Cancel
             </button>
 
-            <button type="submit" className="save-button">
+            <button
+              type="submit"
+              className="save-button"
+            >
               Save Changes
             </button>
           </div>
@@ -162,4 +291,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default PatientEditProfile;

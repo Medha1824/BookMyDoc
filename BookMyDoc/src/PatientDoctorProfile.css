@@ -651,4 +651,9 @@
   .profile-card {
     padding: 1.5rem 1rem;
   }
+
+  .form-group textarea {
+  width: 100%;
+  resize: none;
+   }
 }

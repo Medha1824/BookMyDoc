@@ -12,6 +12,7 @@ import SignupPatient from "./patient/SignupPatient";
 import DoctorHome from "./doctor/DoctorHome";
 import PatientHome from "./patient/PatientHome";
 import History from "./doctor/History";
+import PatientEditProfile from "./patient/PatientEditProfile";
 import DoctorEditProfile from "./doctor/DoctorEditProfile";
 
 import PatientProfile from "./PatientProfile";
@@ -49,6 +50,7 @@ function App() {
 
         <Route path="/patient-profile" element={<PatientProfile />} />
         <Route path="/history" element={<History />} />
+        <Route path="/patient-edit-profile" element={<PatientEditProfile />}/>
         <Route path="/doctor-edit-profile" element={<DoctorEditProfile />} />
 
         <Route path="/doctors" element={<DoctorList />} />

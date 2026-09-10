@@ -61,11 +61,8 @@ function SignupDoctor() {
         return;
       }
 
-      navigate("/doctor-specialization", {
-        state: {
-          email: email.trim(),
-        },
-      });
+      navigate("/login-doctor");
+
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
     }
