@@ -47,6 +47,7 @@ export const createUser = async (req, res) => {
     },
   });
 };
+
 export const updateDoctorSpecialization = async (req, res) => {
   const { email } = req.params;
   const { specialization } = req.body;
@@ -76,6 +77,7 @@ export const updateDoctorSpecialization = async (req, res) => {
     message: "Specialization saved successfully",
   });
 };
+
 export const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -108,20 +110,33 @@ export const loginUser = async (req, res) => {
   );
 
   return res.status(200).json({
-    message: "Login successful",
-    token,
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-  });
+  message: "Login successful",
+  token,
+  user: {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    age: user.age,
+    gender: user.gender,
+    contact: user.contact,
+    bloodGroup: user.bloodGroup,
+    address: user.address,
+    specialization: user.specialization,
+    hospital: user.hospital,
+    role: user.role,
+  },
+});
 };
 
 export const getProfile = async (req, res) => {
+  if(!req._id){
+    return res.status(400).json({
+      message: "user id required",
+    })
+  }
+  
   const user = await User.findById(req.user.id).select("-password");
-
+  
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
@@ -167,4 +182,85 @@ export const deleteUserByEmail = async (req, res) => {
   return res.status(200).json({
     message: "User deleted",
   });
+};
+
+export const updateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      name,
+      email,
+      age,
+      gender,
+      contact,
+      bloodGroup,
+      address,
+      specialization,
+      hospital,
+    } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+
+    // Common information
+    user.name = name;
+    user.email = email;
+    user.gender = gender;
+    user.contact = contact;
+
+    // Patient information
+    if (age !== undefined) {
+      user.age = age;
+    }
+
+    if (bloodGroup !== undefined) {
+      user.bloodGroup = bloodGroup;
+    }
+
+    if (address !== undefined) {
+      user.address = address;
+    }
+
+    // Doctor information
+    if (specialization !== undefined) {
+      user.specialization = specialization;
+    }
+
+    if (hospital !== undefined) {
+      user.hospital = hospital;
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        gender: user.gender,
+        contact: user.contact,
+        bloodGroup: user.bloodGroup,
+        address: user.address,
+        specialization: user.specialization,
+        hospital: user.hospital,
+        role: user.role,
+      },
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Failed to update profile",
+    });
+  }
 };

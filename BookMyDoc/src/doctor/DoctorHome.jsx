@@ -8,19 +8,28 @@ import { useEffect } from "react";
 const DoctorHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
+  const [user, setUser] = useState({});
+  
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login-doctor");
-    }
-  }, []);
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        navigate("/login-doctor");
+      }
+  
+    const userData = localStorage.getItem("user");
+    const parsedData = JSON.parse(userData);
+    setUser(parsedData)
 
+  },[navigate]);
+
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login-doctor");
   };
+
 
   return (
     <div className="patient-profile-container">
@@ -78,9 +87,16 @@ const DoctorHome = () => {
               {profileMenuOpen && (
                 <div className="profile-drawer">
                   {/* History */}
-                  <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
+                  <Link to="/history"
+                   onClick={() => 
+                   setProfileMenuOpen(false)}>
                     History
                   </Link>
+
+                  <Link to="/doctor-edit-profile" onClick={() => setProfileMenuOpen(false)}>
+                   Edit Profile
+                  </Link>
+                  
                   {/* Log Out */}
                   <button
                     className="logout-link"
@@ -118,35 +134,35 @@ const DoctorHome = () => {
             <div className="info-row">
               <span className="label">Doctor Name</span>
 
-              <span>Dr. John Doe</span>
+              <span>{user.name}</span>
             </div>
 
             {/* Specialization */}
             <div className="info-row">
               <span className="label">Specialization</span>
 
-              <span>Cardiologist</span>
+              <span>{user.specialization}</span>
             </div>
 
             {/* Gender */}
             <div className="info-row">
               <span className="label">Gender</span>
 
-              <span>Female</span>
+              <span>{user.gender}</span>
             </div>
 
             {/* Contact */}
             <div className="info-row">
               <span className="label">Contact</span>
 
-              <span>0123456789</span>
+              <span>{user.contact}</span>
             </div>
 
             {/* Hospital */}
             <div className="info-row">
               <span className="label">Hospital</span>
 
-              <span>City Hospital</span>
+              <span>{user.hospital}</span>
             </div>
           </div>
         </div>

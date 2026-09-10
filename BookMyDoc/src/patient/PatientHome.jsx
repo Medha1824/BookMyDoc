@@ -8,13 +8,21 @@ import { useEffect } from "react";
 const PatientHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token) {
       navigate("/login-patient");
     }
-  }, []);
+
+    const userData = localStorage.getItem("user");
+    const parsedData = JSON.parse(userData);
+    setUser(parsedData)
+
+  },[navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -24,9 +32,6 @@ const PatientHome = () => {
 
   return (
     <div className="patient-profile-container">
-      {/* =======================
-          NAVBAR
-      ======================= */}
       <div className="navbar">
         <nav>
           {/* Logo */}
@@ -72,6 +77,10 @@ const PatientHome = () => {
                     History
                   </Link>
 
+                  <Link to="/patient-edit-profile" onClick={() => setProfileMenuOpen(false)}>
+                    Edit Profile
+                  </Link>
+
                   <button
                     className="logout-link"
                     onClick={() => {
@@ -103,37 +112,37 @@ const PatientHome = () => {
             <div className="info-row">
               <span className="label">Patient Name</span>
 
-              <span>Sameen Irtisam</span>
+              <span>{user.name}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Age</span>
 
-              <span>30</span>
+              <span>{user.age}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Gender</span>
 
-              <span>Male</span>
+              <span>{user.gender}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Contact</span>
 
-              <span>0123456789</span>
+              <span>{user.contact}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Blood Group</span>
 
-              <span>O+</span>
+              <span>{user.bloodGroup}</span>
             </div>
 
             <div className="info-row">
-              <span className="label">Address</span>
+              <span className="label">Email</span>
 
-              <span>123 Main Street, City, Country</span>
+              <span>{user.email}</span>
             </div>
           </div>
         </div>

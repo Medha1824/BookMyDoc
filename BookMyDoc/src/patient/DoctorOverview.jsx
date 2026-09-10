@@ -8,9 +8,10 @@ function DoctorOverview() {
   const { id } = useParams();
 
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchDoctor = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`http://localhost:4000/doctors/${id}`);
         const data = await response.json();
@@ -23,6 +24,8 @@ function DoctorOverview() {
       } catch (error) {
         console.error("Failed to fetch doctor:", error);
         setSelectedDoctor(null);
+      }finally{
+            setLoading(false);
       }
     };
 
@@ -43,6 +46,13 @@ function DoctorOverview() {
     "3:00 PM",
     "4:00 PM",
   ];
+  if (loading) {
+  return (
+    <div className="doctor-overview-page">
+      <h1>Loading doctor...</h1>
+    </div>
+  );
+}
   if (!selectedDoctor) {
     return (
       <div className="doctor-overview-page">

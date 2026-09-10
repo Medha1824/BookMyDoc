@@ -28,7 +28,15 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-
+  age:{
+     type: String, 
+     default: ""
+     },
+  bloodGroup:{
+     type: String, 
+     default: ""
+     },
+  
   gender:{
      type: String, 
      default: ""
