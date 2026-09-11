@@ -2,7 +2,7 @@ import User from "../models/user.js";
 
 export const getDoctorsBySpecialization = async (req, res) => {
   const { specialization } = req.query;
-  
+
   try {
     let doctors;
 

@@ -45,6 +45,7 @@ function SignupDoctor() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             name: name.trim(),
             email: email.trim(),
@@ -62,7 +63,6 @@ function SignupDoctor() {
       }
 
       navigate("/login-doctor");
-
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
     }

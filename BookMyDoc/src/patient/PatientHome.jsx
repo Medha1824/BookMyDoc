@@ -1,45 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./PatientHome.css";
 import profilePic from "../assets/PatientProfilePicture.jpg";
 import logo from "../assets/logo.png";
-import { useEffect } from "react";
 
 const PatientHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
-
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
 
-    if (!token) {
-      navigate("/login-patient");
-    }
+        if (!response.ok) {
+          navigate("/login-patient");
+          return;
+        }
 
-    const userData = localStorage.getItem("user");
-    const parsedData = JSON.parse(userData);
-    setUser(parsedData)
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        navigate("/login-patient");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  },[navigate]);
+    fetchProfile();
+  }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {}
     navigate("/login-patient");
   };
+
+  if (loading) {
+    return <div className="patient-profile-container">Loading...</div>;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="patient-profile-container">
       <div className="navbar">
         <nav>
-          {/* Logo */}
-          <Link to="/">
+          <Link to="/patient-home">
             <img src={logo} alt="BookMyDoc" className="logo-img" />
           </Link>
 
-          {/* Navigation Links */}
           <ul>
             <li>
               <Link to="/doctors">View Doctor</Link>
@@ -53,11 +85,7 @@ const PatientHome = () => {
               <Link to="/about">About</Link>
             </li>
 
-            {/* =======================
-                PROFILE MENU
-            ======================= */}
             <li className="profile-menu-container">
-              {/* Profile Image Button */}
               <button
                 type="button"
                 className="profile-menu-button"
@@ -68,16 +96,16 @@ const PatientHome = () => {
                 <img src={profilePic} alt="Patient Profile" />
               </button>
 
-              {/* =======================
-                  PROFILE DRAWER
-              ======================= */}
               {profileMenuOpen && (
                 <div className="profile-drawer">
                   <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
                     History
                   </Link>
 
-                  <Link to="/patient-edit-profile" onClick={() => setProfileMenuOpen(false)}>
+                  <Link
+                    to="/patient-edit-profile"
+                    onClick={() => setProfileMenuOpen(false)}
+                  >
                     Edit Profile
                   </Link>
 
@@ -97,60 +125,46 @@ const PatientHome = () => {
         </nav>
       </div>
 
-      {/* =======================
-          PATIENT PROFILE CONTENT
-      ======================= */}
       <main className="patient-main">
         <div className="profile-card">
-          {/* Profile Image */}
           <div className="profile-picture">
             <img src={profilePic} alt="Patient Profile" />
           </div>
 
-          {/* Profile Details */}
           <div className="profile-details">
             <div className="info-row">
               <span className="label">Patient Name</span>
-
               <span>{user.name}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Age</span>
-
               <span>{user.age}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Gender</span>
-
               <span>{user.gender}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Contact</span>
-
               <span>{user.contact}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Blood Group</span>
-
               <span>{user.bloodGroup}</span>
             </div>
 
             <div className="info-row">
               <span className="label">Email</span>
-
               <span>{user.email}</span>
             </div>
           </div>
         </div>
       </main>
 
-      {/* =======================
-          FOOTER
-      ======================= */}
       <footer>&copy; 2026 BookMyDoc. All rights reserved.</footer>
     </div>
   );

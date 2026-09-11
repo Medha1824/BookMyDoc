@@ -28,32 +28,31 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  age:{
-     type: String, 
-     default: ""
-     },
-  bloodGroup:{
-     type: String, 
-     default: ""
-     },
-  
-  gender:{
-     type: String, 
-     default: ""
-     },
-  contact: { 
-    type: String, 
-    default: ""
-   },
-  hospital: {
-    type: String, 
-    default: ""
-   },
-  createdAt: {
-    type: Date, 
-    default: Date.now 
+  age: {
+    type: String,
+    default: "",
+  },
+  bloodGroup: {
+    type: String,
+    default: "",
   },
 
+  gender: {
+    type: String,
+    default: "",
+  },
+  contact: {
+    type: String,
+    default: "",
+  },
+  hospital: {
+    type: String,
+    default: "",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

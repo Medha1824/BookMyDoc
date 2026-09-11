@@ -1,53 +1,73 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import { hashPassword } from "../utils/helpers.js";
 
 export const getAllUsers = async (req, res) => {
-  const allUsers = await User.find();
-
-  return res.status(200).json(allUsers);
+  try {
+    const allUsers = await User.find().select(["-password", "-__v"]);
+    return res.status(200).json(allUsers);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
 };
 
+export const getProfile = async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const userInfo = await User.findById(decoded.id).select([
+      "-password",
+      "-__v",
+    ]);
+    return res.status(200).json(userInfo);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
 export const createUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
-
-  if (!name || !email || !password || !role) {
-    return res
-      .status(400)
-      .json({ error: "Name, email, password, and role are required" });
-  }
-
-  if (!["patient", "doctor"].includes(role)) {
-    return res.status(400).json({ error: "Invalid role" });
-  }
-
-  const existingUser = await User.findOne({ email });
-
-  if (existingUser) {
-    return res.status(400).json({ error: "Email is already in use" });
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await User.create({
+  const {
     name,
     email,
-    password: hashedPassword,
+    password,
     role,
-    specialization: [],
-  });
+    specialization,
+    age,
+    bloodGroup,
+    gender,
+    contact,
+    hospital,
+  } = req.body;
 
-  return res.status(201).json({
-    message: "New user created",
-    user: {
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-    },
-  });
+  try {
+    const otherUser = await User.findOne({ email }).select(["email"]);
+
+    if (otherUser) {
+      return res.status(400).json({ error: "Email already in use" });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+      specialization,
+      age,
+      bloodGroup,
+      gender,
+      contact,
+      hospital,
+    });
+
+    await newUser.save();
+    return res.status(201).json({ message: "New user added successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ error: err.message });
+  }
 };
-
 export const updateDoctorSpecialization = async (req, res) => {
   const { email } = req.params;
   const { specialization } = req.body;
@@ -75,112 +95,6 @@ export const updateDoctorSpecialization = async (req, res) => {
 
   return res.status(200).json({
     message: "Specialization saved successfully",
-  });
-};
-
-export const loginUser = async (req, res) => {
-  const { email, password, role } = req.body;
-
-  if (!email || !password || !role) {
-    return res.status(400).json({
-      error: "Email, password, and role are required",
-    });
-  }
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(401).json({
-      error: "Invalid email or password",
-    });
-  }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch || user.role !== role) {
-    return res.status(401).json({
-      error: "Invalid email or password",
-    });
-  }
-
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" },
-  );
-
-  return res.status(200).json({
-  message: "Login successful",
-  token,
-  user: {
-    id: user._id,
-    name: user.name,
-    email: user.email,
-    age: user.age,
-    gender: user.gender,
-    contact: user.contact,
-    bloodGroup: user.bloodGroup,
-    address: user.address,
-    specialization: user.specialization,
-    hospital: user.hospital,
-    role: user.role,
-  },
-});
-};
-
-export const getProfile = async (req, res) => {
-  if(!req._id){
-    return res.status(400).json({
-      message: "user id required",
-    })
-  }
-  
-  const user = await User.findById(req.user.id).select("-password");
-  
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  return res.status(200).json({ user });
-};
-
-export const updateUserByEmail = async (req, res) => {
-  const { email } = req.params;
-  const { name: newName, email: newEmail } = req.body;
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(404).json({
-      message: "User not found",
-    });
-  }
-
-  user.name = newName;
-  user.email = newEmail;
-
-  await user.save();
-
-  return res.status(200).json({
-    message: "User updated",
-  });
-};
-
-export const deleteUserByEmail = async (req, res) => {
-  const { email } = req.params;
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(404).json({
-      error: "User not found",
-    });
-  }
-
-  await User.deleteOne({ email });
-
-  return res.status(200).json({
-    message: "User deleted",
   });
 };
 
@@ -255,7 +169,6 @@ export const updateUserById = async (req, res) => {
         role: user.role,
       },
     });
-
   } catch (error) {
     console.error(error);
 

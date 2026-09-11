@@ -10,17 +10,30 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
 
-    if (token && user) {
-      if (user.role === "patient") {
-        navigate("/patient-home");
-      } else if (user.role === "doctor") {
-        navigate("/doctor-home");
+        if (!response.ok) return;
+
+        const user = await response.json();
+
+        if (user.role === "patient") {
+          navigate("/patient-home");
+        } else if (user.role === "doctor") {
+          navigate("/doctor-home");
+        }
+      } catch (err) {
+        // no valid session, stay on Home
       }
-    }
-  }, []);
+    };
+
+    checkAuth();
+  }, [navigate]);
+
   return (
     <div className="home-container">
       <nav>

@@ -1,76 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DoctorHome.css";
 import doctorPic from "../assets/doctor.png";
 import logo from "../assets/logo.png";
-import { useEffect } from "react";
 
 const DoctorHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
-  
+
   useEffect(() => {
-      const token = localStorage.getItem("token");
-  
-      if (!token) {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
+
+        if (!response.ok) {
+          navigate("/login-doctor");
+          return;
+        }
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
         navigate("/login-doctor");
+      } finally {
+        setLoading(false);
       }
-  
-    const userData = localStorage.getItem("user");
-    const parsedData = JSON.parse(userData);
-    setUser(parsedData)
+    };
 
-  },[navigate]);
+    fetchProfile();
+  }, [navigate]);
 
-  
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {}
     navigate("/login-doctor");
   };
 
+  if (loading) {
+    return <div className="patient-profile-container">Loading...</div>;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="patient-profile-container">
-      {/* =======================
-          NAVBAR
-      ======================= */}
       <div className="navbar">
         <nav>
-          {/* =======================
-              LOGO
-          ======================= */}
-          <Link to="/">
+          <Link to="/doctor-home">
             <img src={logo} alt="BookMyDoc" className="logo-img" />
           </Link>
 
-          {/* =======================
-              NAVIGATION LINKS
-          ======================= */}
           <ul>
-            {/* View Appointment */}
             <li>
               <Link to="/doctor-appointments">View Appointment</Link>
             </li>
 
-            {/* Contact Us */}
             <li>
               <Link to="/contact">Contact Us</Link>
             </li>
 
-            {/* About */}
             <li>
               <Link to="/about">About</Link>
             </li>
 
-            {/* =======================
-                PROFILE MENU
-            ======================= */}
             <li className="profile-menu-container">
-              {/* =======================
-                  ROUND PROFILE BUTTON
-              ======================= */}
               <button
                 type="button"
                 className="profile-menu-button"
@@ -81,23 +96,19 @@ const DoctorHome = () => {
                 <img src={doctorPic} alt="Doctor Profile" />
               </button>
 
-              {/* =======================
-                  PROFILE DRAWER
-              ======================= */}
               {profileMenuOpen && (
                 <div className="profile-drawer">
-                  {/* History */}
-                  <Link to="/history"
-                   onClick={() => 
-                   setProfileMenuOpen(false)}>
+                  <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
                     History
                   </Link>
 
-                  <Link to="/doctor-edit-profile" onClick={() => setProfileMenuOpen(false)}>
-                   Edit Profile
+                  <Link
+                    to="/doctor-edit-profile"
+                    onClick={() => setProfileMenuOpen(false)}
+                  >
+                    Edit Profile
                   </Link>
-                  
-                  {/* Log Out */}
+
                   <button
                     className="logout-link"
                     onClick={() => {
@@ -114,63 +125,41 @@ const DoctorHome = () => {
         </nav>
       </div>
 
-      {/* =======================
-          DOCTOR PROFILE CONTENT
-      ======================= */}
       <main className="patient-main">
         <div className="profile-card">
-          {/* =======================
-              DOCTOR PROFILE IMAGE
-          ======================= */}
           <div className="profile-picture">
             <img src={doctorPic} alt="Doctor Profile" />
           </div>
 
-          {/* =======================
-              DOCTOR DETAILS
-          ======================= */}
           <div className="profile-details">
-            {/* Doctor Name */}
             <div className="info-row">
               <span className="label">Doctor Name</span>
-
               <span>{user.name}</span>
             </div>
 
-            {/* Specialization */}
             <div className="info-row">
               <span className="label">Specialization</span>
-
               <span>{user.specialization}</span>
             </div>
 
-            {/* Gender */}
             <div className="info-row">
               <span className="label">Gender</span>
-
               <span>{user.gender}</span>
             </div>
 
-            {/* Contact */}
             <div className="info-row">
               <span className="label">Contact</span>
-
               <span>{user.contact}</span>
             </div>
 
-            {/* Hospital */}
             <div className="info-row">
               <span className="label">Hospital</span>
-
               <span>{user.hospital}</span>
             </div>
           </div>
         </div>
       </main>
 
-      {/* =======================
-          FOOTER
-      ======================= */}
       <footer>&copy; 2026 BookMyDoc. All rights reserved.</footer>
     </div>
   );

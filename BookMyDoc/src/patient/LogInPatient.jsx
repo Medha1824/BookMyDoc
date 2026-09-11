@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../LoginSignup.css";
 import logo from "../assets/logo.png";
 import { Eye, EyeOff } from "lucide-react";
 
-function LoginPatient() {
+function LogInPatient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
+
+        if (response.ok) {
+          navigate("/patient-home");
+        }
+      } catch (err) {}
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   const validate = () => {
     const newErrors = {};
@@ -36,10 +53,11 @@ function LoginPatient() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/login`,
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             email: email.trim(),
             password,
@@ -51,12 +69,14 @@ function LoginPatient() {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrors({ form: data.error || "Login failed" });
+        const message =
+          data.error ||
+          (data.errors && data.errors.map((err) => err.msg).join(", ")) ||
+          "Login failed";
+        setErrors({ form: message });
         return;
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/patient-home");
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
@@ -141,4 +161,4 @@ function LoginPatient() {
   );
 }
 
-export default LoginPatient;
+export default LogInPatient;
