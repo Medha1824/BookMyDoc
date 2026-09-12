@@ -18,7 +18,7 @@ function DoctorEditProfile() {
   const [user, setUser] = useState(null);
 
   // Get logged-in doctor information
-  useEffect(() => {
+  /*useEffect(() => {
     const userData = localStorage.getItem("user");
 
     if (!userData) {
@@ -42,7 +42,47 @@ function DoctorEditProfile() {
       hospital: loggedInUser.hospital || "",
     });
   }, [navigate]);
+*/
 
+    useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
+
+        if (!response.ok) {
+          navigate("/login-doctor");
+          return;
+        }
+
+        const loggedInUser = await response.json();
+
+        if (!loggedInUser) {
+          navigate("/login-doctor");
+          return;
+        }
+
+        setUser(loggedInUser);
+
+        setProfile({
+          name: loggedInUser.name || "",
+          email: loggedInUser.email || "",
+          specialization: Array.isArray(loggedInUser.specialization)
+            ? loggedInUser.specialization.join(", ")
+            : loggedInUser.specialization || "",
+          gender: loggedInUser.gender || "",
+          contact: loggedInUser.contact || "",
+          hospital: loggedInUser.hospital || "",
+        });
+      } catch (err) {
+        navigate("/login-doctor");
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,7 +97,7 @@ function DoctorEditProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user?.id) {
+  /*  if (!user?.id) {
       setErrors({
         form: "User information not found. Please login again.",
       });
@@ -77,8 +117,28 @@ function DoctorEditProfile() {
             Authorization: `Bearer ${token}`,
           },
 
+          body: JSON.stringify({   */
+    
+            if (!user?._id) {
+      setErrors({
+        form: "User information not found. Please login again.",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/id/${user._id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
-            name: profile.name.trim(),
+
+          
+          name: profile.name.trim(),
             email: profile.email.trim(),
 
             specialization: profile.specialization
@@ -103,7 +163,7 @@ function DoctorEditProfile() {
       }
 
       // Save latest information in localStorage
-      localStorage.setItem("user", JSON.stringify(data.user));
+    //  localStorage.setItem("user", JSON.stringify(data.user));
 
       // Go back to doctor home
       navigate("/doctor-home");
