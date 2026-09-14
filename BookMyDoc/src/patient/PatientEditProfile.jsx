@@ -21,7 +21,7 @@ const PatientEditProfile = () => {
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const userData = localStorage.getItem("user");
 
     if (!userData) {
@@ -44,6 +44,48 @@ const PatientEditProfile = () => {
     });
   }, [navigate]);
 
+*/
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
+        );
+
+        if (!response.ok) {
+          navigate("/login-patient");
+          return;
+        }
+
+        const loggedInUser = await response.json();
+
+        if (!loggedInUser) {
+          navigate("/login-patient");
+          return;
+        }
+
+        setUser(loggedInUser);
+
+        setProfile({
+          name: loggedInUser.name || "",
+          email: loggedInUser.email || "",
+          age: loggedInUser.age || "",
+          gender: loggedInUser.gender || "",
+          contact: loggedInUser.contact || "",
+          bloodGroup: loggedInUser.bloodGroup || "",
+          address: loggedInUser.address || "",
+        });
+      } catch (err) {
+        navigate("/login-patient");
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -56,7 +98,7 @@ const PatientEditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user?.id) {
+/*    if (!user?.id) {
       setErrors({
         form: "User information not found. Please login again.",
       });
@@ -74,7 +116,27 @@ const PatientEditProfile = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({   */
+
+
+              if (!user?._id) {
+      setErrors({
+        form: "User information not found. Please login again.",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/id/${user._id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
+
             name: profile.name.trim(),
             email: profile.email.trim(),
             age: profile.age,
@@ -101,7 +163,7 @@ const PatientEditProfile = () => {
         return;
       }
 
-      localStorage.setItem("user", JSON.stringify(data.user));
+     // localStorage.setItem("user", JSON.stringify(data.user));
 
       navigate("/patient-home");
     } catch (error) {

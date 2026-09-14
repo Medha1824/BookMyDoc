@@ -23,8 +23,18 @@ const PatientHome = () => {
           return;
         }
 
-        const data = await response.json();
+      /*  const data = await response.json();
         setUser(data);
+      */
+
+      const data = await response.json();
+
+      if (!data) {
+         navigate("/login-doctor"); // or /login-patient
+         return;
+      }
+
+setUser(data);  
       } catch (err) {
         navigate("/login-patient");
       } finally {

@@ -136,3 +136,23 @@
     gap: 0;
   }
 }
+
+.form-success {
+  color: #1a7f37;
+  background-color: #e6f7ec;
+  border: 1px solid #1a7f37;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.form-error {
+  color: #d1242f;
+  background-color: #fdeaea;
+  border: 1px solid #d1242f;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 14px;
+}

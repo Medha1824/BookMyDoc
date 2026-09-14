@@ -10,7 +10,7 @@ export const getAllUsers = async (req, res) => {
     return res.status(400).json(err);
   }
 };
-
+/*
 export const getProfile = async (req, res) => {
   try {
     const { token } = req.cookies;
@@ -25,6 +25,26 @@ export const getProfile = async (req, res) => {
     return res.status(400).json(err);
   }
 };
+
+*/
+
+export const getProfile = async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const userInfo = await User.findById(decoded.id).select(["-password", "-__v"]);
+
+    if (!userInfo) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json(userInfo);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
 export const createUser = async (req, res) => {
   const {
     name,

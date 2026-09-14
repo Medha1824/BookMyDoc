@@ -1,19 +1,79 @@
-import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import "./Contact.css";
 import logo from "./assets/logo.png";
 import { Link } from "react-router-dom";
 
-function Contact() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+const ContactSchema = Yup.object().shape({
+  name: Yup.string().trim().required("Name is required"),
+  phone: Yup.string()
+    .matches(/^[0-9+\-\s]{7,20}$/, "Enter a valid phone number")
+    .required("Phone is required"),
+  email: Yup.string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  subject: Yup.string().trim().required("Subject is required"),
+  message: Yup.string().trim().required("Message is required"),
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ name, phone, email, subject, message });
-  };
+function Contact() {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      phone: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+    validationSchema: ContactSchema,
+    onSubmit: async (values, { resetForm, setStatus, setSubmitting }) => {
+      setStatus(null);
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+            ...values,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          resetForm();
+          setStatus({ type: "success", message: "Message sent successfully!" });
+        } else {
+          setStatus({
+            type: "error",
+            message: data.message || "Something went wrong. Please try again.",
+          });
+        }
+      } catch (err) {
+        setStatus({
+          type: "error",
+          message:
+            "Network error — please check your connection and try again.",
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+
+  const {
+    values,
+    errors,
+    touched,
+    status,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+  } = formik;
 
   return (
     <div className="home-container">
@@ -41,25 +101,35 @@ function Contact() {
           <div className="contact-form-side">
             <h2>Send your request</h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-group">
                   <label>Name</label>
                   <input
                     type="text"
+                    name="name"
                     placeholder="Cristiano Ronaldo"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  {touched.name && errors.name && (
+                    <span className="field-error">{errors.name}</span>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>Phone</label>
                   <input
                     type="text"
+                    name="phone"
                     placeholder="+880 1914864655"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={values.phone}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  {touched.phone && errors.phone && (
+                    <span className="field-error">{errors.phone}</span>
+                  )}
                 </div>
               </div>
 
@@ -68,33 +138,62 @@ function Contact() {
                   <label>Email</label>
                   <input
                     type="email"
+                    name="email"
                     placeholder="ronaldo7@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  {touched.email && errors.email && (
+                    <span className="field-error">{errors.email}</span>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>Subject</label>
                   <input
                     type="text"
+                    name="subject"
                     placeholder="Subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
+                    value={values.subject}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  {touched.subject && errors.subject && (
+                    <span className="field-error">{errors.subject}</span>
+                  )}
                 </div>
               </div>
 
               <div className="form-group">
                 <label>Message</label>
                 <textarea
+                  name="message"
                   placeholder="Your Message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={values.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {touched.message && errors.message && (
+                  <span className="field-error">{errors.message}</span>
+                )}
               </div>
 
-              <button type="submit" className="send-btn">
-                SEND
+              {status && (
+                <p
+                  className={
+                    status.type === "success" ? "form-success" : "form-error"
+                  }
+                >
+                  {status.message}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className="send-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "SENDING..." : "SEND"}
               </button>
             </form>
           </div>

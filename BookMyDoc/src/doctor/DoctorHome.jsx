@@ -22,10 +22,20 @@ const DoctorHome = () => {
           navigate("/login-doctor");
           return;
         }
-
+/*
         const data = await response.json();
         setUser(data);
-      } catch (err) {
+*/
+       const data = await response.json();
+
+      if (!data) {
+        navigate("/login-doctor"); // or /login-patient
+        return;
+      }
+
+      setUser(data);
+
+        } catch (err) {
         navigate("/login-doctor");
       } finally {
         setLoading(false);
