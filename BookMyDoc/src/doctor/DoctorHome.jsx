@@ -149,8 +149,12 @@ const DoctorHome = () => {
 
             <div className="info-row">
               <span className="label">Specialization</span>
-              <span>{user.specialization}</span>
-            </div>
+              <span>
+                {Array.isArray(user.specialization)
+                  ? user.specialization.join(" • ")
+                  : user.specialization}
+              </span>
+                          </div>
 
             <div className="info-row">
               <span className="label">Gender</span>

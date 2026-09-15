@@ -8,14 +8,14 @@ function DoctorEditProfile() {
   const [profile, setProfile] = useState({
     name: "",
     email: "",
-    specialization: "",
+    specialization: [],
     gender: "",
     contact: "",
     hospital: "",
   });
-
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
+  const [specializationOpen, setSpecializationOpen] = useState(false);
 
   // Get logged-in doctor information
   /*useEffect(() => {
@@ -70,8 +70,8 @@ function DoctorEditProfile() {
           name: loggedInUser.name || "",
           email: loggedInUser.email || "",
           specialization: Array.isArray(loggedInUser.specialization)
-            ? loggedInUser.specialization.join(", ")
-            : loggedInUser.specialization || "",
+          ? loggedInUser.specialization
+          : [],
           gender: loggedInUser.gender || "",
           contact: loggedInUser.contact || "",
           hospital: loggedInUser.hospital || "",
@@ -83,16 +83,47 @@ function DoctorEditProfile() {
 
     fetchProfile();
   }, [navigate]);
+
+
+const specializationOptions = [
+  "Cardiologist",
+  "Dermatologist",
+  "Neurologist",
+  "Orthopedic Specialist",
+  "Pediatrician",
+  "Psychiatrist",
+  "Dentist",
+  "General Physician",
+  "Surgeon",
+];
+
+const handleSpecializationChange = (specialization) => {
+  setProfile((prev) => {
+    const alreadySelected =
+      prev.specialization.includes(specialization);
+
+    return {
+      ...prev,
+      specialization: alreadySelected
+        ? prev.specialization.filter(
+            (item) => item !== specialization
+          )
+        : [...prev.specialization, specialization],
+    };
+  });
+};
+
+
+
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
 
-    setProfile((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
+  setProfile((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
   // Submit updated profile
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,11 +172,8 @@ function DoctorEditProfile() {
           name: profile.name.trim(),
             email: profile.email.trim(),
 
-            specialization: profile.specialization
-              .split(",")
-              .map((item) => item.trim())
-              .filter((item) => item !== ""),
-
+            specialization: profile.specialization, 
+            
             gender: profile.gender,
             contact: profile.contact.trim(),
             hospital: profile.hospital.trim(),
@@ -262,68 +290,65 @@ function DoctorEditProfile() {
 
           </div>
 
-          {/* SPECIALIZATION */}
-          <div className="doctor-form-group">
+              {/* SPECIALIZATION */}
+              <div className="doctor-form-group">
 
-            <label htmlFor="specialization">
-              Specialization
-            </label>
+                <label>
+                  Specialization
+                </label>
 
-            <select
-              id="specialization"
-              name="specialization"
-              value={profile.specialization}
-              onChange={handleChange}
-              required
-            >
+                <div className="specialization-dropdown">
 
-              <option value="">
-                Select Specialization
-              </option>
+                  {/* Selected values / dropdown button */}
+                  <div
+                    className="specialization-selected"
+                    onClick={() =>
+                      setSpecializationOpen(!specializationOpen)
+                    }
+                  >
+                    <span>
+                      {profile.specialization.length > 0
+                        ? profile.specialization.join(", ")
+                        : "Select Specialization"}
+                    </span>
 
-              <option value="Cardiologist">
-                Cardiologist
-              </option>
+                    <span>
+                      {specializationOpen ? "▲" : "▼"}
+                    </span>
+                  </div>
 
-              <option value="Dermatologist">
-                Dermatologist
-              </option>
+                  {/* Dropdown options */}
+                  {specializationOpen && (
+                    <div className="specialization-options">
 
-              <option value="Neurologist">
-                Neurologist
-              </option>
+                      {specializationOptions.map((specialization) => (
+                        <label
+                          key={specialization}
+                          className="specialization-option"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={profile.specialization.includes(
+                              specialization
+                            )}
+                            onChange={() =>
+                              handleSpecializationChange(specialization)
+                            }
+                          />
 
-              <option value="Orthopedic Specialist">
-                Orthopedic Specialist
-              </option>
+                          <span>{specialization}</span>
+                        </label>
+                      ))}
 
-              <option value="Pediatrician">
-                Pediatrician
-              </option>
+                    </div>
+                  )}
 
-              <option value="Psychiatrist">
-                Psychiatrist
-              </option>
+                </div>
 
-              <option value="Dentist">
-                Dentist
-              </option>
+            </div>
 
-              <option value="General Physician">
-                General Physician
-              </option>
-
-              <option value="Surgeon">
-                Surgeon
-              </option>
-
-            </select>
-
-          </div>
-
-          {/* GENDER */}
-          <div className="doctor-form-group">
-
+            {/* GENDER */}
+            <div className="doctor-form-group">
             <label htmlFor="gender">
               Gender
             </label>
