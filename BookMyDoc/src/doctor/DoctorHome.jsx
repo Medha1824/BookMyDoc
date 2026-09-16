@@ -22,20 +22,19 @@ const DoctorHome = () => {
           navigate("/login-doctor");
           return;
         }
-/*
+        /*
         const data = await response.json();
         setUser(data);
 */
-       const data = await response.json();
+        const data = await response.json();
 
-      if (!data) {
-        navigate("/login-doctor"); // or /login-patient
-        return;
-      }
+        if (!data) {
+          navigate("/login-doctor"); // or /login-patient
+          return;
+        }
 
-      setUser(data);
-
-        } catch (err) {
+        setUser(data);
+      } catch (err) {
         navigate("/login-doctor");
       } finally {
         setLoading(false);
@@ -67,7 +66,7 @@ const DoctorHome = () => {
   };
 
   if (loading) {
-    return <div className="patient-profile-container">Loading...</div>;
+    return <div className="loading-text">Loading...</div>;
   }
 
   if (!user) {
@@ -154,7 +153,7 @@ const DoctorHome = () => {
                   ? user.specialization.join(" • ")
                   : user.specialization}
               </span>
-                          </div>
+            </div>
 
             <div className="info-row">
               <span className="label">Gender</span>

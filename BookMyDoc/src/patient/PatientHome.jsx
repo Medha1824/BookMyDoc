@@ -23,18 +23,18 @@ const PatientHome = () => {
           return;
         }
 
-      /*  const data = await response.json();
+        /*  const data = await response.json();
         setUser(data);
       */
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (!data) {
-         navigate("/login-doctor"); // or /login-patient
-         return;
-      }
+        if (!data) {
+          navigate("/login-doctor"); // or /login-patient
+          return;
+        }
 
-setUser(data);  
+        setUser(data);
       } catch (err) {
         navigate("/login-patient");
       } finally {
@@ -67,7 +67,7 @@ setUser(data);
   };
 
   if (loading) {
-    return <div className="patient-profile-container">Loading...</div>;
+    return <div className="loading-text">Loading...</div>;
   }
 
   if (!user) {

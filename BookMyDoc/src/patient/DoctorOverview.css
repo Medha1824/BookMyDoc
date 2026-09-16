@@ -5,6 +5,23 @@
   display: flex;
   flex-direction: column;
 }
+.doctor-overview-page .no-doctors {
+  background-color: white;
+  border: 2px solid #b1d3b9;
+  border-radius: 20px;
+  min-height: 330px;
+  margin-top: 6.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.doctor-overview-page .no-doctors h3 {
+  color: #659287;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.5rem;
+  margin-top: 40px;
+}
 
 .doctor-overview-nav {
   background-color: #659287;

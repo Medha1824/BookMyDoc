@@ -24,8 +24,8 @@ function DoctorOverview() {
       } catch (error) {
         console.error("Failed to fetch doctor:", error);
         setSelectedDoctor(null);
-      }finally{
-            setLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -47,12 +47,16 @@ function DoctorOverview() {
     "4:00 PM",
   ];
   if (loading) {
-  return (
-    <div className="doctor-overview-page">
-      <h1>Loading doctor...</h1>
-    </div>
-  );
-}
+    return (
+      <div className="doctor-overview-page">
+        <main className="doctor-overview-main">
+          <div className="no-doctors">
+            <h3>Loading doctor...</h3>
+          </div>
+        </main>
+      </div>
+    );
+  }
   if (!selectedDoctor) {
     return (
       <div className="doctor-overview-page">

@@ -1,21 +1,25 @@
 import User from "../models/user.js";
 
 export const getDoctorsBySpecialization = async (req, res) => {
-  const { specialization } = req.query;
+  const { specialization, search } = req.query;
 
   try {
-    let doctors;
+    const query = {
+      role: "doctor",
+    };
 
     if (specialization) {
-      doctors = await User.find({
-        role: "doctor",
-        specialization: specialization,
-      }).select("-password");
-    } else {
-      doctors = await User.find({
-        role: "doctor",
-      }).select("-password");
+      query.specialization = specialization;
     }
+
+    if (search) {
+      query.name = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    const doctors = await User.find(query).select("-password");
 
     return res.status(200).json(doctors);
   } catch (error) {

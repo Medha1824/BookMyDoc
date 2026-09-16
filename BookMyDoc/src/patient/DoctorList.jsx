@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Home.css";
-import { useEffect , useState } from "react";
+import { useEffect, useState } from "react";
 import "./DoctorList.css";
 import logo from "../assets/logo.png";
 import doctorImage from "../assets/doctor.png";
@@ -26,11 +26,19 @@ function DoctorList() {
       setLoading(true);
 
       try {
-        let url = "http://localhost:4000/doctors";
+        const params = new URLSearchParams();
 
         if (selectedCategory !== "All Doctors") {
-          url += `?specialization=${encodeURIComponent(selectedCategory)}`;
+          params.append("specialization", selectedCategory);
         }
+        if (searchTerm.trim() !== "") {
+          params.append("search", searchTerm.trim());
+        }
+        const queryString = params.toString();
+
+        const url = queryString
+          ? `http://localhost:4000/doctors?${queryString}`
+          : "http://localhost:4000/doctors";
 
         const response = await fetch(url);
         const data = await response.json();
@@ -49,11 +57,8 @@ function DoctorList() {
     };
 
     fetchDoctors();
-  }, [selectedCategory]);
+  }, [selectedCategory, searchTerm]);
 
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
   return (
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
@@ -111,8 +116,7 @@ function DoctorList() {
           <div className="doctors-section-header">
             <h2>{selectedCategory}</h2>
             <span>
-              {filteredDoctors.length}{" "}
-              {filteredDoctors.length === 1 ? "Doctor" : "Doctors"}
+              {doctors.length} {doctors.length === 1 ? "Doctor" : "Doctors"}
             </span>
           </div>
 
@@ -120,9 +124,9 @@ function DoctorList() {
             <div className="no-doctors">
               <h3>Loading doctors...</h3>
             </div>
-          ) : filteredDoctors.length > 0 ? (
+          ) : doctors.length > 0 ? (
             <div className="doctor-grid">
-              {filteredDoctors.map((doctor) => (
+              {doctors.map((doctor) => (
                 <Link
                   to={`/doctor-overview/${doctor._id}`}
                   className="doctor-card"
