@@ -133,16 +133,6 @@ export const completeDoctorSignup = async (req, res) => {
     });
 
     await newDoctor.save();
-
-    const token = jwt.sign({ id: newDoctor._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-    });
-
     return res
       .status(201)
       .json({ message: "Doctor account created successfully" });

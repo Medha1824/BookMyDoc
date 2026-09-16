@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   background-color: #e6f2dd;
+  overflow-y: auto;
 }
 
 .auth-container nav {
@@ -60,8 +61,8 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 4rem 1.5rem;
+  align-items: flex-start;
+  padding: 2rem 1.5rem;
 }
 
 .auth-card {
@@ -132,6 +133,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #243530;
+  flex-shrink: 0;
 }
 
 .password-field {
@@ -216,6 +218,7 @@
 
 .specialization-card {
   max-width: 520px;
+  width: 100%;
   box-shadow: 0 8px 24px rgba(101, 146, 135, 0.12);
 }
 
@@ -260,7 +263,7 @@
   font-weight: 600;
 }
 
-.specialization-form .auth-submit {
+.auth-submit {
   margin-top: 1rem;
   background-color: #659287;
   color: #ffffff;
@@ -274,10 +277,69 @@
   transition: 0.2s ease;
   box-shadow: 0 6px 16px rgba(101, 146, 135, 0.18);
 }
-.specialization-form .auth-submit:hover {
+
+.auth-submit:hover {
   background-color: #557d72;
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(101, 146, 135, 0.22);
+}
+
+.specialization-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.specialization-options {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1rem !important;
+  width: 100%;
+}
+
+.specialization-option {
+  position: static !important;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+}
+.signup-success {
+  width: 100%;
+  text-align: center;
+  padding: 10px 5px 5px;
+}
+
+.success-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6f2dd;
+  color: #659287;
+  border: 2px solid #b1d3b9;
+  border-radius: 50%;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.signup-success h2 {
+  margin: 0 0 16px;
+  color: #659287;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.signup-success p {
+  margin: 6px 0;
+  color: #405b52;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+.signup-success .auth-submit {
+  margin-top: 25px;
 }
 
 @media (max-width: 600px) {

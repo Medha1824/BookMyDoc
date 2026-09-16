@@ -24,10 +24,6 @@ const userSchema = new Schema({
     type: [String],
     default: [],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   age: {
     type: String,
     default: "",

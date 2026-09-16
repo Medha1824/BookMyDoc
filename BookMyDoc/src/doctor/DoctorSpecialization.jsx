@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 function DoctorSpecialization() {
   const [selectedSpecializations, setSelectedSpecializations] = useState([]);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,7 +78,7 @@ function DoctorSpecialization() {
         return;
       }
 
-      navigate("/login-doctor", { replace: true });
+      setSuccess(true);
     } catch (err) {
       setError("Something went wrong. Please try again.");
     }
@@ -99,46 +100,71 @@ function DoctorSpecialization() {
 
       <main className="auth-main">
         <div className="auth-card specialization-card">
-          <h1 className="auth-title">Select Specialization</h1>
+          {success ? (
+            <div className="signup-success">
+              <div className="success-icon">✓</div>
+              <h2>Registration Successful!</h2>
 
-          <p className="specialization-description">
-            Select all specializations that apply to you.
-          </p>
+              <p>Your doctor account has been created successfully.</p>
 
-          <form
-            className="specialization-form"
-            onSubmit={handleSubmit}
-            noValidate
-          >
-            <div className="specialization-options">
-              {specializations.map((specialization) => (
-                <label
-                  key={specialization}
-                  className={`specialization-option ${
-                    selectedSpecializations.includes(specialization)
-                      ? "selected"
-                      : ""
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedSpecializations.includes(specialization)}
-                    onChange={() => handleCheckboxChange(specialization)}
-                  />
+              <p>Please log in to continue.</p>
 
-                  <span className="custom-checkbox"></span>
-
-                  <span className="specialization-name">{specialization}</span>
-                </label>
-              ))}
+              <button
+                type="button"
+                className="auth-submit"
+                onClick={() => navigate("/login-doctor", { replace: true })}
+              >
+                Go to Login
+              </button>
             </div>
+          ) : (
+            <>
+              <h1 className="auth-title">Select Specialization</h1>
 
-            {error && <span className="field-error">{error}</span>}
+              <p className="specialization-description">
+                Select all specializations that apply to you.
+              </p>
 
-            <button type="submit" className="auth-submit">
-              Continue
-            </button>
-          </form>
+              <form
+                className="specialization-form"
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <div className="specialization-options">
+                  {specializations.map((specialization) => (
+                    <label
+                      key={specialization}
+                      className={`specialization-option ${
+                        selectedSpecializations.includes(specialization)
+                          ? "selected"
+                          : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedSpecializations.includes(
+                          specialization,
+                        )}
+                        onChange={() => handleCheckboxChange(specialization)}
+                      />
+
+                      <span className="custom-checkbox"></span>
+
+                      <span className="specialization-name">
+                        {specialization}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                {error && <span className="field-error">{error}</span>}
+
+                <button type="submit" className="auth-submit">
+                  Continue
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </main>
 
