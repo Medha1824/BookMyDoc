@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../LoginSignup.css";
 import logo from "../assets/logo.png";
@@ -9,6 +9,18 @@ function DoctorSpecialization() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const pendingToken = location.state?.pendingToken;
+
+  useEffect(() => {
+    if (!pendingToken) {
+      navigate("/signup-doctor", { replace: true });
+    }
+  }, [pendingToken, navigate]);
+
+  if (!pendingToken) {
+    return null;
+  }
+
   const specializations = [
     "Diabetes",
     "Pediatrics",
@@ -37,22 +49,22 @@ function DoctorSpecialization() {
       return;
     }
 
-    const email = location.state?.email;
+    const pendingToken = location.state?.pendingToken;
 
-    if (!email) {
-      setError("Doctor email not found. Please sign up again.");
+    if (!pendingToken) {
+      setError("Signup session not found. Please sign up again.");
       return;
     }
 
     try {
       const response = await fetch(
-        `http://localhost:4000/users/doctor-specialization/${encodeURIComponent(email)}`,
+        `${import.meta.env.VITE_API_URL}/users/complete-doctor-signup`,
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
+            pendingToken,
             specialization: selectedSpecializations,
           }),
         },
@@ -61,11 +73,11 @@ function DoctorSpecialization() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Failed to save specialization");
+        setError(data.error || "Failed to complete signup");
         return;
       }
 
-      navigate("/login-doctor");
+      navigate("/login-doctor", { replace: true });
     } catch (err) {
       setError("Something went wrong. Please try again.");
     }

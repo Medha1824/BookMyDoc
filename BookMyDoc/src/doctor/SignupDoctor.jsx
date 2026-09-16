@@ -63,7 +63,8 @@ function SignupDoctor() {
       }
 
       navigate("/doctor-specialization", {
-        state: { email: email.trim() },
+        state: { pendingToken: data.pendingToken },
+        replace: true,
       });
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
