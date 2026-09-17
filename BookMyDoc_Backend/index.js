@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 import userRouter from "./routes/userRoutes.js";
 import doctorRouter from "./routes/doctorRoutes.js";
+import appointmentRouter from "./routes/appointmentRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import log from "./middleware/log.js";
 
@@ -40,6 +41,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/doctors", doctorRouter);
+app.use("/appointments", appointmentRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
