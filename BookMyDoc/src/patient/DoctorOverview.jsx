@@ -66,7 +66,7 @@ function DoctorOverview() {
     );
   }
 
-  const handleRequest = (e) => {
+  const handleRequest = async (e) => {
     e.preventDefault();
 
     if (!consultationType || !selectedDate || !selectedTime) {
@@ -74,7 +74,35 @@ function DoctorOverview() {
       return;
     }
 
-    setRequestSent(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/appointments`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            doctor: selectedDoctor._id,
+            consultationType: consultationType,
+            date: selectedDate,
+            time: selectedTime,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setRequestSent(true);
+      } else {
+        alert(data.error || "Failed to send appointment request.");
+      }
+    } catch (error) {
+      console.error("Failed to send appointment request:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
