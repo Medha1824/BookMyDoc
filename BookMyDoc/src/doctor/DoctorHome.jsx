@@ -22,14 +22,10 @@ const DoctorHome = () => {
           navigate("/login-doctor");
           return;
         }
-        /*
-        const data = await response.json();
-        setUser(data);
-*/
         const data = await response.json();
 
         if (!data) {
-          navigate("/login-doctor"); // or /login-patient
+          navigate("/login-doctor");
           return;
         }
 
@@ -102,7 +98,10 @@ const DoctorHome = () => {
                 aria-label="Open profile menu"
                 aria-expanded={profileMenuOpen}
               >
-                <img src={doctorPic} alt="Doctor Profile" />
+              <img
+                src={user.profilePicture?.url || doctorPic}
+                alt="Doctor Profile"
+              />
               </button>
 
               {profileMenuOpen && (
@@ -137,7 +136,10 @@ const DoctorHome = () => {
       <main className="patient-main">
         <div className="profile-card">
           <div className="profile-picture">
-            <img src={doctorPic} alt="Doctor Profile" />
+            <img
+              src={user.profilePicture?.url || doctorPic}
+              alt="Doctor Profile"
+            />
           </div>
 
           <div className="profile-details">

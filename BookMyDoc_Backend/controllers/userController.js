@@ -1,6 +1,8 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/helpers.js";
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -47,6 +49,71 @@ export const getProfile = async (req, res) => {
     return res.status(400).json(err);
   }
 };
+
+export const updateProfilePicture = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please upload an image",
+      });
+    }
+
+    // Delete old image from Cloudinary if one exists
+    if (user.profilePicture?.publicId) {
+      await cloudinary.uploader.destroy(
+        user.profilePicture.publicId
+      );
+    }
+
+    // Upload new image to Cloudinary
+    const result = await cloudinary.uploader.upload(
+      req.file.path,
+      {
+        folder: "bookmydoc/profile-pictures",
+      }
+    );
+
+    // Delete temporary local file
+    fs.unlinkSync(req.file.path);
+
+    // Save Cloudinary information in MongoDB
+    user.profilePicture = {
+      url: result.secure_url,
+      publicId: result.public_id,
+    };
+
+    await user.save();
+    
+    const updatedUser = await User.findById(user._id).select("-password -__v");
+
+    return res.status(200).json({
+      message: "Profile picture updated successfully",
+      user: updatedUser,
+  });
+
+  } catch (error) {
+    console.error("Profile picture upload error:", error);
+
+    // Try to remove temporary file if it still exists
+    if (req.file?.path && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+
+    return res.status(500).json({
+      message: "Failed to update profile picture",
+      error: error.message,
+    });
+  }
+};
+
 
 export const createUser = async (req, res) => {
   const {

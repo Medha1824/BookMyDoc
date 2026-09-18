@@ -17,32 +17,9 @@ function DoctorEditProfile() {
   const [user, setUser] = useState(null);
   const [specializationOpen, setSpecializationOpen] = useState(false);
 
-  // Get logged-in doctor information
-  /*useEffect(() => {
-    const userData = localStorage.getItem("user");
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [preview, setPreview] = useState("");
 
-    if (!userData) {
-      navigate("/login-doctor");
-      return;
-    }
-
-    const loggedInUser = JSON.parse(userData);
-
-    setUser(loggedInUser);
-
-    setProfile({
-      name: loggedInUser.name || "",
-      email: loggedInUser.email || "",
-      specialization:
-        Array.isArray(loggedInUser.specialization)
-          ? loggedInUser.specialization.join(", ")
-          : loggedInUser.specialization || "",
-      gender: loggedInUser.gender || "",
-      contact: loggedInUser.contact || "",
-      hospital: loggedInUser.hospital || "",
-    });
-  }, [navigate]);
-*/
 
     useEffect(() => {
     const fetchProfile = async () => {
@@ -65,6 +42,8 @@ function DoctorEditProfile() {
         }
 
         setUser(loggedInUser);
+
+        setPreview(loggedInUser.profilePicture?.url || "");
 
         setProfile({
           name: loggedInUser.name || "",
@@ -124,33 +103,25 @@ const handleSpecializationChange = (specialization) => {
     [name]: value,
   }));
 };
+
+  const handleProfilePictureChange = (e) => {
+  const file = e.target.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  setProfilePicture(file);
+
+  const imageUrl = URL.createObjectURL(file);
+  setPreview(imageUrl);
+};
+
+
   // Submit updated profile
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-  /*  if (!user?.id) {
-      setErrors({
-        form: "User information not found. Please login again.",
-      });
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/id/${user.id}`,
-        {
-          method: "PUT",
-
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-
-          body: JSON.stringify({   */
-    
-            if (!user?._id) {
+    e.preventDefault();    
+      if (!user?._id) {
       setErrors({
         form: "User information not found. Please login again.",
       });
@@ -170,14 +141,14 @@ const handleSpecializationChange = (specialization) => {
 
           
           name: profile.name.trim(),
-            email: profile.email.trim(),
+          email: profile.email.trim(),
 
-            specialization: profile.specialization, 
-            
-            gender: profile.gender,
-            contact: profile.contact.trim(),
-            hospital: profile.hospital.trim(),
-          }),
+          specialization: profile.specialization, 
+          
+          gender: profile.gender,
+          contact: profile.contact.trim(),
+          hospital: profile.hospital.trim(),
+        }),
         }
       );
 
@@ -190,8 +161,31 @@ const handleSpecializationChange = (specialization) => {
         return;
       }
 
-      // Save latest information in localStorage
-    //  localStorage.setItem("user", JSON.stringify(data.user));
+      if (profilePicture) {
+        const formData = new FormData();
+
+        formData.append("image", profilePicture);
+
+        const pictureResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/${user._id}/profile-picture`,
+          {
+            method: "PUT",
+            credentials: "include",
+            body: formData,
+          }
+        );
+
+        const pictureData = await pictureResponse.json();
+
+        if (!pictureResponse.ok) {
+          setErrors({
+            form:
+              pictureData.message ||
+              "Profile information saved, but profile picture upload failed.",
+          });
+          return;
+        }
+      }
 
       // Go back to doctor home
       navigate("/doctor-home");
@@ -253,6 +247,27 @@ const handleSpecializationChange = (specialization) => {
               {errors.form}
             </p>
           )}
+          
+          {/* PROFILE PICTURE */}
+          <div className="doctor-form-group">
+            <label>Profile Picture</label>
+
+            {preview && (
+              <img
+                src={preview}
+                alt="Profile Preview"
+                className="doctor-profile-picture-preview"
+              />
+            )}
+
+            <input
+              type="file"
+              accept="image/png,image/jpeg"
+              onChange={handleProfilePictureChange}
+            />
+          </div>
+
+
 
           {/* NAME */}
           <div className="doctor-form-group">

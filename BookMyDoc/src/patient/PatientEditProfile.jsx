@@ -18,9 +18,10 @@ const PatientEditProfile = () => {
     address: "",
   });
 
-  const [errors, setErrors] = useState({});
-  const [user, setUser] = useState(null);
-
+    const [errors, setErrors] = useState({});
+    const [user, setUser] = useState(null);
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [preview, setPreview] = useState("");
   /*useEffect(() => {
     const userData = localStorage.getItem("user");
 
@@ -69,6 +70,8 @@ const PatientEditProfile = () => {
 
         setUser(loggedInUser);
 
+        setPreview(loggedInUser.profilePicture?.url || "");
+
         setProfile({
           name: loggedInUser.name || "",
           email: loggedInUser.email || "",
@@ -95,36 +98,29 @@ const PatientEditProfile = () => {
     }));
   };
 
+      const handleProfilePictureChange = (e) => {
+      const file = e.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      setProfilePicture(file);
+
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+    };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-/*    if (!user?.id) {
-      setErrors({
-        form: "User information not found. Please login again.",
-      });
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/id/${user.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({   */
-
-
-              if (!user?._id) {
-      setErrors({
-        form: "User information not found. Please login again.",
-      });
-      return;
-    }
+      if (!user?._id) {
+        setErrors({
+          form: "User information not found. Please login again.",
+        });
+        return;
+      }
 
     try {
       const response = await fetch(
@@ -145,11 +141,6 @@ const PatientEditProfile = () => {
             bloodGroup: profile.bloodGroup,
             address: profile.address.trim(),
 
-            /*...(password
-              ? {
-                  password: password,
-                }
-              : {}),*/
           }),
         }
       );
@@ -163,8 +154,33 @@ const PatientEditProfile = () => {
         return;
       }
 
-     // localStorage.setItem("user", JSON.stringify(data.user));
+    if (profilePicture) {
+      const formData = new FormData();
 
+      formData.append("image", profilePicture);
+
+      const pictureResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${user._id}/profile-picture`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: formData,
+        }
+      );
+
+      const pictureData = await pictureResponse.json();
+
+      if (!pictureResponse.ok) {
+        setErrors({
+          form:
+            pictureData.message ||
+            "Profile information saved, but profile picture upload failed.",
+        });
+        return;
+      }
+    }
+
+   
       navigate("/patient-home");
     } catch (error) {
       console.error(error);
@@ -206,6 +222,27 @@ const PatientEditProfile = () => {
               {errors.form}
             </p>
           )}
+          
+          {/* PROFILE PICTURE */}
+          <div className="form-group">
+              <label>Profile Picture</label>
+
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Profile Preview"
+                  className="profile-picture-preview"
+                />
+              )}
+
+              <input
+                type="file"
+                accept="image/png,image/jpeg"
+                onChange={handleProfilePictureChange}
+              />
+          </div>
+
+
 
           {/* NAME */}
           <div className="form-group">

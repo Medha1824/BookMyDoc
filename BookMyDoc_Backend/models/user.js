@@ -49,6 +49,16 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  profilePicture: {
+    url: {
+        type: String,
+        default: ""
+    },
+    publicId: {
+        type: String,
+        default: ""
+    }
+}
 });
 
 const User = mongoose.model("User", userSchema);
