@@ -252,7 +252,17 @@
   font-weight: 500;
   color: #243530;
 }
-
+.loading-text {
+  min-height: 100vh;
+  background-color: #e6f2dd;
+  color: #659287;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (max-width: 800px) {
   .appointment-grid {
     grid-template-columns: 1fr;
