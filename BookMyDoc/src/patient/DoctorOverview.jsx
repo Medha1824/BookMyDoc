@@ -46,6 +46,10 @@ function DoctorOverview() {
     "3:00 PM",
     "4:00 PM",
   ];
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const minDate = tomorrow.toISOString().substring(0, 10);
   if (loading) {
     return (
       <div className="doctor-overview-page">
@@ -152,7 +156,7 @@ function DoctorOverview() {
             </p>
 
             <p>
-              <strong>Hospital:</strong> City Medical Center
+              <strong>Hospital:</strong> {selectedDoctor.hospital}
             </p>
 
             <p className="doctor-description">
@@ -242,6 +246,7 @@ function DoctorOverview() {
                   <input
                     id="appointment-date"
                     type="date"
+                    min={minDate}
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
                   />
