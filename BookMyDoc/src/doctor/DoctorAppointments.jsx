@@ -111,6 +111,9 @@ function DoctorAppointments() {
   const confirmedAppointments = appointments.filter(
     (appointment) => appointment.status === "Confirmed",
   );
+  const cancelledAppointments = appointments.filter(
+    (appointment) => appointment.status === "Cancelled",
+  );
   if (loading) {
     return <div className="loading-text">Loading...</div>;
   }
@@ -154,10 +157,6 @@ function DoctorAppointments() {
               {pendingAppointments.map((appointment) => (
                 <div className="appointment-card" key={appointment._id}>
                   <div className="appointment-card-header">
-                    <div className="patient-avatar">
-                      {appointment.patient.name.charAt(0)}
-                    </div>
-
                     <div>
                       <h3>{appointment.patient.name}</h3>
                       <span className="status pending">Pending</span>
@@ -222,10 +221,6 @@ function DoctorAppointments() {
               {confirmedAppointments.map((appointment) => (
                 <div className="appointment-card" key={appointment._id}>
                   <div className="appointment-card-header">
-                    <div className="patient-avatar">
-                      {appointment.patient.name.charAt(0)}
-                    </div>
-
                     <div>
                       <h3>{appointment.patient.name}</h3>
                       <span className="status confirmed">Confirmed</span>
@@ -253,6 +248,53 @@ function DoctorAppointments() {
             <div className="empty-appointments">
               <h3>No Confirmed Appointments</h3>
               <p>Accepted appointments will appear here.</p>
+            </div>
+          )}
+        </section>
+        <section className="appointment-section">
+          <div className="appointment-section-header">
+            <h2>Rejected Appointments</h2>
+
+            <span className="appointment-count">
+              {cancelledAppointments.length}{" "}
+              {cancelledAppointments.length === 1
+                ? "Appointment"
+                : "Appointments"}
+            </span>
+          </div>
+
+          {cancelledAppointments.length > 0 ? (
+            <div className="appointment-grid">
+              {cancelledAppointments.map((appointment) => (
+                <div className="appointment-card" key={appointment._id}>
+                  <div className="appointment-card-header">
+                    <div>
+                      <h3>{appointment.patient.name}</h3>
+                      <span className="status cancelled">Rejected</span>
+                    </div>
+                  </div>
+
+                  <div className="appointment-details">
+                    <p>
+                      <strong>Date:</strong> {appointment.date}
+                    </p>
+
+                    <p>
+                      <strong>Time:</strong> {appointment.time}
+                    </p>
+
+                    <p>
+                      <strong>Consultation:</strong>{" "}
+                      {appointment.consultationType}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-appointments">
+              <h3>No Rejected Appointments</h3>
+              <p>There are currently no rejected appointment requests.</p>
             </div>
           )}
         </section>
