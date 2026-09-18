@@ -70,7 +70,7 @@ export const updateAppointmentStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!["Confirmed", "Cancelled"].includes(status)) {
+    if (!["Confirmed", "Cancelled", "Completed"].includes(status)) {
       return res.status(400).json({
         error: "Invalid appointment status",
       });
@@ -86,7 +86,11 @@ export const updateAppointmentStatus = async (req, res) => {
         error: "Appointment not found",
       });
     }
-
+    if (status === "Completed" && appointment.status !== "Confirmed") {
+      return res.status(400).json({
+        error: "Only confirmed appointments can be completed",
+      });
+    }
     appointment.status = status;
 
     await appointment.save();

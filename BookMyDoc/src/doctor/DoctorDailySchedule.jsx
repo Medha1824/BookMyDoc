@@ -7,6 +7,37 @@ function DoctorDailySchedule() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const handleComplete = async (appointmentId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/appointments/${appointmentId}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            status: "Completed",
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAppointments((previousAppointments) =>
+          previousAppointments.filter(
+            (appointment) => appointment._id !== appointmentId,
+          ),
+        );
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Failed to complete appointment:", error);
+    }
+  };
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -56,22 +87,13 @@ function DoctorDailySchedule() {
             <img src={logo} alt="BookMyDoc" />
           </Link>
         </div>
-
         <ul>
           <li>
-            <Link to="/doctor-appointments">View Appointment</Link>
+            <Link to="/about">Overview</Link>
           </li>
 
           <li>
-            <Link to="/doctor-daily-schedule">Daily Schedule</Link>
-          </li>
-
-          <li>
-            <Link to="/contact">Contact Us</Link>
-          </li>
-
-          <li>
-            <Link to="/about">About</Link>
+            <Link to="/doctor-home">Dashboard</Link>
           </li>
         </ul>
       </div>
@@ -120,7 +142,12 @@ function DoctorDailySchedule() {
                   </div>
 
                   <div className="appointment-actions">
-                    <button className="accept-button">Complete</button>
+                    <button
+                      className="complete-button"
+                      onClick={() => handleComplete(appointment._id)}
+                    >
+                      Complete
+                    </button>
                   </div>
                 </div>
               ))}
