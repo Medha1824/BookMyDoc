@@ -133,20 +133,6 @@
   margin-bottom: 1.3rem;
 }
 
-.patient-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: #659287;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Outfit", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 800;
-}
-
 .appointment-card-header h3 {
   font-family: "Outfit", sans-serif;
   color: #243530;
@@ -168,6 +154,10 @@
 }
 
 .status.confirmed {
+  background-color: #b1d3b9;
+  color: #243530;
+}
+.status.cancelled {
   background-color: #b1d3b9;
   color: #243530;
 }
@@ -263,6 +253,18 @@
   justify-content: center;
   align-items: center;
 }
+.complete-button {
+  width: 100%;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: #659287;
+  color: #ffffff;
+}
+
 @media (max-width: 800px) {
   .appointment-grid {
     grid-template-columns: 1fr;

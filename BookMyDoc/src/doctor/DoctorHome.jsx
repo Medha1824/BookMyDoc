@@ -85,7 +85,9 @@ const DoctorHome = () => {
             <li>
               <Link to="/doctor-appointments">View Appointment</Link>
             </li>
-
+            <li>
+              <Link to="/doctor-daily-schedule">Daily Schedule</Link>
+            </li>
             <li>
               <Link to="/contact">Contact Us</Link>
             </li>
