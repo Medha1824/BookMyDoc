@@ -34,20 +34,74 @@ function DoctorAppointments() {
     fetchAppointments();
   }, []);
 
-  const handleAccept = (id) => {
-    setAppointments((currentAppointments) =>
-      currentAppointments.map((appointment) =>
-        appointment._id === id
-          ? { ...appointment, status: "Confirmed" }
-          : appointment,
-      ),
-    );
+  const handleAccept = async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/appointments/${id}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            status: "Confirmed",
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAppointments((currentAppointments) =>
+          currentAppointments.map((appointment) =>
+            appointment._id === id
+              ? { ...appointment, status: "Confirmed" }
+              : appointment,
+          ),
+        );
+      } else {
+        alert(data.error || "Failed to accept appointment.");
+      }
+    } catch (error) {
+      console.error("Failed to accept appointment:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
-  const handleReject = (id) => {
-    setAppointments((currentAppointments) =>
-      currentAppointments.filter((appointment) => appointment._id !== id),
-    );
+  const handleReject = async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/appointments/${id}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            status: "Cancelled",
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAppointments((currentAppointments) =>
+          currentAppointments.map((appointment) =>
+            appointment._id === id
+              ? { ...appointment, status: "Cancelled" }
+              : appointment,
+          ),
+        );
+      } else {
+        alert(data.error || "Failed to reject appointment.");
+      }
+    } catch (error) {
+      console.error("Failed to reject appointment:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   const pendingAppointments = appointments.filter(
