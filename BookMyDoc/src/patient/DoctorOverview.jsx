@@ -148,11 +148,11 @@ function DoctorOverview() {
             <h2>{selectedDoctor.specialization.join(", ")}</h2>
 
             <p>
-              <strong>Experience:</strong> {"10 Years"}
+              <strong>Experience:</strong> {selectedDoctor.experience}
             </p>
 
             <p>
-              <strong>Qualification:</strong> MBBS, MD
+              <strong>Qualification:</strong> {selectedDoctor.qualification}
             </p>
 
             <p>

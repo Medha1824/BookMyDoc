@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -18,10 +18,10 @@ const PatientEditProfile = () => {
     address: "",
   });
 
-    const [errors, setErrors] = useState({});
-    const [user, setUser] = useState(null);
-    const [profilePicture, setProfilePicture] = useState(null);
-    const [preview, setPreview] = useState("");
+  const [errors, setErrors] = useState({});
+  const [user, setUser] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [preview, setPreview] = useState("");
   /*useEffect(() => {
     const userData = localStorage.getItem("user");
 
@@ -46,7 +46,6 @@ const PatientEditProfile = () => {
   }, [navigate]);
 
 */
-
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -98,29 +97,27 @@ const PatientEditProfile = () => {
     }));
   };
 
-      const handleProfilePictureChange = (e) => {
-      const file = e.target.files[0];
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
 
-      if (!file) {
-        return;
-      }
+    if (!file) {
+      return;
+    }
 
-      setProfilePicture(file);
+    setProfilePicture(file);
 
-      const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl);
-    };
-
-
+    const imageUrl = URL.createObjectURL(file);
+    setPreview(imageUrl);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      if (!user?._id) {
-        setErrors({
-          form: "User information not found. Please login again.",
-        });
-        return;
-      }
+    if (!user?._id) {
+      setErrors({
+        form: "User information not found. Please login again.",
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -132,7 +129,6 @@ const PatientEditProfile = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-
             name: profile.name.trim(),
             email: profile.email.trim(),
             age: profile.age,
@@ -140,9 +136,8 @@ const PatientEditProfile = () => {
             contact: profile.contact.trim(),
             bloodGroup: profile.bloodGroup,
             address: profile.address.trim(),
-
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -154,33 +149,32 @@ const PatientEditProfile = () => {
         return;
       }
 
-    if (profilePicture) {
-      const formData = new FormData();
+      if (profilePicture) {
+        const formData = new FormData();
 
-      formData.append("image", profilePicture);
+        formData.append("image", profilePicture);
 
-      const pictureResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/${user._id}/profile-picture`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: formData,
+        const pictureResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/${user._id}/profile-picture`,
+          {
+            method: "PUT",
+            credentials: "include",
+            body: formData,
+          },
+        );
+
+        const pictureData = await pictureResponse.json();
+
+        if (!pictureResponse.ok) {
+          setErrors({
+            form:
+              pictureData.message ||
+              "Profile information saved, but profile picture upload failed.",
+          });
+          return;
         }
-      );
-
-      const pictureData = await pictureResponse.json();
-
-      if (!pictureResponse.ok) {
-        setErrors({
-          form:
-            pictureData.message ||
-            "Profile information saved, but profile picture upload failed.",
-        });
-        return;
       }
-    }
 
-   
       navigate("/patient-home");
     } catch (error) {
       console.error(error);
@@ -210,45 +204,33 @@ const PatientEditProfile = () => {
       <main className="edit-profile-main">
         <div className="edit-profile-header">
           <h1>Edit Profile</h1>
-
         </div>
 
-        <form
-          className="edit-profile-card"
-          onSubmit={handleSubmit}
-        >
-          {errors.form && (
-            <p className="field-error">
-              {errors.form}
-            </p>
-          )}
-          
+        <form className="edit-profile-card" onSubmit={handleSubmit}>
+          {errors.form && <p className="field-error">{errors.form}</p>}
+
           {/* PROFILE PICTURE */}
           <div className="form-group">
-              <label>Profile Picture</label>
+            <label>Profile Picture</label>
 
-              {preview && (
-                <img
-                  src={preview}
-                  alt="Profile Preview"
-                  className="profile-picture-preview"
-                />
-              )}
-
-              <input
-                type="file"
-                accept="image/png,image/jpeg"
-                onChange={handleProfilePictureChange}
+            {preview && (
+              <img
+                src={preview}
+                alt="Profile Preview"
+                className="profile-picture-preview"
               />
+            )}
+
+            <input
+              type="file"
+              accept="image/png,image/jpeg"
+              onChange={handleProfilePictureChange}
+            />
           </div>
-
-
 
           {/* NAME */}
           <div className="form-group">
-            <label htmlFor="name">
-              Patient Name
-            </label>
+            <label htmlFor="name">Patient Name</label>
 
             <input
               id="name"
@@ -262,9 +244,7 @@ const PatientEditProfile = () => {
 
           {/* EMAIL */}
           <div className="form-group">
-            <label htmlFor="email">
-              Email
-            </label>
+            <label htmlFor="email">Email</label>
 
             <input
               id="email"
@@ -279,9 +259,7 @@ const PatientEditProfile = () => {
           {/* AGE + GENDER */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="age">
-                Age
-              </label>
+              <label htmlFor="age">Age</label>
 
               <input
                 id="age"
@@ -294,9 +272,7 @@ const PatientEditProfile = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="gender">
-                Gender
-              </label>
+              <label htmlFor="gender">Gender</label>
 
               <select
                 id="gender"
@@ -305,31 +281,20 @@ const PatientEditProfile = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">
-                  Select Gender
-                </option>
-                
-                <option value="Male">
-                  Male
-                </option>
+                <option value="">Select Gender</option>
 
-                <option value="Female">
-                  Female
-                </option>
+                <option value="Male">Male</option>
 
-                <option value="Other">
-                  Other
-                </option>
+                <option value="Female">Female</option>
 
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
 
           {/* CONTACT */}
           <div className="form-group">
-            <label htmlFor="contact">
-              Contact
-            </label>
+            <label htmlFor="contact">Contact</label>
 
             <input
               id="contact"
@@ -343,9 +308,7 @@ const PatientEditProfile = () => {
 
           {/* BLOOD GROUP */}
           <div className="form-group">
-            <label htmlFor="bloodGroup">
-              Blood Group
-            </label>
+            <label htmlFor="bloodGroup">Blood Group</label>
 
             <select
               id="bloodGroup"
@@ -354,6 +317,9 @@ const PatientEditProfile = () => {
               onChange={handleChange}
               required
             >
+              <option value="" disabled>
+                Select Blood Group
+              </option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
@@ -370,17 +336,12 @@ const PatientEditProfile = () => {
             <button
               type="button"
               className="cancel-button"
-              onClick={() =>
-                navigate("/patient-home")
-              }
+              onClick={() => navigate("/patient-home")}
             >
               Cancel
             </button>
 
-            <button
-              type="submit"
-              className="save-button"
-            >
+            <button type="submit" className="save-button">
               Save Changes
             </button>
           </div>
@@ -392,6 +353,6 @@ const PatientEditProfile = () => {
       </footer>
     </div>
   );
-}
+};
 
 export default PatientEditProfile;
