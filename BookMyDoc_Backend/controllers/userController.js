@@ -111,6 +111,8 @@ export const createUser = async (req, res) => {
     gender,
     contact,
     hospital,
+    qualification,
+    experience,
   } = req.body;
 
   try {

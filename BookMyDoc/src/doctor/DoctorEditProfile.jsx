@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DoctorEditProfile.css";
+import logo from "../assets/logo.png";
 
 function DoctorEditProfile() {
   const navigate = useNavigate();
@@ -206,26 +207,14 @@ const handleSpecializationChange = (specialization) => {
     <div className="doctor-edit-profile-page">
 
       <nav className="doctor-edit-profile-nav">
-        <div className="doctor-edit-profile-brand">
-          BookMyDoc
-        </div>
+        <Link to="/">
+          <img src={logo} alt="BookMyDoc" className="logo-img" />
+        </Link>
 
         <ul>
           <li>
             <Link to="/doctor-home">
               Dashboard
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/doctor-appointments">
-              Appointments
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/history">
-              History
             </Link>
           </li>
         </ul>
