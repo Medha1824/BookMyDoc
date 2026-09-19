@@ -132,7 +132,7 @@ function DoctorOverview() {
         <section className="doctor-profile-card">
           <div className="overview-image-container">
             <img
-              src={doctorImage}
+              src={selectedDoctor.profilePicture?.url || doctorImage}
               alt={selectedDoctor.name}
               className="overview-doctor-image"
             />
