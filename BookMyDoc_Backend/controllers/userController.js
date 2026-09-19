@@ -13,7 +13,6 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-
 export const getProfile = async (req, res) => {
   try {
     const { token } = req.cookies;
@@ -52,18 +51,13 @@ export const updateProfilePicture = async (req, res) => {
 
     // Delete old image from Cloudinary if one exists
     if (user.profilePicture?.publicId) {
-      await cloudinary.uploader.destroy(
-        user.profilePicture.publicId
-      );
+      await cloudinary.uploader.destroy(user.profilePicture.publicId);
     }
 
     // Upload new image to Cloudinary
-    const result = await cloudinary.uploader.upload(
-      req.file.path,
-      {
-        folder: "bookmydoc/profile-pictures",
-      }
-    );
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "bookmydoc/profile-pictures",
+    });
 
     // Delete temporary local file
     fs.unlinkSync(req.file.path);
@@ -75,14 +69,13 @@ export const updateProfilePicture = async (req, res) => {
     };
 
     await user.save();
-    
+
     const updatedUser = await User.findById(user._id).select("-password -__v");
 
     return res.status(200).json({
       message: "Profile picture updated successfully",
       user: updatedUser,
-  });
-
+    });
   } catch (error) {
     console.error("Profile picture upload error:", error);
 
@@ -97,7 +90,6 @@ export const updateProfilePicture = async (req, res) => {
     });
   }
 };
-
 
 export const createUser = async (req, res) => {
   const {

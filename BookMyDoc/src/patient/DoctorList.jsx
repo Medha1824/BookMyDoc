@@ -147,7 +147,7 @@ function DoctorList() {
                       {doctor.specialization.join(", ")}
                     </p>
 
-                    <p className="doctor-experience">Doctor</p>
+                    <p className="doctor-hospital">{doctor.hospital}</p>
 
                     <span className="view-profile-button" type="button">
                       View Profile
