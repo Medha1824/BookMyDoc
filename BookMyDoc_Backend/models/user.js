@@ -58,7 +58,19 @@ const userSchema = new Schema({
         type: String,
         default: ""
     }
-}
+  },
+
+  qualification: {
+    type: String,
+    default: "",
+  },
+
+  experience: {
+    type: String,
+    default: "",
+  }
+
+
 });
 
 const User = mongoose.model("User", userSchema);

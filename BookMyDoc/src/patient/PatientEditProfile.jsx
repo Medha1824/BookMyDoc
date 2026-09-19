@@ -305,6 +305,10 @@ const PatientEditProfile = () => {
                 onChange={handleChange}
                 required
               >
+                <option value="">
+                  Select Gender
+                </option>
+                
                 <option value="Male">
                   Male
                 </option>

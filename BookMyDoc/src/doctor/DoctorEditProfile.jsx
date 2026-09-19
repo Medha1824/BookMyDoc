@@ -12,6 +12,8 @@ function DoctorEditProfile() {
     gender: "",
     contact: "",
     hospital: "",
+    qualification: "",
+    experience: "",
   });
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
@@ -54,6 +56,8 @@ function DoctorEditProfile() {
           gender: loggedInUser.gender || "",
           contact: loggedInUser.contact || "",
           hospital: loggedInUser.hospital || "",
+          qualification: loggedInUser.qualification || "",
+          experience: loggedInUser.experience || "",
         });
       } catch (err) {
         navigate("/login-doctor");
@@ -65,15 +69,11 @@ function DoctorEditProfile() {
 
 
 const specializationOptions = [
-  "Cardiologist",
-  "Dermatologist",
-  "Neurologist",
-  "Orthopedic Specialist",
-  "Pediatrician",
-  "Psychiatrist",
-  "Dentist",
-  "General Physician",
-  "Surgeon",
+  "Diabetes",
+  "Pediatrics",
+  "Ophthalmology",
+  "Cardiology",
+  "Dermatology",
 ];
 
 const handleSpecializationChange = (specialization) => {
@@ -148,7 +148,11 @@ const handleSpecializationChange = (specialization) => {
           gender: profile.gender,
           contact: profile.contact.trim(),
           hospital: profile.hospital.trim(),
-        }),
+
+        qualification: profile.qualification.trim(),
+        experience: profile.experience.trim(),
+        
+      }),
         }
       );
 
@@ -267,8 +271,6 @@ const handleSpecializationChange = (specialization) => {
             />
           </div>
 
-
-
           {/* NAME */}
           <div className="doctor-form-group">
 
@@ -373,6 +375,7 @@ const handleSpecializationChange = (specialization) => {
               name="gender"
               value={profile.gender}
               onChange={handleChange}
+              placeholder="Enter Gender"
               required
             >
 
@@ -409,6 +412,45 @@ const handleSpecializationChange = (specialization) => {
               type="tel"
               value={profile.contact}
               onChange={handleChange}
+              placeholder="Enter Contact"
+              required
+            />
+
+          </div>
+
+          {/* QUALIFICATION */}
+          <div className="doctor-form-group">
+
+            <label htmlFor="qualification">
+              Qualification
+            </label>
+
+            <input
+              id="qualification"
+              name="qualification"
+              type="text"
+              value={profile.qualification}
+              onChange={handleChange}
+              placeholder="Enter Qualification"
+              required
+            />
+
+          </div>
+
+          {/* EXPERIENCE */}
+          <div className="doctor-form-group">
+
+            <label htmlFor="experience">
+              Experience
+            </label>
+
+            <input
+              id="experience"
+              name="experience"
+              type="text"
+              value={profile.experience}
+              onChange={handleChange}
+              placeholder="Enter Experience"
               required
             />
 
@@ -427,6 +469,7 @@ const handleSpecializationChange = (specialization) => {
               type="text"
               value={profile.hospital}
               onChange={handleChange}
+              placeholder="Enter Hospital"
               required
             />
 

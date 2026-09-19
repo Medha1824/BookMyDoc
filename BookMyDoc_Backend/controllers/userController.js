@@ -12,23 +12,7 @@ export const getAllUsers = async (req, res) => {
     return res.status(400).json(err);
   }
 };
-/*
-export const getProfile = async (req, res) => {
-  try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const userInfo = await User.findById(decoded.id).select([
-      "-password",
-      "-__v",
-    ]);
-    return res.status(200).json(userInfo);
-  } catch (err) {
-    return res.status(400).json(err);
-  }
-};
-
-*/
 
 export const getProfile = async (req, res) => {
   try {
@@ -158,6 +142,8 @@ export const createUser = async (req, res) => {
       gender,
       contact,
       hospital,
+      qualification,
+      experience,
     });
 
     await newUser.save();
@@ -223,6 +209,8 @@ export const updateUserById = async (req, res) => {
       address,
       specialization,
       hospital,
+      qualification,
+      experience,
     } = req.body;
 
     const user = await User.findById(id);
@@ -261,6 +249,14 @@ export const updateUserById = async (req, res) => {
       user.hospital = hospital;
     }
 
+    if (qualification !== undefined) {
+      user.qualification = qualification;
+    }
+
+    if (experience !== undefined) {
+      user.experience = experience;
+    }
+
     await user.save();
 
     return res.status(200).json({
@@ -277,6 +273,8 @@ export const updateUserById = async (req, res) => {
         address: user.address,
         specialization: user.specialization,
         hospital: user.hospital,
+        qualification: user.qualification,
+        experience: user.experience,
         role: user.role,
       },
     });

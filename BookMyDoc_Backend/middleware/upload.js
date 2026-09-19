@@ -9,21 +9,6 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     }
 });
-/*
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = [
-        "image/jpeg",
-        "image/jpg",
-        "image/png"
-    ];
-
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error("Only JPG, JPEG and PNG images are allowed"), false);
-    }
-};
-*/
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [

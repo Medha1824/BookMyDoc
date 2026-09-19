@@ -31,14 +31,7 @@ router.put(
   validate,
   updateUserById,
 );
-/*
-router.put(
-  "/:id/profile-picture",
-  verifyToken,
-  upload.single("image"),
-  updateProfilePicture
-);
-*/
+
 router.put(
   "/:id/profile-picture",
   (req, res, next) => {
