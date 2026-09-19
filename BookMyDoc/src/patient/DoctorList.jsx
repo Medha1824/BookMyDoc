@@ -134,7 +134,7 @@ function DoctorList() {
                 >
                   <div className="doctor-image-container">
                     <img
-                      src={doctorImage}
+                      src={doctor.profilePicture?.url || doctorImage}
                       alt={doctor.name}
                       className="doctor-image"
                     />
