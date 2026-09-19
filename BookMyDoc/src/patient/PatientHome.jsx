@@ -23,9 +23,6 @@ const PatientHome = () => {
           return;
         }
 
-        /*  const data = await response.json();
-        setUser(data);
-      */
 
         const data = await response.json();
 
@@ -103,7 +100,10 @@ const PatientHome = () => {
                 aria-label="Open profile menu"
                 aria-expanded={profileMenuOpen}
               >
-                <img src={profilePic} alt="Patient Profile" />
+              <img
+                src={user.profilePicture?.url || profilePic}
+                alt="Patient Profile"
+              />              
               </button>
 
               {profileMenuOpen && (
@@ -138,9 +138,11 @@ const PatientHome = () => {
       <main className="patient-main">
         <div className="profile-card">
           <div className="profile-picture">
-            <img src={profilePic} alt="Patient Profile" />
+            <img
+              src={user.profilePicture?.url || profilePic}
+              alt="Patient Profile"
+            />
           </div>
-
           <div className="profile-details">
             <div className="info-row">
               <span className="label">Patient Name</span>
