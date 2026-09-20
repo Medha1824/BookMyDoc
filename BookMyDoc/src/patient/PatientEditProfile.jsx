@@ -22,30 +22,6 @@ const PatientEditProfile = () => {
   const [user, setUser] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
   const [preview, setPreview] = useState("");
-  /*useEffect(() => {
-    const userData = localStorage.getItem("user");
-
-    if (!userData) {
-      navigate("/login-patient");
-      return;
-    }
-
-    const loggedInUser = JSON.parse(userData);
-
-    setUser(loggedInUser);
-
-    setProfile({
-      name: loggedInUser.name || "",
-      email: loggedInUser.email || "",
-      age: loggedInUser.age || "",
-      gender: loggedInUser.gender || "",
-      contact: loggedInUser.contact || "",
-      bloodGroup: loggedInUser.bloodGroup || "",
-      address: loggedInUser.address || "",
-    });
-  }, [navigate]);
-
-*/
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -209,7 +185,6 @@ const PatientEditProfile = () => {
         <form className="edit-profile-card" onSubmit={handleSubmit}>
           {errors.form && <p className="field-error">{errors.form}</p>}
 
-          {/* PROFILE PICTURE */}
           <div className="form-group">
             <label>Profile Picture</label>
 
@@ -228,7 +203,6 @@ const PatientEditProfile = () => {
             />
           </div>
 
-          {/* NAME */}
           <div className="form-group">
             <label htmlFor="name">Patient Name</label>
 
@@ -242,7 +216,6 @@ const PatientEditProfile = () => {
             />
           </div>
 
-          {/* EMAIL */}
           <div className="form-group">
             <label htmlFor="email">Email</label>
 
@@ -256,7 +229,6 @@ const PatientEditProfile = () => {
             />
           </div>
 
-          {/* AGE + GENDER */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="age">Age</label>
@@ -292,7 +264,6 @@ const PatientEditProfile = () => {
             </div>
           </div>
 
-          {/* CONTACT */}
           <div className="form-group">
             <label htmlFor="contact">Contact</label>
 
@@ -306,7 +277,6 @@ const PatientEditProfile = () => {
             />
           </div>
 
-          {/* BLOOD GROUP */}
           <div className="form-group">
             <label htmlFor="bloodGroup">Blood Group</label>
 
@@ -331,7 +301,6 @@ const PatientEditProfile = () => {
             </select>
           </div>
 
-          {/* BUTTONS */}
           <div className="edit-profile-actions">
             <button
               type="button"
