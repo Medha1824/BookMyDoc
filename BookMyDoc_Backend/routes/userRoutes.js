@@ -20,8 +20,7 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 console.log("USER ROUTES LOADED");
 
-
-router.get("/", getAllUsers);
+router.get("/", verifyToken, getAllUsers);
 router.post("/signup", validateUserCreate, validate, createUser);
 router.get("/profile", verifyToken, getProfile);
 router.put(
@@ -40,7 +39,7 @@ router.put(
   },
   verifyToken,
   upload.single("image"),
-  updateProfilePicture
+  updateProfilePicture,
 );
 router.post("/complete-doctor-signup", completeDoctorSignup);
 
