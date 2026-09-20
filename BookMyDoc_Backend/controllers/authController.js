@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import { comparePassword } from "../utils/helpers.js";
 import jwt from "jsonwebtoken";
 
-const lifetime = "3600000";
+const lifetime = 60 * 60 * 1000;
 
 export const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
