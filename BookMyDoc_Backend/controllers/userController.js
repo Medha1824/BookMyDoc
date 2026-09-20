@@ -49,20 +49,16 @@ export const updateProfilePicture = async (req, res) => {
       });
     }
 
-    // Delete old image from Cloudinary if one exists
     if (user.profilePicture?.publicId) {
       await cloudinary.uploader.destroy(user.profilePicture.publicId);
     }
 
-    // Upload new image to Cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "bookmydoc/profile-pictures",
     });
 
-    // Delete temporary local file
     fs.unlinkSync(req.file.path);
 
-    // Save Cloudinary information in MongoDB
     user.profilePicture = {
       url: result.secure_url,
       publicId: result.public_id,
@@ -79,11 +75,10 @@ export const updateProfilePicture = async (req, res) => {
   } catch (error) {
     console.error("Profile picture upload error:", error);
 
-    // Try to remove temporary file if it still exists
     if (req.file?.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
     }
-
+    
     return res.status(500).json({
       message: "Failed to update profile picture",
       error: error.message,

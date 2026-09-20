@@ -9,6 +9,7 @@ import {
 } from "../controllers/userController.js";
 
 import { verifyToken } from "../middleware/auth.js";
+
 import {
   validateUserCreate,
   validateUserUpdate,
@@ -34,10 +35,6 @@ router.put(
 
 router.put(
   "/:id/profile-picture",
-  (req, res, next) => {
-    console.log("PROFILE PICTURE ROUTE HIT");
-    next();
-  },
   verifyToken,
   upload.single("image"),
   updateProfilePicture
