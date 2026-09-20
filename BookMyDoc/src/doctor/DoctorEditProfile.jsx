@@ -95,7 +95,6 @@ const handleSpecializationChange = (specialization) => {
 
 
 
-  // Handle input changes
   const handleChange = (e) => {
   const { name, value } = e.target;
 
@@ -119,7 +118,6 @@ const handleSpecializationChange = (specialization) => {
 };
 
 
-  // Submit updated profile
   const handleSubmit = async (e) => {
     e.preventDefault();    
       if (!user?._id) {
@@ -192,7 +190,6 @@ const handleSpecializationChange = (specialization) => {
         }
       }
 
-      // Go back to doctor home
       navigate("/doctor-home");
     } catch (error) {
       console.error(error);
@@ -241,7 +238,6 @@ const handleSpecializationChange = (specialization) => {
             </p>
           )}
           
-          {/* PROFILE PICTURE */}
           <div className="doctor-form-group">
             <label>Profile Picture</label>
 
@@ -255,12 +251,11 @@ const handleSpecializationChange = (specialization) => {
 
             <input
               type="file"
-              accept="image/png,image/jpeg"
+              accept="image/png,image/jpeg,image/jpg"
               onChange={handleProfilePictureChange}
             />
           </div>
 
-          {/* NAME */}
           <div className="doctor-form-group">
 
             <label htmlFor="name">
@@ -278,7 +273,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* EMAIL */}
           <div className="doctor-form-group">
 
             <label htmlFor="email">
@@ -296,7 +290,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-              {/* SPECIALIZATION */}
               <div className="doctor-form-group">
 
                 <label>
@@ -305,7 +298,6 @@ const handleSpecializationChange = (specialization) => {
 
                 <div className="specialization-dropdown">
 
-                  {/* Selected values / dropdown button */}
                   <div
                     className="specialization-selected"
                     onClick={() =>
@@ -323,7 +315,6 @@ const handleSpecializationChange = (specialization) => {
                     </span>
                   </div>
 
-                  {/* Dropdown options */}
                   {specializationOpen && (
                     <div className="specialization-options">
 
@@ -353,7 +344,6 @@ const handleSpecializationChange = (specialization) => {
 
             </div>
 
-            {/* GENDER */}
             <div className="doctor-form-group">
             <label htmlFor="gender">
               Gender
@@ -388,7 +378,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* CONTACT */}
           <div className="doctor-form-group">
 
             <label htmlFor="contact">
@@ -407,7 +396,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* QUALIFICATION */}
           <div className="doctor-form-group">
 
             <label htmlFor="qualification">
@@ -426,7 +414,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* EXPERIENCE */}
           <div className="doctor-form-group">
 
             <label htmlFor="experience">
@@ -445,7 +432,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* HOSPITAL */}
           <div className="doctor-form-group">
 
             <label htmlFor="hospital">
@@ -464,7 +450,6 @@ const handleSpecializationChange = (specialization) => {
 
           </div>
 
-          {/* BUTTONS */}
           <div className="doctor-edit-profile-actions">
 
             <button
