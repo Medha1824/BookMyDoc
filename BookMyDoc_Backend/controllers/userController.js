@@ -15,6 +15,9 @@ export const getAllUsers = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   try {
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     const userInfo = await User.findById(decoded.id).select([
       "-password",
       "-__v",
@@ -32,6 +35,8 @@ export const getProfile = async (req, res) => {
 
 export const updateProfilePicture = async (req, res) => {
   try {
+    const user = await User.findById(req.params.id);
+
     if (!user) {
       return res.status(404).json({
         message: "User not found",

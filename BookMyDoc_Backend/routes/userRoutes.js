@@ -20,7 +20,7 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 console.log("USER ROUTES LOADED");
 
-router.get("/", verifyToken, getAllUsers);
+router.get("/", getAllUsers);
 router.post("/signup", validateUserCreate, validate, createUser);
 router.get("/profile", verifyToken, getProfile);
 router.put(
