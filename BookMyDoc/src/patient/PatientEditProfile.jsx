@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import "./PatientEditProfile.css";
+import logo from "../assets/logo.png";
 
 const PatientEditProfile = () => {
   const navigate = useNavigate();
@@ -162,24 +163,26 @@ const PatientEditProfile = () => {
   };
 
   return (
-    <div className="edit-profile-page">
-      <nav className="edit-profile-nav">
-        <div className="edit-profile-brand">BookMyDoc</div>
-
+    <div className="patient-edit-profile-page">
+      <nav>
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
         <ul>
           <li>
-            <Link to="/patient-home">Dashboard</Link>
-          </li>
-
-          <li>
-            <Link to="/history">History</Link>
+            <Link to="/patient-home">
+              Home
+            </Link>
           </li>
         </ul>
       </nav>
 
       <main className="edit-profile-main">
         <div className="edit-profile-header">
-          <h1>Edit Profile</h1>
+          <h1>Edit Patient Profile</h1>
+          <p>
+            Update your personal information.
+          </p>
         </div>
 
         <form className="edit-profile-card" onSubmit={handleSubmit}>
@@ -239,6 +242,7 @@ const PatientEditProfile = () => {
                 type="text"
                 value={profile.age}
                 onChange={handleChange}
+                placeholder="Enter Age"
                 required
               />
             </div>
@@ -251,6 +255,7 @@ const PatientEditProfile = () => {
                 name="gender"
                 value={profile.gender}
                 onChange={handleChange}
+                placeholder="Enter Gender"
                 required
               >
                 <option value="">Select Gender</option>
@@ -265,19 +270,6 @@ const PatientEditProfile = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="contact">Contact</label>
-
-            <input
-              id="contact"
-              name="contact"
-              type="tel"
-              value={profile.contact}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
             <label htmlFor="bloodGroup">Blood Group</label>
 
             <select
@@ -285,6 +277,7 @@ const PatientEditProfile = () => {
               name="bloodGroup"
               value={profile.bloodGroup}
               onChange={handleChange}
+              placeholder="Enter Blood Group"
               required
             >
               <option value="" disabled>
@@ -299,6 +292,20 @@ const PatientEditProfile = () => {
               <option value="O+">O+</option>
               <option value="O-">O-</option>
             </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="contact">Contact</label>
+
+            <input
+              id="contact"
+              name="contact"
+              type="tel"
+              value={profile.contact}
+              onChange={handleChange}
+              placeholder="Enter Contact"
+              required
+            />
           </div>
 
           <div className="edit-profile-actions">

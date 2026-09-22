@@ -202,21 +202,19 @@ const handleSpecializationChange = (specialization) => {
 
   return (
     <div className="doctor-edit-profile-page">
-
-      <nav className="doctor-edit-profile-nav">
-        <Link to="/">
-          <img src={logo} alt="BookMyDoc" className="logo-img" />
-        </Link>
-
+      <nav>
+          <Link to="/">
+            <img src={logo} alt="BookMyDoc" className="logo-img" />
+          </Link>
         <ul>
           <li>
             <Link to="/doctor-home">
-              Dashboard
+              Home
             </Link>
           </li>
         </ul>
-      </nav>
-
+        </nav>
+        
       <main className="doctor-edit-profile-main">
 
         <div className="doctor-edit-profile-header">
