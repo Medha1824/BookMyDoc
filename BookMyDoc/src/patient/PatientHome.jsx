@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./PatientHome.css";
 import profilePic from "../assets/PatientProfilePicture.jpg";
 import logo from "../assets/logo.png";
+import NotificationBell from "../NotificationBell";
 
 const PatientHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -22,7 +23,6 @@ const PatientHome = () => {
           navigate("/login-patient");
           return;
         }
-
 
         const data = await response.json();
 
@@ -91,7 +91,7 @@ const PatientHome = () => {
             <li>
               <Link to="/about">About</Link>
             </li>
-
+            <NotificationBell />
             <li className="profile-menu-container">
               <button
                 type="button"
@@ -100,10 +100,10 @@ const PatientHome = () => {
                 aria-label="Open profile menu"
                 aria-expanded={profileMenuOpen}
               >
-              <img
-                src={user.profilePicture?.url || profilePic}
-                alt="Patient Profile"
-              />              
+                <img
+                  src={user.profilePicture?.url || profilePic}
+                  alt="Patient Profile"
+                />
               </button>
 
               {profileMenuOpen && (
