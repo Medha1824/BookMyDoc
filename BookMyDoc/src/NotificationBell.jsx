@@ -4,6 +4,8 @@ import { Bell } from "lucide-react";
 import "./NotificationBell.css";
 
 const API = import.meta.env.VITE_API_URL;
+const DOCTOR_REQUESTS_PATH = "/doctor-appointments";
+const doctorProfilePath = (doctorId) => `/doctor-overview/${doctorId}`;
 
 const timeAgo = (dateString) => {
   const seconds = Math.floor(
@@ -13,11 +15,9 @@ const timeAgo = (dateString) => {
   if (seconds < 60) return "Just now";
 
   const minutes = Math.floor(seconds / 60);
-
   if (minutes < 60) return `${minutes}m ago`;
 
   const hours = Math.floor(minutes / 60);
-
   if (hours < 24) return `${hours}h ago`;
 
   return `${Math.floor(hours / 24)}d ago`;
@@ -27,16 +27,12 @@ const describe = (item, role) => {
   const slot = `for ${item.date} at ${item.time}`;
 
   if (role === "doctor") {
-    return `${
-      item.patient?.name || "A patient"
-    } requested an appointment ${slot}.`;
+    return `${item.patient?.name || "A patient"} requested an appointment ${slot}.`;
   }
 
   const action = item.status === "Confirmed" ? "accepted" : "declined";
 
-  return `Dr. ${
-    item.doctor?.name || ""
-  } ${action} your appointment request ${slot}.`;
+  return `Dr. ${item.doctor?.name || ""} ${action} your appointment request ${slot}.`;
 };
 
 function NotificationBell() {
@@ -70,12 +66,19 @@ function NotificationBell() {
     fetchNotifications();
 
     const intervalId = setInterval(() => {
-      if (!document.hidden) {
-        fetchNotifications();
-      }
+      if (!document.hidden) fetchNotifications();
     }, 30000);
 
-    return () => clearInterval(intervalId);
+    const handleVisibility = () => {
+      if (!document.hidden) fetchNotifications();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, [fetchNotifications]);
 
   useEffect(() => {
@@ -86,9 +89,7 @@ function NotificationBell() {
     };
 
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-      }
+      if (e.key === "Escape") setOpen(false);
     };
 
     document.addEventListener("mousedown", handleMouseDown);
@@ -101,32 +102,25 @@ function NotificationBell() {
   }, []);
 
   const toggleOpen = () => {
-    if (!open) {
-      fetchNotifications();
-    }
-
+    if (!open) fetchNotifications();
     setOpen(!open);
   };
 
-  const isUnread = (item) => {
-    return role === "doctor" || !item.patientSeen;
-  };
+  const isUnread = (item) => role === "doctor" || !item.patientSeen;
 
   const handleItemClick = (item) => {
     setOpen(false);
 
     if (role === "doctor") {
-      navigate("/doctor-appointments");
+      navigate(DOCTOR_REQUESTS_PATH);
       return;
     }
-
     if (!item.patientSeen) {
       setItems((current) =>
         current.map((i) =>
           i._id === item._id ? { ...i, patientSeen: true } : i,
         ),
       );
-
       setUnreadCount((count) => Math.max(0, count - 1));
 
       fetch(`${API}/appointments/${item._id}/seen`, {
@@ -136,20 +130,14 @@ function NotificationBell() {
     }
 
     if (item.doctor?._id) {
-      navigate(`/doctor-overview/${item.doctor._id}`);
+      navigate(doctorProfilePath(item.doctor._id));
     }
   };
 
   const handleMarkAllRead = (e) => {
     e.stopPropagation();
 
-    setItems((current) =>
-      current.map((i) => ({
-        ...i,
-        patientSeen: true,
-      })),
-    );
-
+    setItems((current) => current.map((i) => ({ ...i, patientSeen: true })));
     setUnreadCount(0);
 
     fetch(`${API}/appointments/seen-all`, {
@@ -181,8 +169,12 @@ function NotificationBell() {
           <div className="notification-header">
             <h4>Notifications</h4>
 
-            {role === "patient" && unreadCount > 0 && (
-              <button type="button" onClick={handleMarkAllRead}>
+            {role !== "doctor" && unreadCount > 0 && (
+              <button
+                type="button"
+                className="mark-read-btn"
+                onClick={handleMarkAllRead}
+              >
                 Mark all as read
               </button>
             )}
@@ -203,8 +195,10 @@ function NotificationBell() {
                   }
                   onClick={() => handleItemClick(item)}
                 >
-                  <p>{describe(item, role)}</p>
-                  <span>{timeAgo(item.updatedAt)}</span>
+                  <p className="notification-text">{describe(item, role)}</p>
+                  <span className="notification-time">
+                    {timeAgo(item.updatedAt)}
+                  </span>
                 </button>
               ))}
             </div>

@@ -65,6 +65,66 @@ export const getDoctorAppointments = async (req, res) => {
     });
   }
 };
+
+export const getNotifications = async (req, res) => {
+  try {
+    const { id, role } = req.user;
+    let items = [];
+    let unreadCount = 0;
+
+    if (role === "doctor") {
+      items = await Appointment.find({ doctor: id, status: "Pending" })
+        .populate("patient", "name")
+        .sort({ createdAt: -1 });
+
+      unreadCount = items.length;
+    } else {
+      items = await Appointment.find({
+        patient: id,
+        status: { $in: ["Confirmed", "Cancelled"] },
+      })
+        .populate("doctor", "name")
+        .sort({ updatedAt: -1 });
+
+      unreadCount = items.filter((item) => !item.patientSeen).length;
+    }
+
+    return res.status(200).json({ role, items, unreadCount });
+  } catch (error) {
+    console.error("Fetch notifications error:", error);
+    return res.status(500).json({ error: "Failed to fetch notifications" });
+  }
+};
+
+export const markAsSeen = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Appointment.findOneAndUpdate(
+      { _id: id, patient: req.user.id },
+      { patientSeen: true },
+      { timestamps: false },
+    );
+    return res.status(200).json({ message: "Marked as seen" });
+  } catch (error) {
+    console.error("Mark seen error:", error);
+    return res.status(500).json({ error: "Failed to update status" });
+  }
+};
+
+export const markAllAsSeen = async (req, res) => {
+  try {
+    await Appointment.updateMany(
+      { patient: req.user.id, status: { $in: ["Confirmed", "Cancelled"] } },
+      { patientSeen: true },
+      { timestamps: false },
+    );
+    return res.status(200).json({ message: "All marked as seen" });
+  } catch (error) {
+    console.error("Mark all seen error:", error);
+    return res.status(500).json({ error: "Failed to update status" });
+  }
+};
+
 export const updateAppointmentStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -92,6 +152,7 @@ export const updateAppointmentStatus = async (req, res) => {
       });
     }
     appointment.status = status;
+    appointment.patientSeen = false;
 
     await appointment.save();
 
