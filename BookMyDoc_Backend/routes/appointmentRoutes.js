@@ -2,6 +2,7 @@ import express from "express";
 import {
   createAppointment,
   getDoctorAppointments,
+  getPatientAppointments,
   updateAppointmentStatus,
   getNotifications,
   markAsSeen,
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.post("/", verifyToken, createAppointment);
 router.get("/doctor", verifyToken, getDoctorAppointments);
+router.get("/patient", verifyToken, getPatientAppointments);
 router.get("/notifications", verifyToken, getNotifications);
 router.put("/seen-all", verifyToken, markAllAsSeen);
 router.patch("/:id/status", verifyToken, updateAppointmentStatus);
