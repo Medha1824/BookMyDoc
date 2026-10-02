@@ -35,6 +35,11 @@ const appointmentSchema = new mongoose.Schema(
       enum: ["Pending", "Confirmed", "Cancelled", "Completed"],
       default: "Pending",
     },
+
+    patientSeen: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

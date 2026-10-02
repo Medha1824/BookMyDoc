@@ -19,7 +19,6 @@ import validate from "../middleware/validate.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
-console.log("USER ROUTES LOADED");
 
 router.get("/", getAllUsers);
 router.post("/signup", validateUserCreate, validate, createUser);

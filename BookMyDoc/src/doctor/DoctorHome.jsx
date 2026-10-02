@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./DoctorHome.css";
 import doctorPic from "../assets/doctor.png";
 import logo from "../assets/logo.png";
+import NotificationBell from "../NotificationBell";
 
 const DoctorHome = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -91,7 +92,7 @@ const DoctorHome = () => {
             <li>
               <Link to="/about">About</Link>
             </li>
-
+            <NotificationBell />
             <li className="profile-menu-container">
               <button
                 type="button"
@@ -100,10 +101,10 @@ const DoctorHome = () => {
                 aria-label="Open profile menu"
                 aria-expanded={profileMenuOpen}
               >
-              <img
-                src={user.profilePicture?.url || doctorPic}
-                alt="Doctor Profile"
-              />
+                <img
+                  src={user.profilePicture?.url || doctorPic}
+                  alt="Doctor Profile"
+                />
               </button>
 
               {profileMenuOpen && (

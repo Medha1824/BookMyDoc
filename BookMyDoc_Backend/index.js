@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -9,9 +10,11 @@ import doctorRouter from "./routes/doctorRoutes.js";
 import appointmentRouter from "./routes/appointmentRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import log from "./middleware/log.js";
+import { initSocket } from "./utils/socket.js";
 
 dotenv.config();
 const app = express();
+const httpServer = http.createServer(app);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -43,6 +46,8 @@ app.use("/users", userRouter);
 app.use("/doctors", doctorRouter);
 app.use("/appointments", appointmentRouter);
 
-app.listen(PORT, () => {
+initSocket(httpServer);
+
+httpServer.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
 });
