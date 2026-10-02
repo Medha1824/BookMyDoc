@@ -19,6 +19,7 @@ import PatientProfile from "./PatientProfile";
 
 import DoctorList from "./patient/DoctorList";
 import DoctorAppointments from "./doctor/DoctorAppointments";
+import PatientAppointments from "./patient/PatientAppointments";
 import DoctorOverview from "./patient/DoctorOverview";
 import DoctorSpecialization from "./doctor/DoctorSpecialization";
 import DoctorDailySchedule from "./doctor/DoctorDailySchedule";
@@ -51,6 +52,7 @@ function App() {
 
         <Route path="/doctors" element={<DoctorList />} />
         <Route path="/doctor-appointments" element={<DoctorAppointments />} />
+        <Route path="/appointments" element={<PatientAppointments />} />
         <Route path="/doctor-overview/:id" element={<DoctorOverview />} />
         <Route
           path="/doctor-daily-schedule"
