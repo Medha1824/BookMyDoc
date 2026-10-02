@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell } from "lucide-react";
+import { io } from "socket.io-client";
 import "./NotificationBell.css";
 
 const API = import.meta.env.VITE_API_URL;
@@ -82,6 +83,17 @@ function NotificationBell() {
   }, [fetchNotifications]);
 
   useEffect(() => {
+    const socket = io(API, { withCredentials: true });
+
+    socket.on("notification", fetchNotifications);
+
+    return () => {
+      socket.off("notification", fetchNotifications);
+      socket.disconnect();
+    };
+  }, [fetchNotifications]);
+
+  useEffect(() => {
     const handleMouseDown = (e) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
         setOpen(false);
@@ -115,6 +127,7 @@ function NotificationBell() {
       navigate(DOCTOR_REQUESTS_PATH);
       return;
     }
+
     if (!item.patientSeen) {
       setItems((current) =>
         current.map((i) =>

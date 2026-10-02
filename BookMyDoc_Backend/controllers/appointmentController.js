@@ -1,5 +1,6 @@
 import Appointment from "../models/appointment.js";
 import User from "../models/user.js";
+import { notifyUser } from "../utils/socket.js";
 
 export const createAppointment = async (req, res) => {
   try {
@@ -33,16 +34,15 @@ export const createAppointment = async (req, res) => {
       status: "Pending",
     });
 
+    notifyUser(doctor);
+
     return res.status(201).json({
       message: "Appointment request sent successfully",
       appointment,
     });
   } catch (error) {
     console.error("Create appointment error:", error);
-
-    return res.status(500).json({
-      error: "Failed to create appointment",
-    });
+    return res.status(500).json({ error: "Failed to create appointment" });
   }
 };
 export const getDoctorAppointments = async (req, res) => {
@@ -131,9 +131,7 @@ export const updateAppointmentStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!["Confirmed", "Cancelled", "Completed"].includes(status)) {
-      return res.status(400).json({
-        error: "Invalid appointment status",
-      });
+      return res.status(400).json({ error: "Invalid appointment status" });
     }
 
     const appointment = await Appointment.findOne({
@@ -142,19 +140,21 @@ export const updateAppointmentStatus = async (req, res) => {
     });
 
     if (!appointment) {
-      return res.status(404).json({
-        error: "Appointment not found",
-      });
+      return res.status(404).json({ error: "Appointment not found" });
     }
+
     if (status === "Completed" && appointment.status !== "Confirmed") {
-      return res.status(400).json({
-        error: "Only confirmed appointments can be completed",
-      });
+      return res
+        .status(400)
+        .json({ error: "Only confirmed appointments can be completed" });
     }
+
     appointment.status = status;
     appointment.patientSeen = false;
 
     await appointment.save();
+
+    notifyUser(appointment.patient);
 
     return res.status(200).json({
       message: `Appointment ${status.toLowerCase()} successfully`,
@@ -162,9 +162,8 @@ export const updateAppointmentStatus = async (req, res) => {
     });
   } catch (error) {
     console.error("Update appointment status error:", error);
-
-    return res.status(500).json({
-      error: "Failed to update appointment status",
-    });
+    return res
+      .status(500)
+      .json({ error: "Failed to update appointment status" });
   }
 };
