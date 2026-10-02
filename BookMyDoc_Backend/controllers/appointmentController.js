@@ -24,7 +24,18 @@ export const createAppointment = async (req, res) => {
         error: "Doctor not found",
       });
     }
+    const existingAppointment = await Appointment.findOne({
+      doctor,
+      date,
+      time,
+      status: "Confirmed",
+    });
 
+    if (existingAppointment) {
+      return res.status(409).json({
+        error: "This time slot is already booked by another patient.",
+      });
+    }
     const appointment = await Appointment.create({
       patient,
       doctor,
@@ -148,7 +159,21 @@ export const updateAppointmentStatus = async (req, res) => {
         .status(400)
         .json({ error: "Only confirmed appointments can be completed" });
     }
+    if (status === "Confirmed") {
+      const alreadyConfirmed = await Appointment.findOne({
+        doctor: appointment.doctor,
+        date: appointment.date,
+        time: appointment.time,
+        status: "Confirmed",
+        _id: { $ne: appointment._id },
+      });
 
+      if (alreadyConfirmed) {
+        return res.status(409).json({
+          error: "This time slot is already confirmed for another patient.",
+        });
+      }
+    }
     appointment.status = status;
     appointment.patientSeen = false;
 
