@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../doctor/DoctorAppointments.css";
+import "./PatientHistory.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
@@ -16,8 +16,8 @@ function PatientHistory() {
           { credentials: "include" }
         );
 
-        if (response.status === 401 || response.status === 403) {
-          navigate("/login-patient");
+        if (!response.ok) {
+          console.error("Failed to fetch appointments");
           return;
         }
 

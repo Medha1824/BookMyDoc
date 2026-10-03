@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./DoctorAppointments.css";
+import "./DoctorHistory.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
@@ -16,8 +16,8 @@ function DoctorAppointmentHistory() {
           { credentials: "include" }
         );
 
-        if (response.status === 401 || response.status === 403) {
-          navigate("/login-doctor");
+        if (!response.ok) {
+          console.error("Failed to fetch appointments");
           return;
         }
 
@@ -37,12 +37,12 @@ function DoctorAppointmentHistory() {
         } else {
           setAppointments([]);
         }
-      } catch (error) {
+        } catch (error) {
         console.error("Failed to fetch appointment history:", error);
-        navigate("/login-patient");
-      } finally {
+        navigate("/login-doctor");
+        } finally {
         setLoading(false);
-      }
+        }
     };
 
     fetchAppointments();
