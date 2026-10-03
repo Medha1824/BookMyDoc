@@ -27,7 +27,7 @@ const PatientHome = () => {
         const data = await response.json();
 
         if (!data) {
-          navigate("/login-doctor"); // or /login-patient
+          navigate("/login-doctor");
           return;
         }
 

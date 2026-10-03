@@ -1,38 +1,58 @@
 import React, { useEffect, useState } from "react";
 import "../doctor/DoctorAppointments.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 function PatientAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/appointments/patient`,
-          {
-            credentials: "include",
-          },
+        const profileRes = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          { credentials: "include" },
         );
 
-        const data = await response.json();
-
-        if (response.ok) {
-          setAppointments(data);
-        } else {
-          setAppointments([]);
+        if (!profileRes.ok) {
+          navigate("/login-patient");
+          return;
         }
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/appointments/patient`,
+          { credentials: "include" },
+        );
+
+        if (response.status === 401 || response.status === 403) {
+          navigate("/login-patient");
+          return;
+        }
+
+        const data = await response.json();
+        setAppointments(response.ok ? data : []);
       } catch (error) {
         console.error("Failed to fetch appointments:", error);
-        setAppointments([]);
+        navigate("/login-patient");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAppointments();
+  }, [navigate]);
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
   const pendingAppointments = appointments.filter(
