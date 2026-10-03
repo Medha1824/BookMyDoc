@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./DoctorAppointments.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 function DoctorAppointmentHistory() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(
+        let userRole = "doctor";
+        let response = await fetch(
           `${import.meta.env.VITE_API_URL}/appointments/doctor`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
+        if (response.status === 403) {
+          userRole = "patient";
+          response = await fetch(
+            `${import.meta.env.VITE_API_URL}/appointments/patient`,
+            { credentials: "include" },
+          );
+        }
+        if (response.status === 401 || response.status === 403) {
+          navigate("/login-patient");
+          return;
+        }
 
         const data = await response.json();
 
@@ -29,31 +41,46 @@ function DoctorAppointmentHistory() {
               return dateTimeB - dateTimeA;
             });
 
+          setRole(userRole);
           setAppointments(completedAppointments);
         } else {
+          setRole(userRole);
           setAppointments([]);
         }
       } catch (error) {
         console.error("Failed to fetch appointment history:", error);
-        setAppointments([]);
+        navigate("/login-patient");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAppointments();
+  }, [navigate]);
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
   if (loading) {
     return <div className="loading-text">Loading...</div>;
   }
 
+  const homePath = role === "patient" ? "/patient-home" : "/doctor-home";
+
   return (
     <div className="doctor-appointments-page">
       {/* Navigation */}
       <div className="doctor-appointments-nav">
         <div className="doctor-appointments-brand">
-          <Link to="/doctor-home">
+          <Link to={homePath}>
             <img src={logo} alt="BookMyDoc" />
           </Link>
         </div>
@@ -64,7 +91,7 @@ function DoctorAppointmentHistory() {
           </li>
 
           <li>
-            <Link to="/doctor-home">Dashboard</Link>
+            <Link to={homePath}>Dashboard</Link>
           </li>
         </ul>
       </div>
@@ -90,14 +117,14 @@ function DoctorAppointmentHistory() {
           {appointments.length > 0 ? (
             <div className="appointment-grid">
               {appointments.map((appointment, index) => (
-                <div
-                  className="appointment-card"
-                  key={appointment._id}
-                >
+                <div className="appointment-card" key={appointment._id}>
                   <div className="appointment-card-header">
                     <div>
                       <h3>
-                        {index + 1}. {appointment.patient.name}
+                        {index + 1}.{" "}
+                        {role === "patient"
+                          ? appointment.doctor?.name
+                          : appointment.patient?.name}
                       </h3>
                     </div>
                   </div>
