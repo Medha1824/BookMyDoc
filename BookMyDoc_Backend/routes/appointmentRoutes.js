@@ -8,15 +8,31 @@ import {
   markAsSeen,
   markAllAsSeen,
 } from "../controllers/appointmentController.js";
-import { verifyToken } from "../middleware/auth.js";
+import { verifyToken, requireRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, createAppointment);
-router.get("/doctor", verifyToken, getDoctorAppointments);
-router.get("/patient", verifyToken, getPatientAppointments);
+router.post("/", verifyToken, requireRole("patient"), createAppointment);
+router.get(
+  "/doctor",
+  verifyToken,
+  requireRole("doctor"),
+  getDoctorAppointments,
+);
+router.get(
+  "/patient",
+  verifyToken,
+  requireRole("patient"),
+  getPatientAppointments,
+);
 router.get("/notifications", verifyToken, getNotifications);
 router.put("/seen-all", verifyToken, markAllAsSeen);
-router.patch("/:id/status", verifyToken, updateAppointmentStatus);
+router.patch(
+  "/:id/status",
+  verifyToken,
+  requireRole("doctor"),
+  updateAppointmentStatus,
+);
 router.put("/:id/seen", verifyToken, markAsSeen);
+
 export default router;

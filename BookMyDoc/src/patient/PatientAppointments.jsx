@@ -26,8 +26,13 @@ function PatientAppointments() {
           { credentials: "include" },
         );
 
-        if (response.status === 401 || response.status === 403) {
+        if (response.status === 401) {
           navigate("/login-patient");
+          return;
+        }
+
+        if (response.status === 403) {
+          navigate("/doctor-home");
           return;
         }
 
