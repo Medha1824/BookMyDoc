@@ -1,37 +1,52 @@
 import React, { useState, useEffect } from "react";
 import "./DoctorAppointments.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/appointments/doctor`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
 
-        const data = await response.json();
-
-        if (response.ok) {
-          setAppointments(data);
-        } else {
-          setAppointments([]);
+        if (response.status === 401) {
+          navigate("/login-doctor");
+          return;
         }
+
+        if (response.status === 403) {
+          navigate("/patient-home");
+          return;
+        }
+
+        const data = await response.json();
+        setAppointments(response.ok ? data : []);
       } catch (error) {
         console.error("Failed to fetch appointments:", error);
-        setAppointments([]);
+        navigate("/login-doctor");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAppointments();
+  }, [navigate]);
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
   const handleAccept = async (id) => {
