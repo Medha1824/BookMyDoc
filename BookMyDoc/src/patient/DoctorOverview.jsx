@@ -142,6 +142,13 @@ function DoctorOverview() {
     }
   };
 
+  const closeBooking = () => {
+    setShowBooking(false);
+    setRequestSent(false);
+    setConsultationType("");
+    setSelectedDate("");
+    setSelectedTime("");
+  };
   return (
     <div className="doctor-overview-page">
       <nav className="doctor-overview-nav">
@@ -200,8 +207,12 @@ function DoctorOverview() {
             <button
               className="book-button"
               onClick={() => {
-                setShowBooking(!showBooking);
-                setRequestSent(false);
+                if (showBooking) {
+                  closeBooking();
+                } else {
+                  setShowBooking(true);
+                  setRequestSent(false);
+                }
               }}
             >
               {showBooking ? "Close Booking" : "Book Your Appointment"}
@@ -229,8 +240,6 @@ function DoctorOverview() {
               </div>
             ) : (
               <form className="booking-form" onSubmit={handleRequest}>
-                {/* Consultation Type */}
-
                 <div className="booking-group">
                   <label>Choose Consultation Type</label>
 
