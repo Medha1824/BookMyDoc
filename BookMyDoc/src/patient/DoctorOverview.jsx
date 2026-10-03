@@ -1,36 +1,57 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import "./DoctorOverview.css";
 import logo from "../assets/logo.png";
 import doctorImage from "../assets/doctor.png";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 function DoctorOverview() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchDoctor = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:4000/doctors/${id}`);
-        const data = await response.json();
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/doctors/${id}`,
+          { credentials: "include" },
+        );
 
-        if (response.ok) {
-          setSelectedDoctor(data);
-        } else {
-          setSelectedDoctor(null);
+        if (response.status === 401) {
+          navigate("/login-patient");
+          return;
         }
+
+        if (response.status === 403) {
+          navigate("/doctor-home");
+          return;
+        }
+
+        const data = await response.json();
+        setSelectedDoctor(response.ok ? data : null);
       } catch (error) {
         console.error("Failed to fetch doctor:", error);
-        setSelectedDoctor(null);
+        navigate("/login-patient");
       } finally {
         setLoading(false);
       }
     };
 
     fetchDoctor();
-  }, [id]);
+  }, [id, navigate]);
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
 
   const [showBooking, setShowBooking] = useState(false);
   const [consultationType, setConsultationType] = useState("");
@@ -50,6 +71,7 @@ function DoctorOverview() {
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const minDate = tomorrow.toISOString().substring(0, 10);
+
   if (loading) {
     return (
       <div className="doctor-overview-page">
@@ -61,6 +83,7 @@ function DoctorOverview() {
       </div>
     );
   }
+
   if (!selectedDoctor) {
     return (
       <div className="doctor-overview-page">
@@ -96,6 +119,16 @@ function DoctorOverview() {
         },
       );
 
+      if (response.status === 401) {
+        navigate("/login-patient");
+        return;
+      }
+
+      if (response.status === 403) {
+        navigate("/doctor-home");
+        return;
+      }
+
       const data = await response.json();
 
       if (response.ok) {
@@ -113,7 +146,7 @@ function DoctorOverview() {
     <div className="doctor-overview-page">
       <nav className="doctor-overview-nav">
         <div className="overview-brand">
-          <Link to="/">
+          <Link to="/patient-home">
             <img src={logo} alt="BookMyDoc" className="logo-img" />
           </Link>
         </div>

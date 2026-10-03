@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Home.css";
 import { useEffect, useState } from "react";
 import "./DoctorList.css";
@@ -19,7 +19,8 @@ function DoctorList() {
   const [selectedCategory, setSelectedCategory] = useState("All Doctors");
   const [searchTerm, setSearchTerm] = useState("");
   const [doctors, setDoctors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -37,17 +38,23 @@ function DoctorList() {
         const queryString = params.toString();
 
         const url = queryString
-          ? `http://localhost:4000/doctors?${queryString}`
-          : "http://localhost:4000/doctors";
+          ? `${import.meta.env.VITE_API_URL}/doctors?${queryString}`
+          : `${import.meta.env.VITE_API_URL}/doctors`;
 
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await fetch(url, { credentials: "include" });
 
-        if (response.ok) {
-          setDoctors(data);
-        } else {
-          setDoctors([]);
+        if (response.status === 401) {
+          navigate("/login-patient");
+          return;
         }
+
+        if (response.status === 403) {
+          navigate("/doctor-home");
+          return;
+        }
+
+        const data = await response.json();
+        setDoctors(response.ok ? data : []);
       } catch (error) {
         console.error("Failed to fetch doctors:", error);
         setDoctors([]);
@@ -57,13 +64,24 @@ function DoctorList() {
     };
 
     fetchDoctors();
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, navigate]);
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
 
   return (
     <div className="doctor-list-page">
       <nav className="doctor-list-nav">
         <div className="doctor-list-brand">
-          <Link to="/">
+          <Link to="/patient-home">
             <img src={logo} alt="BookMyDoc" className="logo-img" />
           </Link>
         </div>
