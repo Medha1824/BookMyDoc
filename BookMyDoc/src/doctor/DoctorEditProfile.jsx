@@ -209,7 +209,7 @@ const handleSpecializationChange = (specialization) => {
         <ul>
           <li>
             <Link to="/doctor-home">
-              Home
+              Dashboard
             </Link>
           </li>
         </ul>

@@ -171,7 +171,7 @@ const PatientEditProfile = () => {
         <ul>
           <li>
             <Link to="/patient-home">
-              Home
+              Dashboard
             </Link>
           </li>
         </ul>
