@@ -16,7 +16,6 @@ import PatientHistory from "./patient/PatientHistory";
 import PatientEditProfile from "./patient/PatientEditProfile";
 import DoctorEditProfile from "./doctor/DoctorEditProfile";
 
-import PatientProfile from "./PatientProfile";
 
 import DoctorList from "./patient/DoctorList";
 import DoctorAppointments from "./doctor/DoctorAppointments";
@@ -46,7 +45,6 @@ function App() {
         <Route path="/doctor-edit-profile" element={<DoctorEditProfile />} />
         <Route path="/patient-edit-profile" element={<PatientEditProfile />} />
 
-        <Route path="/patient-profile" element={<PatientProfile />} />
         <Route path="/doctor-history" element={<DoctorHistory />} />
         <Route path="/patient-history" element={<PatientHistory />} />
        
