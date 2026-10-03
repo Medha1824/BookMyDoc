@@ -109,7 +109,7 @@ const DoctorHome = () => {
 
               {profileMenuOpen && (
                 <div className="profile-drawer">
-                  <Link to="/history" onClick={() => setProfileMenuOpen(false)}>
+                  <Link to="/doctor-history" onClick={() => setProfileMenuOpen(false)}>
                     History
                   </Link>
 
