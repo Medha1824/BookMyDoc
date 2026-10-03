@@ -6,7 +6,7 @@ import "./NotificationBell.css";
 
 const API = import.meta.env.VITE_API_URL;
 const DOCTOR_REQUESTS_PATH = "/doctor-appointments";
-const doctorProfilePath = (doctorId) => `/doctor-overview/${doctorId}`;
+const PATIENT_APPOINTMENTS_PATH = "/appointments";
 
 const timeAgo = (dateString) => {
   const seconds = Math.floor(
@@ -142,9 +142,7 @@ function NotificationBell() {
       }).catch((error) => console.error("Failed to mark as seen:", error));
     }
 
-    if (item.doctor?._id) {
-      navigate(doctorProfilePath(item.doctor._id));
-    }
+    navigate(PATIENT_APPOINTMENTS_PATH);
   };
 
   const handleMarkAllRead = (e) => {
