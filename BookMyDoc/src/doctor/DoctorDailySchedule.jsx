@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./DoctorAppointments.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 function DoctorDailySchedule() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleComplete = async (appointmentId) => {
     try {
@@ -43,10 +44,18 @@ function DoctorDailySchedule() {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/appointments/doctor`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
+
+        if (response.status === 401) {
+          navigate("/login-doctor");
+          return;
+        }
+
+        if (response.status === 403) {
+          navigate("/patient-home");
+          return;
+        }
 
         const data = await response.json();
 
@@ -56,7 +65,6 @@ function DoctorDailySchedule() {
             .sort((a, b) => {
               const dateTimeA = new Date(`${a.date} ${a.time}`);
               const dateTimeB = new Date(`${b.date} ${b.time}`);
-
               return dateTimeA - dateTimeB;
             });
 
@@ -66,13 +74,23 @@ function DoctorDailySchedule() {
         }
       } catch (error) {
         console.error("Failed to fetch appointments:", error);
-        setAppointments([]);
+        navigate("/login-doctor");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAppointments();
+  }, [navigate]);
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
   if (loading) {
