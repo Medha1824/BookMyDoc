@@ -1,12 +1,11 @@
 import { co2 } from "@tgwf/co2";
 
 const co2Emission = new co2({ model: "swd" });
-const GREEN_HOST = false; // set true if your server runs on a green-hosting provider
+const GREEN_HOST = false;
 
 export const totals = { requests: 0, bytes: 0, grams: 0 };
 
 const carbonFootprint = (req, res, next) => {
-  // Lets the browser report real transfer sizes for API calls
   res.setHeader("Timing-Allow-Origin", "*");
 
   const requestBytes =

@@ -38,6 +38,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(log);
+
 app.use(carbonFootprint);
 
 app.get("/", (req, res) => {
