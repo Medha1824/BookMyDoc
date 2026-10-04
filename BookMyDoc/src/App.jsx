@@ -23,6 +23,9 @@ import PatientAppointments from "./patient/PatientAppointments";
 import DoctorOverview from "./patient/DoctorOverview";
 import DoctorSpecialization from "./doctor/DoctorSpecialization";
 import DoctorDailySchedule from "./doctor/DoctorDailySchedule";
+
+import CarbonFootprintDisplay from "./CarbonFootprintDisplay";
+
 function App() {
   return (
     <BrowserRouter>
@@ -57,6 +60,7 @@ function App() {
           element={<DoctorDailySchedule />}
         />
       </Routes>
+      <CarbonFootprintDisplay />
     </BrowserRouter>
   );
 }

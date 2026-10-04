@@ -12,6 +12,8 @@ import authRouter from "./routes/authRoutes.js";
 import log from "./middleware/log.js";
 import { initSocket } from "./utils/socket.js";
 
+import carbonFootprint, { totals } from "./middleware/carbonFootprint.js";
+
 dotenv.config();
 const app = express();
 const httpServer = http.createServer(app);
@@ -36,10 +38,13 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(log);
+app.use(carbonFootprint);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "API is working" });
 });
+
+app.get("/carbon-summary", (req, res) => res.json(totals));
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
