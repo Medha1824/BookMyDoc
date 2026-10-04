@@ -11,16 +11,6 @@ function PatientAppointments() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const profileRes = await fetch(
-          `${import.meta.env.VITE_API_URL}/users/profile`,
-          { credentials: "include" },
-        );
-
-        if (!profileRes.ok) {
-          navigate("/login-patient");
-          return;
-        }
-
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/appointments/patient`,
           { credentials: "include" },
