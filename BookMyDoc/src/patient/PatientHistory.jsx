@@ -30,12 +30,10 @@ function PatientHistory() {
               const dateTimeA = new Date(`${a.date} ${a.time}`);
               const dateTimeB = new Date(`${b.date} ${b.time}`);
 
-              return dateTimeB - dateTimeA;
+              return dateTimeA - dateTimeB;
             });
 
           setAppointments(completedAppointments);
-        } else {
-          setAppointments([]);
         }
       } catch (error) {
         console.error("Failed to fetch appointment history:", error);
@@ -58,7 +56,6 @@ function PatientHistory() {
   return (
     <div className="doctor-appointments-page">
 
-      {/* Navigation */}
       <div className="doctor-appointments-nav">
 
         <div className="doctor-appointments-brand">
@@ -79,13 +76,11 @@ function PatientHistory() {
 
       </div>
 
-      {/* Header */}
       <header className="doctor-appointments-header">
         <h1>Appointment History</h1>
         <p>View your completed appointments.</p>
       </header>
 
-      {/* Main Content */}
       <main className="doctor-appointments-content">
 
         <section className="appointment-section">
@@ -176,7 +171,6 @@ function PatientHistory() {
 
       </main>
 
-      {/* Footer */}
       <footer className="doctor-appointments-footer">
         &copy; 2026 BookMyDoc. All rights reserved.
       </footer>
